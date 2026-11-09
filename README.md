@@ -17,11 +17,13 @@ Open `index.html` in a browser.
 
 - Fonts: the live site uses DIN Condensed and Helvetica Neue LT Pro (licensed). This page uses close Google Fonts (Barlow Condensed, Inter); swap in the site fonts.
 - Photos: images are screen captures (up to ~1300 px). Replace with originals from VIGO's library; the hero is the Bathroom category photo — ideally a shot of the exact set.
-- Placeholders in square brackets: prices and photos for other finishes, delivery rule, return terms, customer photos (UGC rights needed).
+- Placeholders in square brackets: prices and photos for other finishes, customer photos (UGC rights needed).
 - Set price: door at current price, −10% on the shower panel and sink set; promo codes do not apply to sets. Check against MAP.
 - Prices as on vigoindustries.com, 06.11.2026 (before BFCM). On 09.11 the Elan Hart Matte Black door was already $919.90: recalculate all set prices after BFCM. "If bought separately" must use current selling prices.
 - Finishes (Shopify, 09.11.2026): Montauk sink sets exist only in Matte Black; Ellington comes in Matte Black, Matte Brushed Gold and Stainless Steel (no Chrome). Other finishes need a different sink model from VIGO.
-- To confirm with VIGO: 3/8 in. glass on Elan Hart (spec sheet), review count, warranty terms, whether the BFCM "Extra 7% Off" applies to sets.
+- Confirmed on vigoindustries.com (09.11.2026): 3/8 in. tempered glass on Elan Hart (product page), 1,359 Elan reviews (home page), limited lifetime warranty for residential installations (FAQ), returns within 14 days with a 15% restocking fee (Shipping & Returns).
+- Delivery: VIGO is removing the $99 oversized surcharge (decision 09.11.2026). Update Shipping & Returns and the checkout before this page goes live, since the page promises free delivery for doors and panels.
+- Still to confirm with VIGO: whether the BFCM "Extra 7% Off" applies to sets.
 
 ## VIGO Pro mockup (pro/)
 
