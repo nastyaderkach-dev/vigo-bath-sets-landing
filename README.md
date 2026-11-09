@@ -6,7 +6,7 @@ Built in the current vigoindustries.com style: black header and footer, condense
 ## Structure
 
 - `index.html` — the page (responsive, no build step). The set is sold in Matte Black only for now; Matte Brushed Gold and Stainless Steel are shown as "coming soon" with a "Notify me" button.
-- `pro/` — VIGO Pro (B2B) mockup: `index.html` trade program page, `cabinet.html` contractor account overview, `project.html` project with client quote ("With prices / No prices" toggle works).
+- `pro/` — VIGO Pro (B2B) mockup: `index.html` trade program page, `cabinet.html` contractor account overview, `project.html` project page; client quote marked "Coming soon" ("With prices / No prices" toggle works).
 - `images/` — product and interior photos from vigoindustries.com, VIGO logo.
 
 ## Open locally
@@ -29,4 +29,7 @@ Open `index.html` in a browser.
 
 - Levels, discounts (Pro 10%, Pro Plus 12% from $10,000/yr, Partner by quote), 1-business-day approval and Pro desk contacts are a BASE proposal, to be confirmed by VIGO.
 - Names, companies and totals in the account are demo data. Placeholders in square brackets need VIGO input.
-- Account features map to Shopify B2B (company profiles, catalogs, payment terms), available on non-Plus plans since 2026-04-02.
+- Account features map to Shopify B2B (company profiles, catalogs). VIGO is on Shopify Plus; as of 2026-11-09 its B2B catalogs show -5% but fixed prices equal retail, so the -10% Pro price still needs to be set up.
+- Launch scope from Dec 1 (MVP): application, 1-business-day approval, Pro price (10% off the site price, Pro Plus 12%), free delivery. Marked "Coming soon": client quotes, picking a delivery date, Find a VIGO Installer. Net-30 removed.
+- Returns follow the site policy (14 days, 15% restocking fee). Free delivery for oversized items depends on VIGO removing the $99 surcharge.
+- Elan Hart price is the site price on 2026-11-09 ($919.90); other prices in the account are demo data.
