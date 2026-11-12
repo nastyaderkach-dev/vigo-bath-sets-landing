@@ -229,6 +229,41 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 </div></details>
 </section>
 
+<section class="vg-card" id="products">
+<div class="vg-card-head"><div class="vg-chan"><i class="ic-s">₪</i><h2 class="vg-card-title">Товары и категории · <span data-draw="selName">—</span></h2></div></div>
+<ul class="vg-legend" aria-hidden="true"><li><span class="vg-sw" data-swatch="0"></span>Чистые продажи</li><li><span class="vg-sw" data-swatch="1"></span>Возвраты</li></ul>
+<div class="vg-chart" data-draw="catChart" data-source="cat_v" style="min-height:300px"></div>
+<div class="vg-tablewrap">
+<table class="vg-table" data-source="cat_v" data-row-key="category" data-by-month>
+<thead><tr><th data-field="category">Категория</th><th data-field="units" data-fmt="int">Штук</th><th data-field="gross" data-fmt="money">Валовые продажи</th><th data-field="share" data-fmt="pct">Доля</th><th data-field="returns" data-fmt="money">Возвраты</th><th data-field="ret_rate" data-fmt="pct" data-tone="ret">Доля возвратов</th><th data-field="net" data-fmt="money">Чистые продажи</th></tr></thead>
+<tbody data-draw="tbl"></tbody>
+</table>
+</div>
+<div class="vg-insight"><b>Вывод.</b> двери — 41% продаж и всего 8% возвратов: это главный товар для рекламы и BFCM. Душевые кабины дают 13% продаж, но возвращают половину — после возвратов от $51,9K остаётся $23,0K. Кухонные смесители и раковины почти не возвращают.</div>
+<details class="vg-more"><summary>Топ-15 товаров и пояснения</summary><div class="vg-more-body">
+<p class="vg-note">Категории собраны из типов товаров Shopify. Возврат попадает в месяц, когда его оформили, поэтому в отдельном месяце доля возвратов может быть выше 100%. Штуки — только за весь период. «Страховка доставки» — платная опция Shipping Protection в заказе.</p>
+<h3 class="vg-card-sub" style="margin:0">Топ-15 товаров · весь период</h3>
+<div class="vg-tablewrap">
+<table class="vg-table" data-source="top_prod_v" data-row-key="product">
+<thead><tr><th data-field="product">Товар</th><th data-field="category">Категория</th><th data-field="units" data-fmt="int">Штук</th><th data-field="gross" data-fmt="money">Валовые продажи</th><th data-field="returns" data-fmt="money">Возвраты</th><th data-field="ret_rate" data-fmt="pct" data-tone="ret">Доля возвратов</th><th data-field="net" data-fmt="money">Чистые продажи</th></tr></thead>
+<tbody data-draw="tbl"></tbody>
+</table>
+</div>
+</div></details>
+<h3 class="vg-card-sub">Сколько продаёт реклама в каждой категории · <span data-draw="selName">—</span></h3>
+<ul class="vg-legend" aria-hidden="true"><li><span class="vg-sw" style="background:#4C6FFF"></span>Google Ads</li><li><span class="vg-sw" style="background:#00A4EF"></span>Microsoft Ads</li><li><span class="vg-sw" style="background:#7B61FF"></span>Meta Ads</li><li><span class="vg-sw" style="background:#C9CED8"></span>Без рекламы</li></ul>
+<div class="vg-chart" data-draw="catAdsChart" data-source="cat_ads_v" style="min-height:300px"></div>
+<div class="vg-tablewrap">
+<table class="vg-table" data-source="cat_ads_v" data-row-key="category" data-by-month data-no-aug>
+<thead><tr><th data-field="category">Категория</th><th data-field="total" data-fmt="money">Чистые продажи</th><th data-field="google" data-fmt="money">Google Ads</th><th data-field="microsoft" data-fmt="money">Microsoft Ads</th><th data-field="meta" data-fmt="money">Meta Ads</th><th data-field="ads" data-fmt="money">Вся реклама</th><th data-field="ads_share" data-fmt="pct">Доля рекламы</th></tr></thead>
+<tbody data-draw="tbl"></tbody>
+</table>
+</div>
+<div class="vg-insight"><b>Вывод.</b> реклама продаёт в основном двери: $16,9K из $31,8K всех рекламных продаж (Google, Microsoft и Meta) со 2 сентября, из них $13,2K — Google. Сильнее всего реклама работает на шторках для ванн — 26% их продаж. На душевых кабинах реклама почти не продаёт ($0,9K), то есть возвраты кабин — не следствие рекламы. Панели почти не продаются через рекламу (5%), хотя возвращают мало, — это незанятая ниша для PMax.</div>
+<p class="vg-note">Сумма каждого заказа после скидок и возвратов разделена между категориями пропорционально стоимости товаров в нём. Реклама — по последнему клику: GA4 и метки Shopify. Окно — со 2 сентября: за август GA4 данных нет.</p>
+
+</section>
+
 <section class="vg-card" id="google">
 <div class="vg-card-head"><div class="vg-chan"><i class="ic-g">G</i><h2 class="vg-card-title">Google Ads · по месяцам</h2></div></div>
 <ul class="vg-legend" aria-hidden="true"><li><span class="vg-sw" data-swatch="2"></span>Расход</li><li><span class="vg-sw" data-swatch="0"></span>Засчитал кабинет</li><li><span class="vg-sw" data-swatch="1"></span>Факт: заказы Shopify</li></ul>
@@ -304,41 +339,6 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 </div></details>
 </section>
 </div>
-
-<section class="vg-card" id="products">
-<div class="vg-card-head"><div class="vg-chan"><i class="ic-s">₪</i><h2 class="vg-card-title">Товары и категории · <span data-draw="selName">—</span></h2></div></div>
-<ul class="vg-legend" aria-hidden="true"><li><span class="vg-sw" data-swatch="0"></span>Чистые продажи</li><li><span class="vg-sw" data-swatch="1"></span>Возвраты</li></ul>
-<div class="vg-chart" data-draw="catChart" data-source="cat_v" style="min-height:300px"></div>
-<div class="vg-tablewrap">
-<table class="vg-table" data-source="cat_v" data-row-key="category" data-by-month>
-<thead><tr><th data-field="category">Категория</th><th data-field="units" data-fmt="int">Штук</th><th data-field="gross" data-fmt="money">Валовые продажи</th><th data-field="share" data-fmt="pct">Доля</th><th data-field="returns" data-fmt="money">Возвраты</th><th data-field="ret_rate" data-fmt="pct" data-tone="ret">Доля возвратов</th><th data-field="net" data-fmt="money">Чистые продажи</th></tr></thead>
-<tbody data-draw="tbl"></tbody>
-</table>
-</div>
-<div class="vg-insight"><b>Вывод.</b> двери — 41% продаж и всего 8% возвратов: это главный товар для рекламы и BFCM. Душевые кабины дают 13% продаж, но возвращают половину — после возвратов от $51,9K остаётся $23,0K. Кухонные смесители и раковины почти не возвращают.</div>
-<details class="vg-more"><summary>Топ-15 товаров и пояснения</summary><div class="vg-more-body">
-<p class="vg-note">Категории собраны из типов товаров Shopify. Возврат попадает в месяц, когда его оформили, поэтому в отдельном месяце доля возвратов может быть выше 100%. Штуки — только за весь период. «Страховка доставки» — платная опция Shipping Protection в заказе.</p>
-<h3 class="vg-card-sub" style="margin:0">Топ-15 товаров · весь период</h3>
-<div class="vg-tablewrap">
-<table class="vg-table" data-source="top_prod_v" data-row-key="product">
-<thead><tr><th data-field="product">Товар</th><th data-field="category">Категория</th><th data-field="units" data-fmt="int">Штук</th><th data-field="gross" data-fmt="money">Валовые продажи</th><th data-field="returns" data-fmt="money">Возвраты</th><th data-field="ret_rate" data-fmt="pct" data-tone="ret">Доля возвратов</th><th data-field="net" data-fmt="money">Чистые продажи</th></tr></thead>
-<tbody data-draw="tbl"></tbody>
-</table>
-</div>
-</div></details>
-<h3 class="vg-card-sub">Сколько продаёт реклама в каждой категории · <span data-draw="selName">—</span></h3>
-<ul class="vg-legend" aria-hidden="true"><li><span class="vg-sw" style="background:#4C6FFF"></span>Google Ads</li><li><span class="vg-sw" style="background:#00A4EF"></span>Microsoft Ads</li><li><span class="vg-sw" style="background:#7B61FF"></span>Meta Ads</li><li><span class="vg-sw" style="background:#C9CED8"></span>Без рекламы</li></ul>
-<div class="vg-chart" data-draw="catAdsChart" data-source="cat_ads_v" style="min-height:300px"></div>
-<div class="vg-tablewrap">
-<table class="vg-table" data-source="cat_ads_v" data-row-key="category" data-by-month data-no-aug>
-<thead><tr><th data-field="category">Категория</th><th data-field="total" data-fmt="money">Чистые продажи</th><th data-field="google" data-fmt="money">Google Ads</th><th data-field="microsoft" data-fmt="money">Microsoft Ads</th><th data-field="meta" data-fmt="money">Meta Ads</th><th data-field="ads" data-fmt="money">Вся реклама</th><th data-field="ads_share" data-fmt="pct">Доля рекламы</th></tr></thead>
-<tbody data-draw="tbl"></tbody>
-</table>
-</div>
-<div class="vg-insight"><b>Вывод.</b> реклама продаёт в основном двери: $16,9K из $31,8K всех рекламных продаж (Google, Microsoft и Meta) со 2 сентября, из них $13,2K — Google. Сильнее всего реклама работает на шторках для ванн — 26% их продаж. На душевых кабинах реклама почти не продаёт ($0,9K), то есть возвраты кабин — не следствие рекламы. Панели почти не продаются через рекламу (5%), хотя возвращают мало, — это незанятая ниша для PMax.</div>
-<p class="vg-note">Сумма каждого заказа после скидок и возвратов разделена между категориями пропорционально стоимости товаров в нём. Реклама — по последнему клику: GA4 и метки Shopify. Окно — со 2 сентября: за август GA4 данных нет.</p>
-
-</section>
 
 <section class="vg-card" id="conv">
 <div class="vg-card-head"><div class="vg-chan"><i class="ic-g">%</i><h2 class="vg-card-title">Конверсия по месяцам</h2></div><span class="vg-note">все месяцы</span></div>
