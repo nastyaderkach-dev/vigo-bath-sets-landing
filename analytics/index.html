@@ -71,6 +71,21 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .vg-table td.vg-flag{text-align:left;white-space:normal;min-width:200px;color:var(--vg-bad);font-size:12px;font-weight:500}
 .vg-table th.vg-flag-h{text-align:left}
 .vg-table.vg-th-wrap th{white-space:normal;min-width:96px}
+.vg-funnel{display:flex;flex-direction:column}
+.vg-fn-lede{font-size:14px;line-height:1.55;margin:0 0 14px;max-width:90ch}
+.vg-fn-row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);column-gap:28px;align-items:center}
+.vg-fn-shape{position:relative}
+.vg-fn-shape svg{display:block;width:100%;height:86px}
+.vg-fn-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:22px;text-shadow:0 1px 3px rgba(0,0,0,.45);pointer-events:none}
+.vg-fn-name{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin:0 0 2px}
+.vg-fn-sub{font-size:13px;font-weight:600;margin:0 0 4px}
+.vg-fn-parts{display:flex;flex-wrap:wrap;gap:3px 14px;font-size:12px;color:var(--color-fg-muted);margin:0;padding:0;list-style:none}
+.vg-fn-parts i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px}
+.vg-fn-extra{font-size:12px;color:var(--color-fg-muted);margin:4px 0 0;max-width:60ch}
+.vg-fn-step{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);column-gap:28px;align-items:center;margin:2px 0}
+.vg-fn-step .vg-fn-arrow{text-align:center;color:var(--color-fg-muted);font-size:13px;font-weight:700}
+.vg-fn-step p{margin:0;font-size:12px;font-weight:600;color:var(--vg-accent)}
+@media (max-width:640px){.vg-fn-row,.vg-fn-step{grid-template-columns:1fr;row-gap:6px}.vg-fn-shape svg{height:60px}.vg-fn-num{font-size:18px}.vg-fn-step .vg-fn-arrow{display:none}.vg-fn-row{margin-bottom:6px}}
 .vg-table td.vg-txt{text-align:left;font-weight:400}
 .vg-table tr.vg-total td{font-weight:700;border-top:2px solid var(--color-border-line)}
 .vg-mix td small{display:block;color:var(--color-fg-muted);font-size:11px;font-weight:500}
@@ -150,6 +165,26 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <p class="vg-summary" id="lede" data-read lang="ru">За 103 дня — <b data-draw="num" data-source="months" data-where="month=all" data-field="net" data-fmt="k">—</b> чистых продаж и <b data-draw="num" data-source="months" data-where="month=all" data-field="orders" data-fmt="int">—</b> заказов при <b data-draw="num" data-source="months" data-where="month=all" data-field="spend" data-fmt="k">—</b> на Meta и Google: Google Ads продаёт больше всех рекламных каналов, но новый клиент из него пока стоит дороже, чем приносит первый заказ при марже 30%, Meta по факту почти не продаёт, а у Microsoft Ads продажи есть, но расход не виден.</p>
 </header>
 
+<nav class="vg-bar" id="month-bar" aria-label="Выбор месяца">
+<p class="vg-bar-label">Период:</p>
+<div class="vg-seg" role="group" aria-label="Месяц">
+<button type="button" data-month="all" aria-pressed="true">Весь период</button>
+<button type="button" data-month="2026-08" aria-pressed="false">Август</button>
+<button type="button" data-month="2026-09" aria-pressed="false">Сентябрь</button>
+<button type="button" data-month="2026-10" aria-pressed="false">Октябрь</button>
+<button type="button" data-month="2026-11" aria-pressed="false">1–11 ноября</button>
+</div>
+</nav>
+
+<section class="vg-card" id="funnel-top">
+<div class="vg-card-head"><div class="vg-chan"><i class="ic-g">▼</i><h2 class="vg-card-title">Воронка продаж · <span data-draw="selName">—</span></h2></div><span class="vg-note">визиты на сайте → заказы, по каналам</span></div>
+<ul class="vg-legend" aria-hidden="true"><li><span class="vg-sw" style="background:#1F9D63"></span>Прямой заход</li><li><span class="vg-sw" style="background:#D4900A"></span>Поиск и Google Shopping</li><li><span class="vg-sw" style="background:#4C6FFF"></span>Реклама Google, Microsoft, Meta</li><li><span class="vg-sw" style="background:#A0A7B4"></span>Другое: соцсети, письма, купоны, Shop, без данных</li></ul>
+<div class="vg-funnel" data-draw="funnelDraw" data-source="funnel_v" style="min-height:420px"></div>
+<details class="vg-more"><summary>Как читать воронку</summary><div class="vg-more-body">
+<p class="vg-note">Визиты, корзины и оформления — сессии Shopify по источнику визита. Заказы — по последнему визиту перед покупкой, как в таблице «Откуда пришли покупки»: рекламу Google, Microsoft и Meta определяет GA4 со 2 сентября и метки Shopify. На входе реклама почти не видна: метки Google до сайта не доходят, и Shopify записывает клики по рекламе как прямой заход или поиск. Поэтому рядом с визитами — клики по рекламе из кабинетов Google Ads и Meta (переходы по ссылке). Заказов немного больше, чем завершённых оформлений на сайте: сюда входят заказы из приложения Shop и ручные. Заказы на $0 не считаем. Сумма — по самим заказам, как в таблице «Откуда пришли покупки», поэтому она немного больше «Чистых продаж» в карточках: там вычитаются все возвраты периода, в том числе по старым заказам. Ширина ступеней — для наглядности, не в масштабе: иначе нижние ступени были бы в сотни раз уже верхней.</p>
+</div></details>
+</section>
+
 <section class="vg-card" id="sources">
 <div class="vg-card-head"><h2 class="vg-card-title">Откуда пришли покупки</h2></div>
 <p class="vg-note">Каждый заказ Shopify отнесён к одному каналу по последнему визиту перед покупкой. Рекламу Google, Meta и Microsoft определяет GA4 по номеру заказа: все 434 покупки GA4 нашлись в Shopify. В клетке — число заказов и их сумма после скидок и возвратов.</p>
@@ -164,17 +199,6 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <p class="vg-note"><b>Почему в августе Direct выше.</b> Метки Google до сайта не доходят, поэтому часть кликов PMax — из YouTube, Gmail и приложений, откуда браузер не передаёт адрес источника, — Shopify записывает как прямой заход. Это видно по визитам: в августе PMax давал 152 клика в день; в сентябре его почти остановили (13 кликов в день), и визитов Direct стало меньше на 110 в день. В октябре PMax вернули (+60 кликов в день) — и визиты Direct выросли на 59 в день. С сентября GA4 помогает отделить такие заказы: 15 заказов, которые Shopify записал как Direct, перенесены в рекламные каналы. За август GA4 нет, поэтому в августовском Direct, судя по объёму PMax, ещё примерно 10–15 рекламных заказов. Без них прямой спрос ровный — около 3 заказов в день весь период, а в пересчёте на день Direct в ноябре ($1,5K) на уровне августа. Октябрь слабее ($1,1K в день) из-за повторных покупателей: их было 11 против 26 в сентябре.</p>
 </div></details>
 </section>
-
-<nav class="vg-bar" id="month-bar" aria-label="Выбор месяца">
-<p class="vg-bar-label">Период:</p>
-<div class="vg-seg" role="group" aria-label="Месяц">
-<button type="button" data-month="all" aria-pressed="true">Весь период</button>
-<button type="button" data-month="2026-08" aria-pressed="false">Август</button>
-<button type="button" data-month="2026-09" aria-pressed="false">Сентябрь</button>
-<button type="button" data-month="2026-10" aria-pressed="false">Октябрь</button>
-<button type="button" data-month="2026-11" aria-pressed="false">1–11 ноября</button>
-</div>
-</nav>
 
 <section id="kpis-sec" style="display:flex;flex-direction:column;gap:8px">
 <div class="vg-kpis" id="kpis">
@@ -925,6 +949,33 @@ dash.calc('cac_v', {
   }
 });
 
+dash.calc('funnel_v', {
+  title: 'Воронка продаж по месяцам и каналам',
+  description: 'Для каждого месяца и за весь период: визиты, визиты с добавлением в корзину, с началом оформления и с покупкой по источнику визита в Shopify (прямой заход, поиск, реклама, другое); заказы и чистые продажи по каналам последнего визита (реклама — по GA4 и меткам); клики по рекламе из кабинетов Google Ads и Meta.',
+  inputs: ['sess_src', 'xorders', 'gads', 'meta'],
+  fn: (sess, orders, gads, meta) => {
+    const N = (v) => +v || 0, G = ['direct', 'search', 'ads', 'other'];
+    const sg = (s) => s === 'direct' ? 'direct' : s === 'search' ? 'search' : s === 'paid' ? 'ads' : 'other';
+    const og = (o) => {
+      const sm = o.ga4_source_medium || '', ch = o.shopify_channel;
+      if (sm === 'google / cpc' || ch === 'Google Ads (метка)' || sm === 'bing / cpc' || ch === 'Microsoft Ads' || (/facebook|instagram/.test(sm) && /cpc|paid/.test(sm)) || ch === 'Meta Ads (метка)') return 'ads';
+      if (ch === 'Прямые заходы') return 'direct';
+      if (ch === 'Поиск (органика и реклама без меток)' || ch === 'Google Shopping (метка фида)') return 'search';
+      return 'other';
+    };
+    const blank = () => { const o = {total: 0}; G.forEach((g) => { o[g] = 0; }); return o; };
+    return ['all', '2026-08', '2026-09', '2026-10', '2026-11'].map((m) => {
+      const inM = (r) => m === 'all' || r.month === m;
+      const st = {sessions: blank(), cart_sessions: blank(), checkout_sessions: blank(), completed_sessions: blank()};
+      sess.filter(inM).forEach((r) => { const g = sg(r.source); Object.keys(st).forEach((k) => { st[k][g] += N(r[k]); st[k].total += N(r[k]); }); });
+      const ord = blank(), net = blank();
+      orders.filter((o) => inM(o) && N(o.value) > 0).forEach((o) => { const g = og(o); ord[g] += 1; ord.total += 1; net[g] += N(o.value_net); net.total += N(o.value_net); });
+      return {month: m, visits: st.sessions, cart: st.cart_sessions, checkout: st.checkout_sessions, done: st.completed_sessions, orders: ord, net,
+        g_clicks: gads.filter(inM).reduce((t, r) => t + N(r.clicks), 0), m_clicks: meta.filter(inM).reduce((t, r) => t + N(r.link_clicks), 0)};
+    });
+  }
+});
+
 dash.calc('g_month', {
   title: 'Google Ads по месяцам: кабинет и факт',
   description: 'Google Ads по месяцам: расход, клики, конверсии и ценность из кабинета, реальные заказы Shopify с рекламы Google (GA4 gclid и метка Shopify), CPA, ROAS и ROMI по факту. Итог по факту — сентябрь — 11 ноября; за август GA4 не работал.',
@@ -1272,6 +1323,42 @@ dash.draw('convMonthChart', function (el) {
     });
     svg.append('text').attr('x', x0(r.label) + x0.bandwidth() / 2).attr('y', H - 8).attr('text-anchor', 'middle').text(r.label);
   });
+});
+
+dash.draw('funnelDraw', function (el) {
+  var d = dash.data('funnel_v');
+  el.replaceChildren();
+  if (d.status !== 'ok' || !Array.isArray(d.data)) { el.textContent = d.status === 'error' ? 'Не загрузилось' : '—'; return; }
+  var r = d.data.filter(function (x) { return x.month === vgMonth(); })[0] || d.data[0];
+  var GR = [['direct', '#1F9D63', 'Прямой заход'], ['search', '#D4900A', 'Поиск и Shopping'], ['ads', '#4C6FFF', 'Реклама'], ['other', '#A0A7B4', 'Другое']];
+  var W = [100, 80, 62, 46, 34];
+  function shape(i, part) {
+    var a = W[i], b = W[i + 1], id = 'vgfn' + i;
+    var pts = ((100 - a) / 2) + ',0 ' + ((100 + a) / 2) + ',0 ' + ((100 + b) / 2) + ',40 ' + ((100 - b) / 2) + ',40';
+    var x = (100 - a) / 2, rects = '';
+    GR.forEach(function (g) { var w = part.total ? a * part[g[0]] / part.total : 0; if (w > 0) { rects += '<rect x="' + x + '" y="0" width="' + (w + 0.05) + '" height="40" fill="' + g[1] + '"/>'; x += w; } });
+    return '<svg viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><defs><clipPath id="' + id + '"><polygon points="' + pts + '"/></clipPath></defs><g clip-path="url(#' + id + ')">' + rects + '</g><polygon points="' + pts + '" fill="none" stroke="rgba(255,255,255,.9)" stroke-width=".4"/></svg>';
+  }
+  function parts(part, net) {
+    return '<ul class="vg-fn-parts">' + GR.map(function (g) {
+      var v = part[g[0]]; if (!v) return '';
+      return '<li><i style="background:' + g[1] + '"></i>' + g[2] + ' ' + vgFmt.int(v) + (net ? ' · ' + vgFmt.k(net[g[0]]) : ' · ' + vgFmt.pct(v / part.total)) + '</li>';
+    }).join('') + '</ul>';
+  }
+  function row(i, name, big, sub, part, net, extra) {
+    return '<div class="vg-fn-row"><div class="vg-fn-shape">' + shape(i, part) + '<span class="vg-fn-num">' + big + '</span></div><div><p class="vg-fn-name">' + name + '</p>' + (sub ? '<p class="vg-fn-sub">' + sub + '</p>' : '') + parts(part, net) + (extra || '') + '</div></div>';
+  }
+  function step(t) { return '<div class="vg-fn-step"><div class="vg-fn-arrow">↓</div><p>' + t + '</p></div>'; }
+  var v = r.visits.total, c = r.cart.total, k = r.checkout.total, dn = r.done.total;
+  var html = '<p class="vg-fn-lede">Из <b>' + vgFmt.int(v) + '</b> визитов в корзину добавили <b>' + vgFmt.pct(c / v) + '</b>, начали оформление <b>' + vgFmt.pct(k / v) + '</b>, купили <b>' + vgFmt.pct2(dn / v) + '</b> — это <b>' + vgFmt.int(r.orders.total) + '</b> заказов на <b>' + vgFmt.k(r.net.total) + '</b>.</p>';
+  html += row(0, 'Зашли на сайт', vgFmt.int(v), 'визитов', r.visits, null, '<p class="vg-fn-extra">Клики по рекламе по данным кабинетов: Google Ads ' + vgFmt.int(r.g_clicks) + ', Meta ' + vgFmt.int(r.m_clicks) + '. Shopify видит их в основном как прямой заход и поиск.</p>');
+  html += step(vgFmt.pct(c / v) + ' визитов добавили товар в корзину');
+  html += row(1, 'Добавили в корзину', vgFmt.int(c), 'визитов с корзиной', r.cart);
+  html += step(vgFmt.pct(k / c) + ' корзин дошли до оформления');
+  html += row(2, 'Начали оформление', vgFmt.int(k), 'визитов на оформлении', r.checkout);
+  html += step(vgFmt.pct(dn / k) + ' оформлений закончились покупкой (' + vgFmt.int(dn) + ' на сайте)');
+  html += row(3, 'Купили', vgFmt.int(r.orders.total), 'заказов · ' + vgFmt.k(r.net.total) + ' чистых продаж', r.orders, r.net);
+  el.innerHTML = html;
 });
 
 dash.draw('catAdsChart', function (el) {
