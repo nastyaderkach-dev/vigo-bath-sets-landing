@@ -8,6 +8,7 @@ Built in the current vigoindustries.com style: black header and footer, condense
 - `index.html` — the page (responsive, no build step). The set is sold in Matte Black only for now; Matte Brushed Gold and Stainless Steel are shown as "coming soon" with a "Notify me" button.
 - `pro/` — VIGO Pro (B2B) mockup: `index.html` trade program page, `cabinet.html` contractor account overview, `project.html` project page; client quote marked "Coming soon" ("With prices / No prices" toggle works).
 - `images/` — product and interior photos from vigoindustries.com, VIGO logo.
+- `analytics/` — marketing and sales dashboard (snapshot 12.11.2026, data 1 Aug – 11 Nov 2026): `index.html` page, `data.js` data from Shopify, GA4, Google Ads and Meta Ads. No build step; charts use d3 from cdnjs.
 
 ## Open locally
 
