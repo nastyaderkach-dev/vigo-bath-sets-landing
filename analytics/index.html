@@ -70,6 +70,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .vg-table tbody tr:nth-child(even) td{background:var(--color-bg)}
 .vg-table td.vg-flag{text-align:left;white-space:normal;min-width:200px;color:var(--vg-bad);font-size:12px;font-weight:500}
 .vg-table th.vg-flag-h{text-align:left}
+.vg-table.vg-th-wrap th{white-space:normal;min-width:96px}
 .vg-table td.vg-txt{text-align:left;font-weight:400}
 .vg-table tr.vg-total td{font-weight:700;border-top:2px solid var(--color-border-line)}
 .vg-mix td small{display:block;color:var(--color-fg-muted);font-size:11px;font-weight:500}
@@ -208,12 +209,21 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <div class="vg-card-head"><div class="vg-chan"><i class="ic-s">$</i><h2 class="vg-card-title">Стоимость клиента</h2></div><span class="vg-note">все месяцы · новые покупатели</span></div>
 <p class="vg-note">Стоимость клиента — сколько рекламы потрачено на одного нового покупателя (первый заказ в магазине). Рядом — сколько этот первый заказ приносит валовой прибыли при марже 30%: если стоимость клиента выше, реклама на первом заказе в минусе.</p>
 <div class="vg-tablewrap">
+<table class="vg-table vg-th-wrap" data-source="cac_v">
+<thead><tr><th data-field="label">Месяц</th><th data-field="new_all" data-fmt="int">Новых клиентов</th><th data-field="p_new" data-fmt="int">Из них из рекламы Google и Meta</th><th data-field="spend" data-fmt="money">Расход Meta + Google</th><th data-field="cac_all" data-fmt="money">Стоимость клиента, в среднем по магазину</th><th data-field="p_cac" data-fmt="money" data-tone="cac" data-ref="p_gp">Стоимость клиента из рекламы</th><th data-field="p_gp" data-fmt="money">Прибыль с его 1-го заказа (маржа 30%)</th></tr></thead>
+<tbody data-draw="tbl"></tbody>
+</table>
+</div>
+<p class="vg-note">Средняя по магазину — весь расход на рекламу ÷ все новые клиенты, включая тех, кто пришёл сам. Из рекламы — тот же расход ÷ новые клиенты, которых привели Google и Meta: это и есть цена клиента, которого покупаем рекламой. Зелёный — клиент окупается первым заказом, жёлтый — дороже до полутора раз, красный — дороже больше чем в полтора раза. Не учтены: расход Microsoft Ads (его не видно; 16 новых клиентов), оплата подрядчиков и скидки — скидки уже вычтены из суммы заказа. За август стоимость клиента из рекламы не посчитать: GA4 тогда не работал.</p>
+<div class="vg-insight"><b>Вывод.</b> В среднем по магазину новый клиент стоит $32 рекламы — потому что большинство приходит само: напрямую и из поиска. А клиент, которого привела реклама Google и Meta, стоит $270 (2 сентября — 11 ноября), а его первый заказ приносит ≈$156 прибыли при марже 30%: реклама в среднем не окупается на первом заказе. Дешевле всего рекламный клиент был в октябре ($248), дороже всего — в ноябре ($320).<br><b>Google:</b> новый клиент стоит $207. Его первый заказ в среднем — $528 после скидок и возвратов, при марже 30% это ≈$159 прибыли. Каждый клиент из Google обходится на ≈$48 дороже, чем приносит первый заказ: за сентябрь — 11 ноября прибыль с рекламы Google ≈$7,0K при расходе $8,5K, то есть минус ≈$1,5K. По выручке это ROAS 2,8×, но при марже 30% реклама окупается только с 3,3×. По месяцам по-разному: в сентябре клиенты из Google окупались (первые заказы были крупными), в октябре — нет: $194 за клиента при ≈$121 прибыли с первого заказа.<br><b>Meta:</b> $1 136 за клиента — 3 новых покупателя на $3,4K расхода.<br><b>Microsoft:</b> 16 новых клиентов, но расход не виден — стоимость не посчитать.<br><b>Повторные покупки почти не помогают:</b> заказов от вернувшихся клиентов всего 68 из 787 (9%), в среднем по $315. Поэтому реклама должна окупаться на первом заказе.</div>
+<details class="vg-more"><summary>По каналам: Google, Meta, Microsoft</summary><div class="vg-more-body">
+<div class="vg-tablewrap">
 <table class="vg-table" data-source="cac_v">
 <thead><tr><th data-field="label">Месяц</th><th data-field="new_all" data-fmt="int">Новых клиентов</th><th data-field="spend" data-fmt="money">Расход Meta + Google</th><th data-field="cac_all" data-fmt="money">Стоимость клиента, все каналы</th><th data-field="g_new" data-fmt="int">Google: новых</th><th data-field="g_cac" data-fmt="money" data-tone="cac" data-ref="g_gp">Google: стоимость клиента</th><th data-field="g_gp" data-fmt="money">Google: прибыль с 1-го заказа</th><th data-field="m_new" data-fmt="int">Meta: новых</th><th data-field="m_cac" data-fmt="money" data-tone="cac" data-ref="m_gp">Meta: стоимость клиента</th><th data-field="b_new" data-fmt="int">Microsoft: новых</th><th data-field="first_aov" data-fmt="money">Первый заказ, в среднем</th><th data-field="first_gp" data-fmt="money">Прибыль с 1-го заказа (30%)</th></tr></thead>
 <tbody data-draw="tbl"></tbody>
 </table>
 </div>
-<div class="vg-insight"><b>Вывод.</b> Магазин в целом получает клиента дёшево — $32 рекламы на нового покупателя, потому что большинство приходит само: напрямую и из поиска. А вот клиент из рекламы дорогой.<br><b>Google:</b> новый клиент стоит $207. Его первый заказ в среднем — $528 после скидок и возвратов, при марже 30% это ≈$159 прибыли. Каждый клиент из Google обходится на ≈$48 дороже, чем приносит первый заказ: за сентябрь — 11 ноября прибыль с рекламы Google ≈$7,0K при расходе $8,5K, то есть минус ≈$1,5K. По выручке это ROAS 2,8×, но при марже 30% реклама окупается только с 3,3×. По месяцам по-разному: в сентябре клиенты из Google окупались (первые заказы были крупными), в октябре — нет: $194 за клиента при ≈$121 прибыли с первого заказа.<br><b>Meta:</b> $1 136 за клиента — 3 новых покупателя на $3,4K расхода.<br><b>Microsoft:</b> 16 новых клиентов, но расход не виден — стоимость не посчитать.<br><b>Повторные покупки почти не помогают:</b> заказов от вернувшихся клиентов всего 68 из 787 (9%), в среднем по $315. Поэтому реклама должна окупаться на первом заказе.</div>
+</div></details>
 <details class="vg-more"><summary>Как считали</summary><div class="vg-more-body">
 <p class="vg-note">Новый клиент — заказ, который у этого покупателя в Shopify первый за всю историю магазина; заказы на $0 не считаем. Канал — как в таблице «Откуда пришли покупки»: GA4 и метки Shopify. По каналам считаем со 2 сентября, потому что в августе GA4 не работал; строка «Весь период» — только по магазину в целом. Маржа 30% — допущение из брифа, точную маржу по категориям VIGO даёт до 20 ноября; при другой марже порог окупаемости — 1 ÷ маржа (при 35% — 2,9×, при 40% — 2,5×). Расход — Meta и Google; Microsoft не входит, его не видно. В расход не входят оплата подрядчиков и скидки: скидки уже вычтены из суммы заказа.</p>
 </div></details>
@@ -903,7 +913,8 @@ dash.calc('cac_v', {
       return {label, total, new_all: os.length, spend: gsp + msp, cac_all: os.length ? (gsp + msp) / os.length : null,
         g_new: fact ? g.length : null, g_cac: fact && g.length ? gsp / g.length : null, g_gp: fact && g.length ? avg(g) * M : null,
         m_new: fact ? m.length : null, m_cac: fact && m.length ? msp / m.length : null, m_gp: fact && m.length ? avg(m) * M : null,
-        b_new: fact ? b.length : null, first_aov: fa, first_gp: fa == null ? null : fa * M};
+        b_new: fact ? b.length : null, first_aov: fa, first_gp: fa == null ? null : fa * M,
+        p_new: fact ? g.length + m.length : null, p_cac: fact && (g.length + m.length) ? (gsp + msp) / (g.length + m.length) : null, p_gp: fact && (g.length + m.length) ? avg(g.concat(m)) * M : null};
     };
     const out = [['2026-08', 'Август'], ['2026-09', 'Сентябрь'], ['2026-10', 'Октябрь'], ['2026-11', '1–11 ноября']].map(([m, l]) => build(l, [m], false));
     out.push(build('Весь период', ['2026-08', '2026-09', '2026-10', '2026-11'], true));
