@@ -130,9 +130,28 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .vg-kpi-label{min-height:0}
 @media (max-width:900px){.vg-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:640px){.vg-card{padding:16px}.vg-title{font-size:22px}.vg-kpi-val{font-size:19px}}
+.vg-cmp{margin-top:2px}
+.vg-cmp-head{font-size:12px;margin:0 0 6px;color:var(--color-fg)}
+.vg-cmp-head span{color:var(--color-fg-muted)}
+.vg-cmp-table{border-collapse:collapse;font-size:12.5px;width:auto;min-width:min(100%,560px)}
+.vg-cmp-table th,.vg-cmp-table td{padding:6px 12px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--color-border-line)}
+.vg-cmp-table th{font-size:11.5px;font-weight:700;color:var(--color-fg-muted)}
+.vg-cmp-table th:first-child,.vg-cmp-table td:first-child{text-align:left;white-space:normal}
+.vg-cmp-table td.vg-good{color:var(--vg-good);font-weight:600}
+.vg-cmp-table td.vg-badc{color:var(--vg-bad);font-weight:600}
+.vg-insight ul.vg-ins{margin:6px 0 0;padding-left:1.1em;display:flex;flex-direction:column;gap:5px}
+.vg-method-btn{font:inherit;font-size:12px;font-weight:600;margin-left:auto;padding:6px 12px;border:1px solid var(--color-border-line);border-radius:999px;background:none;color:var(--color-fg-muted);cursor:pointer}
+.vg-method-btn[aria-pressed="true"]{color:var(--vg-accent);border-color:var(--vg-accent)}
+body:not(.vg-show-method) p.vg-note,body:not(.vg-show-method) .vg-method{display:none!important}
+.vg-media th{text-align:left!important}
+.vg-media td{white-space:normal;vertical-align:top;text-align:left;line-height:1.5;font-weight:400}
+.vg-media td:first-child{font-weight:700;min-width:110px}
+.vg-media td.vg-m-what{min-width:240px;font-weight:600}
+.vg-media td.vg-m-why{min-width:240px;color:var(--color-fg-muted)}
+.vg-media td.vg-m-kpi{min-width:180px}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
-<script src="data.js?v=ms20261117"></script>
+<script src="data.js?v=w20261119b"></script>
 <script>
 (function () {
   var calcs = [], draws = {}, results = {}, cbs = [], params = {month: 'all'};
@@ -167,9 +186,9 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 
 <header class="vg-head" id="top">
 <h1 class="vg-title" data-read lang="en">VIGO · marketing and sales</h1>
-<p class="vg-period">Status as of November 12, 2026 · data for August 1 — November 11 · November is partial (days 1–11)</p>
-<p class="vg-summary" id="lede" data-read lang="en">Primary source of D2C sales data — Shopify: for August 1 — November 11, D2C Net Sales were <b data-draw="num" data-source="months" data-where="month=all" data-field="net" data-fmt="k">—</b> on <b data-draw="num" data-source="months" data-where="month=all" data-field="orders" data-fmt="int">—</b> orders. Channels are assigned by the last visit before purchase (last click): this attribution shows the last recorded source but does not measure a channel's incremental contribution.</p>
-<p class="vg-note" id="scope">Scope: D2C only. Six Shopify B2B orders are excluded; the B2B funnel is analyzed separately. Session data covers the whole site and is not filtered by customer type. 32 $0 orders (LTK gifts, test orders, 100% codes) are not counted as D2C orders.</p>
+<p class="vg-period">Status as of November 19, 2026 · data for August 1 — November 18 · November by week: November 1–11 and 12–18</p>
+<p class="vg-summary" id="lede" data-read lang="en">Primary source of D2C sales data — Shopify: for August 1 — November 18, D2C Net Sales were <b data-draw="num" data-source="months" data-where="month=all" data-field="net" data-fmt="k">—</b> on <b data-draw="num" data-source="months" data-where="month=all" data-field="orders" data-fmt="int">—</b> orders. Channels are assigned by the last visit before purchase (last click): this attribution shows the last recorded source but does not measure a channel's incremental contribution.</p>
+<p class="vg-note" id="scope">Scope: D2C only. Seven Shopify B2B orders are excluded; the B2B funnel is analyzed separately. Session data covers the whole site and is not filtered by customer type. 34 $0 orders (LTK gifts, test orders, 100% codes) are not counted as D2C orders.</p>
 </header>
 
 <nav class="vg-bar" id="month-bar" aria-label="Select month">
@@ -180,7 +199,9 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <button type="button" data-month="2026-09" aria-pressed="false">September</button>
 <button type="button" data-month="2026-10" aria-pressed="false">October</button>
 <button type="button" data-month="2026-11" aria-pressed="false">November 1–11</button>
+<button type="button" data-month="2026-11b" aria-pressed="false">November 12–18</button>
 </div>
+<button type="button" class="vg-method-btn" id="method-btn" aria-pressed="false">Methodology</button>
 </nav>
 
 <section class="vg-card" id="funnel-top">
@@ -192,15 +213,17 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 
 <section class="vg-card" id="sources">
 <div class="vg-card-head"><h2 class="vg-card-title">Where purchases came from</h2><span class="vg-note">all months · month filter does not apply</span></div>
-<p class="vg-note">Each Shopify order is assigned to one channel by the last visit before purchase (last click). Google, Meta and Microsoft ads are identified by GA4 via the order number: all 434 GA4 purchases were found in Shopify. Each cell shows the number of orders and the order value after returns (order-level). This is not Net Sales: D2C order-level value is $317.5K, D2C Net Sales is $300.7K; the $16.8K difference is returns processed in the period on orders placed before August 1 (gross sales minus discounts by order match Shopify to the cent). Direct and Organic Search account for 61.8% of D2C order value, but this is not the pure organic contribution: GA4 wasn't running in August, and some paid traffic landed in Direct and Organic because of missing tags.</p>
+<p class="vg-note">Each Shopify order is assigned to one channel by the last visit before purchase (last click). Google, Meta and Microsoft ads are identified by GA4 via the order number: all 492 GA4 purchases for September 2 — November 18 were found in Shopify. Each cell shows the number of orders and the order value after returns (order-level). This is not Net Sales: D2C order-level value is $345.1K, D2C Net Sales is $328.3K; the $16.8K difference is returns processed in the period on orders placed before August 1 (gross sales minus discounts by order match Shopify to the cent). Direct and Organic Search account for 61.0% of D2C order value, but this is not the pure organic contribution: GA4 wasn't running in August, and some paid traffic landed in Direct and Organic because of missing tags.</p>
 <div class="vg-tablewrap">
 <table class="vg-table vg-mix" id="mix-table" data-source="mix">
-<thead><tr><th>Channel</th><th>August</th><th>September</th><th>October</th><th>November 1–11</th><th>Total</th><th>Share of value</th></tr></thead>
+<thead><tr><th>Channel</th><th>August</th><th>September</th><th>October</th><th>November 1–11</th><th>November 12–18</th><th>Total</th><th>Share of value</th></tr></thead>
 <tbody data-draw="mixTable"></tbody>
 </table>
 </div>
-<details class="vg-more"><summary>* Why August has no Google Ads, what the feed tag is, and why Direct is higher in August</summary><div class="vg-more-body">
-<p class="vg-note">* In August GA4 was not yet collecting data, and Google UTM tags sit in the tracking template and barely reach the site, so August orders from Google ads ended up in Organic Search and Google Shopping (feed tag). Shopify puts the feed tag on both free product listings and PMax clicks; in September — November 14 of 25 such orders turned out to be PMax clicks and were moved to Google Ads. PMax spent $9.4K in August, so most of the 25 August orders worth $12.3K are probably ads too. Values are summed by order after returns, so they differ from D2C Net Sales below ($300.7K), which subtracts all returns processed in the period, including $16.8K on orders placed before August 1.</p>
+<div class="vg-insight"><b>Takeaway</b><ul class="vg-ins"><li><b>All period:</b> Direct and Organic Search account for 61% of D2C order value; paid channels by last click — 10.8%.</li><li><b>Nov 12–18 vs Nov 1–11:</b> Direct fell from 41% to 19% of value, Organic Search rose from 20% to 32%, Google Ads from 13% to 19%. Orders without visit data are 15% of value (8% before): purchases without a source are growing ahead of BFCM.</li><li><b>What to do:</b> check UTMs and cookie consent before BFCM, otherwise much of the peak week will have no source.</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Direct, share of value", "ms:Direct", "pct", "pp", "none"], ["Organic Search", "ms:Organic Search", "pct", "pp", "none"], ["No visit data", "ms:Unknown (no visit data)", "pct", "pp", "down"], ["Google Ads", "ms:Google Ads", "pct", "pp", "none"], ["All paid ads", "ms:paid", "pct", "pp", "none"], ["Coupon & cashback sites", "ms:Coupon & Cashback Sites", "pct", "pp", "none"]]'></div>
+<details class="vg-more vg-method"><summary>* Why August has no Google Ads, what the feed tag is, and why Direct is higher in August</summary><div class="vg-more-body">
+<p class="vg-note">* In August GA4 was not yet collecting data, and Google UTM tags sit in the tracking template and barely reach the site, so August orders from Google ads ended up in Organic Search and Google Shopping (feed tag). Shopify puts the feed tag on both free product listings and PMax clicks; in September — November 18, 14 of 28 such orders turned out to be PMax clicks and were moved to Google Ads. PMax spent $9.4K in August, so most of the 25 August orders worth $12.3K are probably ads too. Values are summed by order after returns, so they differ from D2C Net Sales below ($328.3K), which subtracts all returns processed in the period, including $16.8K on orders placed before August 1.</p>
 <p class="vg-note"><b>Why Direct is higher in August.</b> Google tags don't reach the site, so some PMax clicks — from YouTube, Gmail and apps, where the browser doesn't pass the referrer — are recorded by Shopify as direct visits. Visits show it: in August PMax delivered 152 clicks a day; in September it was almost stopped (13 clicks a day), and Direct visits fell by 110 a day. In October PMax was restarted (+60 clicks a day) — and Direct visits rose by 59 a day. Since September GA4 helps separate such orders: 15 orders that Shopify recorded as Direct were moved to ad channels. There is no GA4 for August, so judging by PMax volume, August Direct includes roughly 10–15 more ad orders. Without them direct demand is flat — about 3 orders a day across the period, and per day Direct in November ($1.5K) is at the August level. October is weaker ($1.1K a day) because of returning customers: 11 versus 26 in September.</p>
 </div></details>
 </section>
@@ -216,7 +239,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <div class="vg-kpi"><span class="vg-kpi-ic t-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span><div class="vg-kpi-body"><p class="vg-kpi-label">Shopify last-click ROAS</p><p class="vg-kpi-val" data-draw="kpi" data-k="roas" data-fmt="x">—</p><p class="vg-delta" data-draw="kdelta" data-k="roas" data-mode="rel" data-good="up">—</p></div></div>
 <div class="vg-kpi"><span class="vg-kpi-ic t-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg></span><div class="vg-kpi-body"><p class="vg-kpi-label">ROMI at 30% margin (estimate)</p><p class="vg-kpi-val" data-draw="kpi" data-k="romi" data-fmt="pct">—</p><p class="vg-delta" data-draw="kdelta" data-k="romi" data-mode="pp" data-good="up">—</p></div></div>
 </div>
-<p class="vg-note">Showing: <b data-draw="selName">—</b>. Comparison is with the previous month, values per day. D2C Net Sales — Shopify Net Sales (gross sales − discounts − returns processed in the period) for orders within the D2C scope. D2C orders — non-zero orders within the scope; 32 $0 orders are not counted, and gross sales and discounts of test orders with 100% codes are excluded. Average order value before returns — (gross − discounts) ÷ D2C orders. MER — Net Sales ÷ Google, Meta and Microsoft Ads spend; agency fees and other marketing costs are not included. Shopify last-click ROAS — value of Shopify orders attributed to Google, Meta and Microsoft by last click ÷ their spend. ROMI — estimate at a 30% margin: (Shopify-attributed order value × 30% − media spend) ÷ media spend; result after media spend for September 2 — November 11 — <b data-draw="num" data-source="months" data-where="month=all" data-field="ads_profit" data-fmt="k">—</b>. <b>The 30% margin is a working assumption from the brief that needs confirmation; all profit and payback figures at a 30% margin are estimates, not facts.</b> ROMI uses last-click attributed revenue: it is an attribution-based estimate, not an incrementality measurement. GA4 wasn't running in August, so ROAS and ROMI can't be calculated for August, and “all period” for them is September 2 — November 11. Returns on November orders are still to come.</p>
+<p class="vg-note">Showing: <b data-draw="selName">—</b>. Comparison is with the previous period (for November 12–18 — with November 1–11), values per day. D2C Net Sales — Shopify Net Sales (gross sales − discounts − returns processed in the period) for orders within the D2C scope. D2C orders — non-zero orders within the scope; 34 $0 orders are not counted, and gross sales and discounts of test orders with 100% codes are excluded. Average order value before returns — (gross − discounts) ÷ D2C orders. MER — Net Sales ÷ Google, Meta and Microsoft Ads spend; agency fees and other marketing costs are not included. Shopify last-click ROAS — value of Shopify orders attributed to Google, Meta and Microsoft by last click ÷ their spend. ROMI — estimate at a 30% margin: (Shopify-attributed order value × 30% − media spend) ÷ media spend; result after media spend for September 2 — November 18 — <b data-draw="num" data-source="months" data-where="month=all" data-field="ads_profit" data-fmt="k">—</b>. <b>The 30% margin is a working assumption from the brief that needs confirmation; all profit and payback figures at a 30% margin are estimates, not facts.</b> ROMI uses last-click attributed revenue: it is an attribution-based estimate, not an incrementality measurement. GA4 wasn't running in August, so ROAS and ROMI can't be calculated for August, and “all period” for them is September 2 — November 18. Returns on November orders are still to come, so the November weeks are preliminary on returns.</p>
 </section>
 
 <div class="vg-grid2">
@@ -224,15 +247,29 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <div class="vg-card-head"><h2 class="vg-card-title">Sales by month</h2></div>
 <ul class="vg-legend" aria-hidden="true"><li><span class="vg-sw" data-swatch="0"></span>Net sales</li><li><span class="vg-sw" data-swatch="1"></span>Returns</li><li><span class="vg-sw" data-swatch="2"></span>Discounts</li></ul>
 <div class="vg-chart" id="sales-chart" data-draw="salesChart" data-source="shopify"></div>
-<p class="vg-note">Bar height — gross sales, label — net. November is 11 days.</p>
+<p class="vg-note">Bar height — gross sales, label — net. November is shown by week: November 1–11 (11 days) and November 12–18 (7 days), so its bars are lower than the monthly ones.</p>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Net Sales per day", "net_day", "money"], ["Orders per day", "orders_day", "num1"], ["Average order value", "aov", "money"], ["Discounts ÷ gross", "disc_rate", "pct", "pp", "down"], ["Returns ÷ gross", "ret_rate", "pct", "pp", "down"], ["Repeat-order share", "ret_share", "pct", "pp", "up"]]'></div>
 </section>
 <section class="vg-card" id="crosschannel">
 <div class="vg-card-head"><h2 class="vg-card-title">Ad account attribution vs Shopify last-click</h2><span class="vg-note" data-draw="adsPeriod">—</span></div>
 <ul class="vg-legend" aria-hidden="true"><li><span class="vg-sw" data-swatch="0"></span>Claimed by the platform</li><li><span class="vg-sw" data-swatch="1"></span>Shopify last-click: order value</li></ul>
 <div class="vg-chart" id="claims-chart" data-draw="claimsChart" data-source="xpaid"></div>
-<p class="vg-note">Revenue Google Ads, Meta and Microsoft Ads claimed versus Shopify orders attributed to these channels. Period — September 2 — November 11: there is no GA4 data for August.</p>
+<p class="vg-note">Revenue Google Ads, Meta and Microsoft Ads claimed versus Shopify orders attributed to these channels. Period — September 2 — November 18: there is no GA4 data for August.</p>
 </section>
 </div>
+
+<section class="vg-card" id="romi">
+<div class="vg-card-head"><div class="vg-chan"><i class="ic-g">%</i><h2 class="vg-card-title">ROMI by channel · <span data-draw="selName">—</span></h2></div><span class="vg-note">Shopify last-click · 30% margin</span></div>
+<div class="vg-tablewrap">
+<table class="vg-table" id="romi-table" data-source="xpaid" data-row-key="channel" data-by-month data-no-aug>
+<thead><tr><th data-field="channel">Channel</th><th data-field="spend" data-fmt="money">Spend</th><th data-field="orders" data-fmt="int">Shopify orders</th><th data-field="net" data-fmt="money">Order value</th><th data-field="roas" data-fmt="x" data-tone="roas">Shopify ROAS</th><th data-field="profit" data-fmt="money">30% profit − spend</th><th data-field="romi" data-fmt="pct" data-tone="romi">Shopify ROMI</th><th data-field="pf_roas" data-fmt="x">Account ROAS</th><th data-field="pf_romi" data-fmt="pct">Account ROMI</th></tr></thead>
+<tbody data-draw="tbl"></tbody>
+</table>
+</div>
+<p class="vg-note">ROMI = (Shopify last-click order value × 30% − spend) ÷ spend; the 30% margin is a working assumption from the brief. Account ROMI — the same using the value the platform claimed. Break-even at a 30% margin is a 3.33× ROAS. Brand Search is people already searching for VIGO, so its ROMI is not incremental lift. The all-period window for ads is September 2 — November 18: GA4 wasn’t running in August.</p>
+<div class="vg-insight"><b>Takeaway</b><ul class="vg-ins"><li><b>All period (Sep 2 — Nov 18):</b> ads returned $37.4K on $16.5K spend — 2.27× ROAS, −32% ROMI at a 30% margin. Only Google Brand Search is positive (+15% ROMI), but these are people already searching for VIGO. PMax and Shopping — −23%, Microsoft — −24%, Meta — −90%.</li><li><b>Nov 12–18 vs Nov 1–11:</b> ROMI across channels rose from −35% to −7%: Google turned profitable (+23%: brand +104%, PMax and Shopping −13%), Meta and Microsoft brought no orders.</li><li><b>What to do:</b> break-even at a 30% margin is a 3.33× ROAS. Before BFCM put money into Google (brand and the best PMax); keep Meta at a minimum until incrementality is tested.</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Spend per day", "spend_day", "money", "rel", "none"], ["Ad-attributed order value per day", "ads_net_day", "money"], ["Shopify ROAS", "roas", "x", "x"], ["Shopify ROMI (30%)", "romi", "pct", "pp"], ["Account ROAS", "x_pfroas:all", "x", "x", "none"], ["Google ROMI", "x_romi:Google Ads", "pct", "pp"], ["Meta ROMI", "x_romi:Meta Ads", "pct", "pp"], ["Microsoft ROMI", "x_romi:Microsoft Ads", "pct", "pp"], ["MER", "mer", "x", "x"]]'></div>
+</section>
 
 <section class="vg-card" id="cac">
 <div class="vg-card-head"><div class="vg-chan"><i class="ic-s">$</i><h2 class="vg-card-title">Customer acquisition cost</h2></div><span class="vg-note">all months · filter does not apply · new customers</span></div>
@@ -243,8 +280,9 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <tbody data-draw="tbl"></tbody>
 </table>
 </div>
-<p class="vg-note">Average media spend — total ad spend ÷ all new customers, including those who came on their own: this is not a true CAC, because most customers are not attributed to ads. Paid CAC — the same spend ÷ new customers attributed to Google, Meta and Microsoft: a notional cost of a new customer under the last-click model; the metric does not prove incrementality. Green — the customer pays back on the first order, yellow — up to 1.5× more expensive, red — more than 1.5× more expensive. Not included: agency fees and discounts — discounts are already deducted from order value. Paid CAC can't be calculated for August because GA4 wasn't running, so the total is split into two rows: August 1 — November 11 (average media spend only) and September 2 — November 11 (paid CAC).</p>
-<div class="vg-insight"><b>Takeaway.</b> Average media spend per new store customer is $37 for August 1 — November 11 ($31 for September 2 — November 11). This is not CAC: most new customers are not attributed to ads. A new customer attributed to Google, Meta and Microsoft (paid CAC) costs $245 for September 2 — November 11, while their first order brings about $150 of gross profit at a 30% margin — an estimate until the margin is confirmed.<br><b>Google:</b> 43 attributed orders worth $23.4K on $8.49K spend, Shopify last-click ROAS 2.76×. 41 new customers at $207 each; the first order brings about $159 of gross profit on average, about $6.5K in total — roughly $2.0K less than ad spend. By Shopify last-click, each $1 of Google spend corresponds to $2.76 of order value. However, at a 30% margin the estimated gross profit of the first order does not cover media spend (break-even — 3.33×).<br><b>Meta:</b> 3 orders worth $1.23K on $3.41K spend, ROAS 0.36×; result after media spend at a 30% margin — about −$3.0K, ROMI — about −89%.<br><b>Microsoft:</b> 16 new customers at $174 each; the first order brings about $134 of gross profit on average. Shopify last-click ROAS is 2.57× — below the 3.33× break-even.<br><b>Repeat purchases:</b> over 103 days returning customers placed 60 of 749 D2C orders — 8.0%. This period is too short to assess LTV; a cohort analysis over 90, 180 and 365 days is needed. Until LTV is calculated, first-order payback is a conservative benchmark, not a confirmed requirement.</div>
+<p class="vg-note">Average media spend — total ad spend ÷ all new customers, including those who came on their own: this is not a true CAC, because most customers are not attributed to ads. Paid CAC — the same spend ÷ new customers attributed to Google, Meta and Microsoft: a notional cost of a new customer under the last-click model; the metric does not prove incrementality. Green — the customer pays back on the first order, yellow — up to 1.5× more expensive, red — more than 1.5× more expensive. Not included: agency fees and discounts — discounts are already deducted from order value. Paid CAC can't be calculated for August because GA4 wasn't running, so the total is split into two rows: August 1 — November 18 (average media spend only) and September 2 — November 18 (paid CAC).</p>
+<div class="vg-insight"><b>Takeaway</b><ul class="vg-ins"><li><b>All period:</b> average media spend per new customer — $37 (Aug 1 — Nov 18); paid CAC — $242 (Sep 2 — Nov 18) against ≈$156 first-order gross profit — the first order does not pay back the ads. Returning customers — 8.3% of orders over 110 days.</li><li><b>Nov 12–18 vs Nov 1–11:</b> new customers per day 6.8 → 8.0; paid CAC $262 → $224, Google $259 → $169 — below first-order profit (≈$201). All 8 paid new customers of the week came from Google.</li><li><b>What to do:</b> measure payback including repeat purchases (90/180/365-day cohorts) and confirm the margin — it sets the allowable CAC.</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["New customers per day", "new_day", "num1"], ["Media spend per new customer", "cac_all", "money", "rel", "down"], ["New customers from ads", "p_new", "int"], ["Paid CAC", "p_cac", "money", "rel", "down"], ["Google CAC", "g_cac", "money", "rel", "down"], ["Average first order", "first_aov", "money"]]'></div>
 <details class="vg-more"><summary>By channel: Google, Meta, Microsoft</summary><div class="vg-more-body">
 <div class="vg-tablewrap">
 <table class="vg-table" data-source="cac_v">
@@ -253,8 +291,8 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 </table>
 </div>
 </div></details>
-<details class="vg-more"><summary>Methodology</summary><div class="vg-more-body">
-<p class="vg-note">A new customer is an order that is this buyer's first in the store's entire Shopify history; $0 orders are excluded. Channel — as in “Where purchases came from”: GA4 and Shopify tags. By channel we count from September 2, because GA4 wasn't running in August; the channel total is in the “Sep 2 — Nov 11” row. The 30% margin is an assumption from the brief; VIGO will provide the exact margin by category by November 20. With a different margin the break-even ROAS is 1 ÷ margin (2.9× at 35%, 2.5× at 40%). Spend — Google, Meta and Microsoft Ads. Spend excludes agency fees and discounts: discounts are already deducted from order value.</p>
+<details class="vg-more vg-method"><summary>Methodology</summary><div class="vg-more-body">
+<p class="vg-note">A new customer is an order that is this buyer's first in the store's entire Shopify history; $0 orders are excluded. Channel — as in “Where purchases came from”: GA4 and Shopify tags. By channel we count from September 2, because GA4 wasn't running in August; the channel total is in the “Sep 2 — Nov 18” row. The 30% margin is an assumption from the brief; VIGO will provide the exact margin by category by November 20. With a different margin the break-even ROAS is 1 ÷ margin (2.9× at 35%, 2.5× at 40%). Spend — Google, Meta and Microsoft Ads. Spend excludes agency fees and discounts: discounts are already deducted from order value.</p>
 </div></details>
 </section>
 
@@ -268,7 +306,8 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <tbody data-draw="tbl"></tbody>
 </table>
 </div>
-<div class="vg-insight"><b>Takeaway.</b> Shower doors made up 41.1% of D2C gross sales, and returns processed in the period equal 8.2% of the category's gross sales: the main product for ads and BFCM. For shower enclosures, returns processed in the period are $27.2K, 52.3% of the category's gross sales for the same period; this is not a cohort return rate: the period includes returns of older orders (products without a type have $1.5K of sales and $13.3K of returns). Kitchen faucets and sinks had low period-level return ratios of 1.2% and 2.3%. These are not cohort return rates.</div>
+<div class="vg-insight"><b>Takeaway</b><ul class="vg-ins"><li><b>All period:</b> shower doors — 42.0% of D2C gross sales, returns at 7.4% of category sales. Shower enclosures — $27.9K of returns, 51.7% of category sales (the period includes returns of older orders).</li><li><b>Nov 12–18 vs Nov 1–11:</b> the doors share went 54% → 52%; tub doors grew from 6% to 14% of sales, enclosures from 4% to 7%. Enclosure returns for the week — 35% of their sales (76% before).</li><li><b>What to do:</b> doors are the main BFCM product; collect enclosure return reasons before scaling ads on them.</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Shower doors, share of sales", "cs:Shower doors", "pct", "pp", "none"], ["Tub screens and doors", "cs:Tub screens and doors", "pct", "pp", "none"], ["Shower panels", "cs:Shower panels", "pct", "pp", "none"], ["Shower enclosures", "cs:Shower enclosures", "pct", "pp", "none"], ["Bathroom faucets", "cs:Bathroom faucets", "pct", "pp", "none"], ["Doors: net sales per day", "cn:Shower doors", "money"], ["Doors: returns ÷ sales", "cr:Shower doors", "pct", "pp", "down"], ["Enclosures: returns ÷ sales", "cr:Shower enclosures", "pct", "pp", "down"]]'></div>
 <details class="vg-more"><summary>Top 15 products and notes</summary><div class="vg-more-body">
 <p class="vg-note">Categories are grouped from Shopify product types. A return is counted in the month it was processed, so in a single month the return rate can exceed 100%. Units — for the whole period only. “Shipping protection” is the paid Shipping Protection add-on in the order.</p>
 <h3 class="vg-card-sub" style="margin:0">Top 15 products · all period</h3>
@@ -288,7 +327,8 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <tbody data-draw="tbl"></tbody>
 </table>
 </div>
-<div class="vg-insight"><b>Takeaway.</b> From September 2 — November 11, $16.9K of shower-door order value was last-click attributed to ads. Tub doors had the highest ad-attributed share at 25.6%. Only $0.9K of shower-enclosure order value was attributed to ads, but the current data cannot determine whether acquisition channel is related to returns. Shower panels may be considered for a controlled advertising test; this is a hypothesis, not a confirmed growth opportunity.</div>
+<div class="vg-insight"><b>Takeaway</b><ul class="vg-ins"><li><b>All period (Sep 2 — Nov 18):</b> $19.3K of door sales was attributed to ads (16.8% of the category); tub doors have the highest share at 25.3%; panels — 6.4%.</li><li><b>Nov 12–18 vs Nov 1–11:</b> ads brought panel sales (20% of the category) and enclosure sales (50%) for the first time; the ad share in doors fell from 21% to 17%.</li><li><b>What to do:</b> split doors and tub doors into separate PMax asset groups with their own budget; panels — a controlled test.</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Shower doors", "ca:Shower doors", "pct", "pp", "none"], ["Tub screens and doors", "ca:Tub screens and doors", "pct", "pp", "none"], ["Shower panels", "ca:Shower panels", "pct", "pp", "none"], ["Shower enclosures", "ca:Shower enclosures", "pct", "pp", "none"], ["Bathroom faucets", "ca:Bathroom faucets", "pct", "pp", "none"]]'></div>
 <p class="vg-note">Each order's value after discounts and returns is split across categories in proportion to item prices. Ads — by last click: GA4 and Shopify tags. Window — since September 2: no GA4 data for August.</p>
 
 </section>
@@ -303,9 +343,10 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <tbody data-draw="tbl"></tbody>
 </table>
 </div>
-<div class="vg-insight"><b>Takeaway.</b> For September 2 — November 11, Shopify last-click attribution assigned 43 orders worth $23.4K to Google Ads on $8.49K spend; Shopify ROAS — 2.76× (2.3× in November: PMax 3.2×, brand still 0). Of these, 41 were new customers at a paid CAC of $207. At a 30% margin a new customer's first order brings about $159 of gross profit on average, about $6.5K in total — roughly $2.0K less than ad spend. By Shopify last-click, each $1 of Google spend corresponds to $2.76 of order value. However, at a 30% margin the estimated gross profit of the first order does not cover media spend (break-even — 3.33×). This is an estimate until the margin is confirmed. The account reports 1.4× more value than Shopify attribution; budget decisions are based on Shopify last-click.</div>
-<details class="vg-more"><summary>Campaigns and methodology</summary><div class="vg-more-body">
-<p class="vg-note">Shopify last-click — Shopify orders that GA4 attributed to a Google Ads click (gclid auto-tagging), value after discounts and returns. August: GA4 wasn't running, so Shopify attribution can't be calculated. The Shopify last-click total covers September 2 — November 11. Account values exclude projected value; the conversion goal adds value for a new customer, so account ROAS may be overstated. UTM tags sit in the tracking template and barely reach the site; regular Shopping campaigns are paused: they remained tied to the previous Merchant Center, while the new one (VIGO Industries) has been connected to Google Ads since September 9 and works through PMax.</p>
+<div class="vg-insight"><b>Takeaway</b><ul class="vg-ins"><li><b>All period (Sep 2 — Nov 18):</b> 52 orders worth $29.0K on $9.84K spend — 2.94× ROAS, −12% ROMI at a 30% margin. The account reports 1.4× more value than Shopify.</li><li><b>Nov 12–18 vs Nov 1–11:</b> at the same daily spend ($189 → $193) ROAS rose from 2.30× to 4.09×, ROMI from −31% to +23%, CPA $259 → $150. Brand drove it (0 → 4 orders, 6.8×); PMax and Shopping — 3.16× → 2.89×. Medium income — 0 conversions on $237.</li><li><b>What to do:</b> don’t change tROAS before BFCM, set a seasonality adjustment for Nov 27 — Dec 1, consolidate weak PMax campaigns (see the media buyer block).</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Spend per day", "g_spend_day", "money", "rel", "none"], ["Clicks per day", "g_clicks_day", "num1"], ["CTR", "g_ctr", "pct2", "pp"], ["CPC", "g_cpc", "money2", "rel", "down"], ["Account ROAS", "g_pfroas", "x", "x", "none"], ["Shopify orders", "g_orders", "int"], ["Order value per day", "g_net_day", "money"], ["Shopify ROAS", "g_roas", "x", "x"], ["ROMI (30%)", "g_romi", "pct", "pp"], ["CPA", "g_cpa", "money", "rel", "down"], ["Brand Search: ROAS", "x_roas:— Brand Search", "x", "x"], ["PMax & Shopping: ROAS", "x_roas:— PMax + Shopping (non-brand)", "x", "x"]]'></div>
+<details class="vg-more"><summary>Campaigns</summary><div class="vg-more-body">
+<p class="vg-note">Shopify last-click — Shopify orders that GA4 attributed to a Google Ads click (gclid auto-tagging), value after discounts and returns. August: GA4 wasn't running, so Shopify attribution can't be calculated. The Shopify last-click total covers September 2 — November 18. Account values exclude projected value; the conversion goal adds value for a new customer, so account ROAS may be overstated. UTM tags sit in the tracking template and barely reach the site; the old pre-Netpeak Shopping campaigns are paused: they are tied to the previous Merchant Center, while the new one (VIGO Industries) has been connected to Google Ads since September 9 and works through PMax. For November 12–18 a new campaign appeared in the report, “NP / Shopping / Low performers from PMax”: $31 spend, 3 conversions worth $2.3K in the account.</p>
 <h3 class="vg-card-sub" style="margin:0">Campaigns, ad account data · <span data-draw="selName">—</span></h3>
 <div class="vg-tablewrap">
 <table class="vg-table" id="gads-camp-table" data-source="gads_cm_v" data-row-key="campaign" data-by-month>
@@ -327,9 +368,10 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <tbody data-draw="tbl"></tbody>
 </table>
 </div>
-<div class="vg-insight"><b>Takeaway.</b> For September 2 — November 11, Shopify last-click attribution assigned 3 orders worth $1.23K to Meta Ads on $3.41K spend; Shopify ROAS — 0.36×. At a 30% margin the result after media spend is about −$3.0K, ROMI about −89% (estimate). The account shows much higher value (13×), mainly due to view-through attribution. Until results improve or incrementality is demonstrated, Meta should remain limited to controlled D2C tests.</div>
-<details class="vg-more"><summary>Campaigns and methodology</summary><div class="vg-more-body">
-<p class="vg-note">Account — the account's attribution: 7-day click or 1-day view; Meta counts almost all purchases by ad view without a click. Shopify last-click — Shopify orders with a Meta UTM tag (all Netpeak ads are tagged) or a facebook / cpc visit in GA4. August: Shopify attribution can't be calculated — GA4 wasn't running. The Shopify last-click total covers September 2 — November 11.</p>
+<div class="vg-insight"><b>Takeaway</b><ul class="vg-ins"><li><b>All period (Sep 2 — Nov 18):</b> 3 orders worth $1.23K on $3.80K spend — 0.32× ROAS, −90% ROMI. The account shows 13× almost entirely from view-through purchases.</li><li><b>Nov 12–18 vs Nov 1–11:</b> daily spend $44 → $57, CTR 1.09% → 1.58%, CPC $1.57 → $1.19; the account shows 11 purchases, 3 by click (0 before). Shopify again has no order with a visit from Meta. Add-to-carts and checkouts for the week are not available in the account.</li><li><b>What to do:</b> check UTM parameters on Builders and Design/Home ads; keep only sales campaigns on 7-day click; switch off Traffic Boosts.</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Spend per day", "m_spend_day", "money", "rel", "none"], ["CPM", "m_cpm", "money2", "rel", "down"], ["Link CTR", "m_ctr", "pct2", "pp"], ["Cost per click", "m_cpc", "money2", "rel", "down"], ["Link clicks per day", "m_clicks_day", "num1"], ["Account purchases", "m_pf", "int", "rel", "none"], ["of them by click", "m_pfclick", "int"], ["Account ROAS", "m_pfroas", "x", "x", "none"], ["Shopify orders", "m_orders", "int"], ["Shopify ROAS", "m_roas", "x", "x"]]'></div>
+<details class="vg-more"><summary>Campaigns</summary><div class="vg-more-body">
+<p class="vg-note">Account — the account's attribution: 7-day click or 1-day view; Meta counts almost all purchases by ad view without a click. Shopify last-click — Shopify orders with a Meta UTM tag (all Netpeak ads are tagged) or a facebook / cpc visit in GA4. August: Shopify attribution can't be calculated — GA4 wasn't running. The Shopify last-click total covers September 2 — November 18.</p>
 <h3 class="vg-card-sub" style="margin:0">Campaigns, ad account data · <span data-draw="selName">—</span></h3>
 <div class="vg-tablewrap">
 <table class="vg-table" id="meta-camp-table" data-source="meta_cm_v" data-row-key="campaign" data-by-month>
@@ -350,8 +392,9 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <tbody data-draw="tbl"></tbody>
 </table>
 </div>
-<div class="vg-insight"><b>Takeaway.</b> For September 2 — November 11, Microsoft Ads spent $2.79K; Shopify last-click attributed 16 orders worth $7.15K to it — a 2.57× ROAS, CPA $174. At a 30% margin, the result after media spend is about −$0.64K, ROMI about −23% (estimate). The account claimed 24 conversions worth $14.4K (5.16× ROAS) — twice what Shopify shows.<br>By campaign: PMax — 4.34× Shopify ROAS on $928 spend, above the 3.33× break-even. Brand Search — 42% of spend at 2.09×: these are people already searching for VIGO. Shopping — $697 spend and 2 orders worth $280 (0.40×); the campaign is paused now.</div>
-<details class="vg-more"><summary>By campaign: September 2 — November 11</summary><div class="vg-more-body">
+<div class="vg-insight"><b>Takeaway</b><ul class="vg-ins"><li><b>All period (Sep 2 — Nov 18):</b> 16 orders worth $7.15K on $2.83K spend — 2.53× ROAS, −24% ROMI. Best — PMax: 4.25× on $947.</li><li><b>Nov 12–18 vs Nov 1–11:</b> daily spend dropped from $30 to $6, clicks from 34 to 7 a day, no orders (3 worth $1.4K before, 4.42× ROAS). Shopping is formally paused but spent $4.87.</li><li><b>What to do:</b> find out why spend dropped (budget, bids, disapproved ads) and bring PMax and brand back to $20–25 a day before BFCM.</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Spend per day", "b_spend_day", "money", "rel", "none"], ["Clicks per day", "b_clicks_day", "num1"], ["CTR", "b_ctr", "pct2", "pp"], ["CPC", "b_cpc", "money2", "rel", "down"], ["Account ROAS", "b_pfroas", "x", "x", "none"], ["Shopify orders", "b_orders", "int"], ["Shopify ROAS", "b_roas", "x", "x"], ["ROMI (30%)", "b_romi", "pct", "pp"]]'></div>
+<details class="vg-more"><summary>By campaign: September 2 — November 18</summary><div class="vg-more-body">
 <div class="vg-tablewrap">
 <table class="vg-table" data-source="ms_cm_v" data-row-key="campaign">
 <thead><tr><th data-field="campaign">Campaign</th><th data-field="status">Status on 11/17</th><th data-field="spend" data-fmt="money">Spend</th><th data-field="clicks" data-fmt="int">Clicks</th><th data-field="pf_orders" data-fmt="num1">Account: conversions</th><th data-field="pf_value" data-fmt="money">Account: value</th><th data-field="orders" data-fmt="int">Shopify last-click: orders</th><th data-field="net" data-fmt="money">Shopify last-click: order value</th><th data-field="roas" data-fmt="x" data-tone="roas">Shopify last-click ROAS</th></tr></thead>
@@ -359,12 +402,13 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 </table>
 </div>
 </div></details>
-<p class="vg-note">Spend, clicks and conversions — Microsoft Ads account (VIGO, G145AJT9), exported 11/17/2026 in US Eastern time. Orders — by GA4 (bing / cpc) and the Microsoft Ads tag in Shopify, without duplicates; campaign — by the GA4 campaign tag. 2 orders worth $420 without a campaign tag are not in the campaign breakdown. August — no Shopify attribution: GA4 wasn't running. The account shows a warning that one conversion goal has had no recent conversions, so account value may be incomplete.</p>
+<p class="vg-note">Spend, clicks and conversions — Microsoft Ads account (VIGO, G145AJT9), exported 11/17/2026 (week of November 12–18 — 11/19/2026) in US Eastern time. Orders — by GA4 (bing / cpc) and the Microsoft Ads tag in Shopify, without duplicates; campaign — by the GA4 campaign tag. 2 orders worth $420 without a campaign tag are not in the campaign breakdown. August — no Shopify attribution: GA4 wasn't running. The account shows a warning that one conversion goal has had no recent conversions, so account value may be incomplete.</p>
 </section>
 
 <section class="vg-card" id="returns">
 <div class="vg-card-head"><div class="vg-chan"><i class="ic-r">↩</i><h2 class="vg-card-title">Returns by product type</h2></div></div>
-<div class="vg-insight"><b>Takeaway.</b> The largest concentrations of returns are shower enclosures (Neo-Angle, Rectangle, Winslow) and products without a mapped type in Shopify. Together they account for approximately 63.8% of returns processed in the period. Products without a type may include older or unmapped orders.</div>
+<div class="vg-insight"><b>Takeaway</b><ul class="vg-ins"><li><b>All period:</b> returns are 16.0% of gross sales; 62.9% of all returns are shower enclosures (Neo-Angle, Rectangle, Winslow) and products without a type in Shopify.</li><li><b>Nov 12–18 vs Nov 1–11:</b> returns in the period fell from 11.0% to 6.9% of gross sales, for enclosures — from 76% to 35% of category sales. Returns on November orders are still to come.</li><li><b>What to do:</b> a cohort returns report and a reason for every enclosure return.</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Returns ÷ gross", "ret_rate", "pct", "pp", "down"], ["Enclosures: returns ÷ sales", "cr:Shower enclosures", "pct", "pp", "down"], ["Doors: returns ÷ sales", "cr:Shower doors", "pct", "pp", "down"], ["Tub doors: returns ÷ sales", "cr:Tub screens and doors", "pct", "pp", "down"]]'></div>
 <details class="vg-more"><summary>Returns by product type</summary><div class="vg-more-body">
 <div class="vg-tablewrap">
 <table class="vg-table" data-source="returns_v" data-row-key="product_type">
@@ -388,27 +432,29 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <tbody data-draw="tbl"></tbody>
 </table>
 </div>
-<div class="vg-insight"><b>Takeaway.</b> For November 1–11 site conversion is 0.63% — the highest among the available periods (0.54–0.58% in other months); because the month is partial, the result is preliminary. Two steps drive the growth: 2.4% of visits add to cart (1.9% in September), and 40% complete a started checkout (36% in August).<br><b>In September search conversion dipped:</b> search visits were 3.7K higher than in August, but added to cart almost half as often (1.4% vs 2.6%), and search conversion fell to 0.26%. Possible causes are a change in the query mix, landing pages or traffic quality; the hypothesis should be checked in Search Console.<br><b>November's weak spot — the “cart → checkout” step:</b> 66% of carts reach checkout versus 78% in September. Before BFCM, check what shoppers see in the cart: delivery times, final price after discount, promo code field. Returning this step to the September level is a scenario of up to +18% orders on the same traffic, not a forecast.</div>
+<div class="vg-insight"><b>Takeaway</b><ul class="vg-ins"><li><b>All period:</b> site conversion is 0.58%; the bottleneck is the cart → checkout step: 71% for the period, 78% in September.</li><li><b>Nov 12–18 vs Nov 1–11:</b> conversion 0.63% → 0.75% — the highest of all periods. Growth comes from the step before the cart (2.39% → 2.86% of visits) and from search (0.41% → 0.78%); Direct dipped (0.84% → 0.73%). Still only 66–67% of carts reach checkout.</li><li><b>What to do:</b> before BFCM walk through the cart as a shopper: delivery, final price after discount, promo-code field. Getting the step back to 78% is about +17% orders on the same traffic (scenario).</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Visits per day", "sess_day", "num1"], ["Added to cart, % of visits", "cart_rate", "pct2", "pp"], ["Reached checkout, % of carts", "checkout_rate", "pct", "pp"], ["Purchased, % of checkouts", "complete_rate", "pct", "pp"], ["Site conversion", "conv", "pct2", "pp"], ["Direct conversion", "conv_direct", "pct2", "pp"], ["Search conversion", "conv_search", "pct2", "pp"]]'></div>
 <details class="vg-more"><summary>Conversion by GA4 channel · September — November</summary><div class="vg-more-body">
 <div class="vg-tablewrap">
 <table class="vg-table" data-source="ga4_conv_v">
-<thead><tr><th data-field="channel">GA4 channel</th><th data-field="s09" data-fmt="int">Visits, Sep</th><th data-field="c09" data-fmt="pct2">Conversion, Sep</th><th data-field="s10" data-fmt="int">Visits, Oct</th><th data-field="c10" data-fmt="pct2">Conversion, Oct</th><th data-field="s11" data-fmt="int">Visits, Nov 1–11</th><th data-field="c11" data-fmt="pct2">Conversion, Nov 1–11</th></tr></thead>
+<thead><tr><th data-field="channel">GA4 channel</th><th data-field="s09" data-fmt="int">Visits, Sep</th><th data-field="c09" data-fmt="pct2">Conversion, Sep</th><th data-field="s10" data-fmt="int">Visits, Oct</th><th data-field="c10" data-fmt="pct2">Conversion, Oct</th><th data-field="s11" data-fmt="int">Visits, Nov 1–11</th><th data-field="c11" data-fmt="pct2">Conversion, Nov 1–11</th><th data-field="s11b" data-fmt="int">Visits, Nov 12–18</th><th data-field="c11b" data-fmt="pct2">Conversion, Nov 12–18</th></tr></thead>
 <tbody data-draw="tbl"></tbody>
 </table>
 </div>
-<p class="vg-note">Cross-network is PMax: it converts better than other paid channels, 1.0–1.4%. Paid Search dropped to 0.51% in November: it is mostly the brand campaign, which has no orders in November so far (see recommendation 4). Unassigned — purchases where GA4 lost the visit source; the high conversion there is a tracking artifact, not a channel. GA4 channels are defined differently from Shopify, so the Direct figures here and above differ.</p>
+<p class="vg-note">Cross-network is PMax: it converts at 0.8–1.4% (0.76% for November 12–18, below earlier periods). Paid Search is mostly the brand campaign: conversion fell to 0.51% for November 1–11 and recovered to 1.42% for November 12–18. Unassigned — purchases where GA4 lost the visit source; the high conversion there is a tracking artifact, not a channel. GA4 channels are defined differently from Shopify, so the Direct figures here and above differ.</p>
 </div></details>
 </section>
 
 <section class="vg-card" id="funnel">
 <div class="vg-card-head"><div class="vg-chan"><i class="ic-g">↘</i><h2 class="vg-card-title">Site funnel · <span data-draw="selName">—</span></h2></div></div>
 <ul class="vg-legend" aria-hidden="true"><li><span class="vg-sw" data-swatch="0"></span>Desktop</li><li><span class="vg-sw" data-swatch="1"></span>Mobile</li></ul>
-<div class="vg-chart" data-draw="convChart" data-source="funnel_v"></div>
+<div class="vg-chart" data-draw="convChart" data-source="funnel_dev_v"></div>
 <p class="vg-note">Purchase conversion — share of visits that ended in an order, by month.</p>
-<div class="vg-insight"><b>Takeaway.</b> On mobile the step before add-to-cart is weaker: 1.7% of visits versus 2.6% on desktop, while a started checkout on mobile ends in a purchase more often (42% vs 33%). The data shows a problem before the cart but doesn't prove it is on the product page: before making changes, check product pages, category pages, landing pages, speed and session recordings. A scenario, not a forecast: if mobile conversion reached the desktop level, that would be about 84 more sessions with a purchase over 103 days, or about 25 a month (upper estimate).</div>
+<div class="vg-insight"><b>Takeaway</b><ul class="vg-ins"><li><b>All period:</b> on mobile 1.8% of visits add to cart versus 2.6% on desktop, but a started checkout completes more often (42% vs 34%). If mobile conversion caught up with desktop — about 26 more purchases a month (upper estimate).</li><li><b>Nov 12–18 vs Nov 1–11:</b> conversion rose on both devices: desktop 0.77% → 0.94%, mobile 0.51% → 0.58%; mobile add-to-cart 1.72% → 2.23%. The device gap remains.</li><li><b>What to do:</b> check mobile product pages and speed; put the “Add to cart” button on the first screen.</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Desktop: conversion", "dev_conv:Desktop", "pct2", "pp"], ["Mobile: conversion", "dev_conv:Mobile", "pct2", "pp"], ["Desktop: add to cart", "dev_cart:Desktop", "pct2", "pp"], ["Mobile: add to cart", "dev_cart:Mobile", "pct2", "pp"], ["Desktop: checkout → purchase", "dev_done:Desktop", "pct", "pp"], ["Mobile: checkout → purchase", "dev_done:Mobile", "pct", "pp"], ["Mobile visits per day", "dev_sess:Mobile", "num1", "rel", "none"]]'></div>
 <details class="vg-more"><summary>Funnel by step and device</summary><div class="vg-more-body">
 <div class="vg-tablewrap">
-<table class="vg-table" data-source="funnel_v" data-row-key="device" data-by-month>
+<table class="vg-table" data-source="funnel_dev_v" data-row-key="device" data-by-month>
 <thead><tr><th data-field="device">Device</th><th data-field="sessions" data-fmt="int">Visits</th><th data-field="cart" data-fmt="int">Added to cart</th><th data-field="cart_rate" data-fmt="pct2">% of visits</th><th data-field="checkout" data-fmt="int">Started checkout</th><th data-field="checkout_rate" data-fmt="pct">% of carts</th><th data-field="completed" data-fmt="int">Purchased</th><th data-field="complete_rate" data-fmt="pct">% of checkouts</th><th data-field="conv" data-fmt="pct2">Conversion</th></tr></thead>
 <tbody data-draw="tbl"></tbody>
 </table>
@@ -418,19 +464,20 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 </section>
 
 <section class="vg-card" id="discounts">
-<div class="vg-card-head"><div class="vg-chan"><i class="ic-r">%</i><h2 class="vg-card-title">Discounts and promo codes · all period</h2></div></div>
-<p class="vg-summary" style="font-size:14px;margin:0" data-read lang="en">A promo code was used in <b data-draw="num" data-source="disc_sum" data-field="code_orders" data-fmt="int">—</b> orders out of <b data-draw="num" data-source="disc_sum" data-field="orders" data-fmt="int">—</b> (<b data-draw="num" data-source="disc_sum" data-field="code_share" data-fmt="pct">—</b>). The shared VIGO5 code alone — in <b data-draw="num" data-source="disc_sum" data-field="vigo5_orders" data-fmt="int">—</b> orders. Discounts cost <b data-draw="num" data-source="disc_sum" data-field="disc_total" data-fmt="k">—</b> — <b data-draw="num" data-source="disc_sum" data-field="disc_pct" data-fmt="pct">—</b> of gross sales, almost 3.5× less than returns.</p>
+<div class="vg-card-head"><div class="vg-chan"><i class="ic-r">%</i><h2 class="vg-card-title">Discounts and promo codes · <span data-draw="selName">all period</span></h2></div></div>
+<p class="vg-summary" style="font-size:14px;margin:0" data-read lang="en">A promo code was used in <b data-draw="num" data-by-month data-source="disc_sum" data-field="code_orders" data-fmt="int">—</b> orders out of <b data-draw="num" data-by-month data-source="disc_sum" data-field="orders" data-fmt="int">—</b> (<b data-draw="num" data-by-month data-source="disc_sum" data-field="code_share" data-fmt="pct">—</b>). The shared VIGO5 code alone — in <b data-draw="num" data-by-month data-source="disc_sum" data-field="vigo5_orders" data-fmt="int">—</b> orders. Discounts cost <b data-draw="num" data-by-month data-source="disc_sum" data-field="disc_total" data-fmt="k">—</b> — <b data-draw="num" data-by-month data-source="disc_sum" data-field="disc_pct" data-fmt="pct">—</b> of gross sales.</p>
 <div class="vg-tablewrap">
-<table class="vg-table" data-source="disc_type_v" data-row-key="code_type">
+<table class="vg-table" data-source="disc_type_v" data-row-key="code_type" data-by-month>
 <thead><tr><th data-field="code_type">Code type</th><th data-field="orders" data-fmt="int">Orders</th><th data-field="share" data-fmt="pct">Share of orders</th><th data-field="gross" data-fmt="money">Gross sales</th><th data-field="discounts" data-fmt="money">Discount amount</th><th data-field="disc_pct" data-fmt="pct">Discount rate</th><th data-field="net" data-fmt="money">Net sales</th></tr></thead>
 <tbody data-draw="tbl"></tbody>
 </table>
 </div>
-<div class="vg-insight"><b>Takeaway.</b> Discounts equal 3.9% of D2C gross sales. Their effect on incremental orders and profit has not yet been measured. A promo code was used in 38.9% of D2C orders, VIGO5 in 126. Public promo codes are also used via coupon and cashback sites (21 orders); current data doesn't show what share of these orders is incremental. Partner codes bring a measurable volume — 73 orders worth $43.6K of gross sales, but assessing acquisition cost requires accounting for the discount, partner commissions and sales incrementality.</div>
+<div class="vg-insight"><b>Takeaway</b><ul class="vg-ins"><li><b>All period:</b> discounts are 4.0% of gross sales; a promo code was used in 39.2% of D2C orders, VIGO5 in 134. Coupon and cashback sites — 23 orders, partner codes — 82 orders worth $51.1K of gross sales.</li><li><b>Nov 12–18 vs Nov 1–11:</b> orders with a code 41.3% → 42.9%, discounts 4.7% → 4.9% of gross; the VIGO5 share fell (17.5% → 12.7% of orders). New codes: VIGOBF10 (1 order), CHELSEA10 (3 orders).</li><li><b>What to do:</b> for BFCM — one public code with no stacking; track partner codes separately, including commission.</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Orders with a promo code", "code_share", "pct", "pp", "none"], ["Discounts ÷ gross", "disc_pct", "pct", "pp", "down"], ["Share of orders with VIGO5", "vigo5_share", "pct", "pp", "none"]]'></div>
 <details class="vg-more"><summary>All codes and notes</summary><div class="vg-more-body">
-<h3 class="vg-card-sub" style="margin:0">Codes · all period</h3>
+<h3 class="vg-card-sub" style="margin:0">Codes · <span data-draw="selName">all period</span></h3>
 <div class="vg-tablewrap">
-<table class="vg-table" data-source="disc_code_v" data-row-key="code">
+<table class="vg-table" data-source="disc_code_v" data-row-key="code" data-by-month>
 <thead><tr><th data-field="code">Code</th><th data-field="code_type">Type</th><th data-field="orders" data-fmt="int">Orders</th><th data-field="gross" data-fmt="money">Gross sales</th><th data-field="discounts" data-fmt="money">Discount amount</th><th data-field="disc_pct" data-fmt="pct">Discount rate</th><th data-field="net" data-fmt="money">Net sales</th></tr></thead>
 <tbody data-draw="tbl"></tbody>
 </table>
@@ -457,23 +504,51 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 </div>
 </section>
 
+<section class="vg-card" id="media">
+<div class="vg-card-head"><h2 class="vg-card-title">Ads: media buyer recommendations · before and after BFCM</h2><span class="vg-note">based on data through November 18</span></div>
+<div class="vg-insight"><b>BFCM week budget</b><ul class="vg-ins"><li><b>Now:</b> ≈$256/day — Google $193, Meta $57, Microsoft $6. Shopify ROAS for Nov 12–18 — 3.09×, ROMI −7%.</li><li><b>Proposed for Nov 24 — Dec 1:</b> ≈$305/day (+20%) — Google $240 (brand $65, PMax TOP20 $135, Shopping $20, other PMax $20), Microsoft $25, Meta $40.</li><li><b>Logic:</b> money goes where Shopify ROAS is above or close to the 3.33× break-even (Google brand, PMax, Microsoft PMax); Meta stays at a minimum until tags and incrementality are checked. Amounts are guidelines: check with the PPC team before changing the accounts.</li></ul></div>
+<div class="vg-tablewrap">
+<table class="vg-table vg-media">
+<thead><tr><th>#</th><th>What to do</th><th>Why — numbers</th><th>How</th><th>Guardrail / KPI</th><th>When</th></tr></thead>
+<tbody>
+<tr class="vg-group-row"><td colspan="6">Google Ads</td></tr>
+<tr><td>1<br><span class="vg-prio tone-bad">High</span></td><td class="vg-m-what">Brand Search: protect the brand during BFCM</td><td class="vg-m-why">Nov 12–18 — 4 orders worth $2.8K, 6.8× ROAS; Nov 1–11 — 0 orders on $568. Competitors bid on brand during BFCM week.</td><td>Brand impression share target ≥90% with a max CPC cap; a Promotion asset with the BFCM offer; separate sitelinks for doors and tub doors.</td><td class="vg-m-kpi">CPC no more than November +30%; Shopify ROAS ≥3.33×</td><td>by 11/24</td></tr>
+<tr><td>2<br><span class="vg-prio tone-bad">High</span></td><td class="vg-m-what">PMax TOP20 (tROAS 300%): keep tROAS, raise budget +25–30% for Nov 26 — Dec 1 and set a seasonality adjustment</td><td class="vg-m-why">Account — 3.89× for Nov 12–18, Shopify PMax & Shopping — 2.89×. Changing tROAS in peak week restarts learning; a seasonality adjustment (+20–30% expected conversion rate for Nov 27 — Dec 1) raises bids only on those days.</td><td>Budget ≈$135/day; seasonality adjustment under Tools → Bidding → Adjustments; revisit tROAS after Dec 2.</td><td class="vg-m-kpi">Shopify PMax ROAS ≥2.5× over 3 days</td><td>by 11/25</td></tr>
+<tr><td>3<br><span class="vg-prio tone-bad">High</span></td><td class="vg-m-what">Consolidate weak PMax into TOP20</td><td class="vg-m-why">Medium income — 0 conversions on $237 for the week, Competitor Audiences — 1 conversion on $154. Three PMax campaigns share ≈$130/day: under 30 conversions per campaign a month, so automated bidding is unstable.</td><td>Move Medium income and Competitor budgets into TOP20; add competitor audience signals to TOP20 as an asset group.</td><td class="vg-m-kpi">TOP20 conversions don’t drop after the move</td><td>by 11/22</td></tr>
+<tr><td>4<br><span class="vg-prio tone-warn">Medium</span></td><td class="vg-m-what">Shopping “Low performers from PMax”: fund through BFCM</td><td class="vg-m-why">New campaign: $31 and 3 conversions worth $2.3K in the account for the week — the sample is small.</td><td>$15–20/day; judge by Shopify orders, not the account.</td><td class="vg-m-kpi">0 Shopify orders in 7 days — move products back to PMax</td><td>from 11/21</td></tr>
+<tr><td>5<br><span class="vg-prio tone-bad">High</span></td><td class="vg-m-what">Merchant Center: promotions and sale price</td><td class="vg-m-why">Doors and tub doors are the main ad categories; the “Special offer” badge in Shopping and PMax lifts CTR without higher bids.</td><td>Merchant promotions with the BFCM code; sale_price with start and end dates.</td><td class="vg-m-kpi">Promotions approved before launch</td><td>by 11/24</td></tr>
+<tr><td>6<br><span class="vg-prio tone-bad">High</span></td><td class="vg-m-what">Fix conversion tracking before the peak</td><td class="vg-m-why">The account reports 1.4× more value than Shopify; the Google tag and Shopify link are flagged “URGENT”.</td><td>Resolve “URGENT”, turn on Enhanced conversions, check the new-customer value in the conversion goal.</td><td class="vg-m-kpi">Account vs Shopify gap ≤1.2×</td><td>by 11/21</td></tr>
+<tr class="vg-group-row"><td colspan="6">Meta Ads</td></tr>
+<tr><td>7<br><span class="vg-prio tone-bad">High</span></td><td class="vg-m-what">Cut down to one sales setup at ≤$40/day</td><td class="vg-m-why">$877 and 0 Shopify orders in November; 0.32× Shopify ROAS for the period. Traffic Boosts: 144 clicks for $69 and 0 purchases; retargeting frequency 4.5 per week.</td><td>Switch off Traffic Boosts; retargeting — 30-day window, frequency cap; keep Advantage+ Sales with the catalog and BFCM creatives.</td><td class="vg-m-kpi">Shopify ROAS (7-day click) ≥1.5× per week</td><td>by 11/22</td></tr>
+<tr><td>8<br><span class="vg-prio tone-bad">High</span></td><td class="vg-m-what">Check UTM tags</td><td class="vg-m-why">The account shows 3 click-through purchases for Nov 12–18 (Builders and Design/Home), Shopify shows 0 orders with a visit from Meta.</td><td>URL parameters on Builders and Design/Home ads; a test click and order check in Shopify.</td><td class="vg-m-kpi">Orders with the Meta tag visible in Shopify</td><td>by 11/21</td></tr>
+<tr><td>9<br><span class="vg-prio tone-warn">Medium</span></td><td class="vg-m-what">After BFCM — an incrementality test</td><td class="vg-m-why">Almost all account purchases are view-through; without a test we don’t know whether Meta brings new buyers.</td><td>Conversion Lift or a geo holdout for 2–3 weeks; restore budget only based on the result.</td><td class="vg-m-kpi">Order lift in the test group</td><td>December</td></tr>
+<tr class="vg-group-row"><td colspan="6">Microsoft Ads</td></tr>
+<tr><td>10<br><span class="vg-prio tone-bad">High</span></td><td class="vg-m-what">Restore spend before BFCM</td><td class="vg-m-why">Spend dropped from $30 to $6/day; for the period PMax is at 4.25× by Shopify, better than Google PMax. Shopping is paused but spent $4.87.</td><td>PMax $15/day, brand $5–8 with a CPC cap; find the cause of the drop (budget, bids, disapprovals); check Shopping status; import promotions from Google Ads.</td><td class="vg-m-kpi">Shopify PMax ROAS ≥3.33×</td><td>by 11/24</td></tr>
+<tr class="vg-group-row"><td colspan="6">All channels</td></tr>
+<tr><td>11<br><span class="vg-prio tone-bad">High</span></td><td class="vg-m-what">Budget rule for BFCM week</td><td class="vg-m-why">Break-even at a 30% margin is a 3.33× ROAS; all ads for Nov 12–18 — 3.09×.</td><td>Check each channel’s 3-day Shopify ROAS daily: below 2.5× three days in a row — −20% budget; above 3.33× — +20%.</td><td class="vg-m-kpi">Daily report Nov 24 — Dec 2</td><td>11/24–12/2</td></tr>
+<tr><td>12<br><span class="vg-prio tone-warn">Medium</span></td><td class="vg-m-what">After BFCM: separate brand demand and measure cohort ROMI</td><td class="vg-m-why">PMax partly captures brand traffic; first-order ROMI ignores repeat purchases.</td><td>Brand exclusions in PMax; retarget BFCM visitors in December; ROMI by 90/180-day cohorts.</td><td class="vg-m-kpi">Non-brand PMax ROAS ≥3.33×</td><td>December</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
 <section class="vg-card" id="recs">
-<div class="vg-card-head"><h2 class="vg-card-title">Conclusions and recommendations</h2><span class="vg-note">static data snapshot as of November 12 · plan updated November 14 · Microsoft Ads added November 17 · before BFCM on November 27</span></div>
-<div class="vg-insight" id="summary"><b>Summary.</b> D2C Net Sales for August 1 — November 11 were $300.7K on 749 orders.<br>For September 2 — November 11, Shopify last-click attributed $31.8K of orders to Google, Meta and Microsoft on $14.7K spend — a 2.17× ROAS. Under the working assumption of a 30% margin, estimated gross profit is $9.5K and the result after media spend is −$5.1K. This is an attribution-based estimate, not a proven incremental effect.<br>Google shows a 2.76× ROAS, but at a 30% margin the first order does not yet cover paid CAC. Meta shows a 0.36× ROAS and should be used only for limited tests. Microsoft Ads shows a 2.57× ROAS, with the best result in PMax (4.34×).<br>Main D2C growth levers: correct attribution, the mobile path to the cart, fewer shower-enclosure returns, promo-code control and a cohort analysis of repeat purchases.</div>
+<div class="vg-card-head"><h2 class="vg-card-title">Conclusions and recommendations</h2><span class="vg-note">static data snapshot as of November 19 · plan updated November 14 · Microsoft Ads added November 17 · week of November 12–18 added November 19 · before BFCM on November 27</span></div>
+<div class="vg-insight" id="summary"><b>Summary.</b> D2C Net Sales for August 1 — November 18 were $328.3K on 812 orders.<br><b>Week of November 12–18:</b> $27.6K on 63 orders — 24% more per day than November 1–11; site conversion 0.75% — the best of the whole period. Ads: $1.79K spend, Shopify last-click — $5.5K (3.09× ROAS), all from Google; Meta and Microsoft brought no orders.<br>For September 2 — November 18, Shopify last-click attributed $37.4K of orders to Google, Meta and Microsoft on $16.5K spend — a 2.27× ROAS. Under the working assumption of a 30% margin, estimated gross profit is $11.2K and the result after media spend is −$5.3K. This is an attribution-based estimate, not a proven incremental effect.<br>Google shows a 2.94× ROAS, but at a 30% margin the first order does not yet cover paid CAC. Meta shows a 0.32× ROAS and should be used only for limited tests. Microsoft Ads shows a 2.53× ROAS, with the best result in PMax (4.25×).<br>Main D2C growth levers: correct attribution, the mobile path to the cart, fewer shower-enclosure returns, promo-code control and a cohort analysis of repeat purchases.</div>
 <h3 class="vg-card-sub">Key points</h3>
 <div class="vg-recs" style="grid-template-columns:1fr">
 <ol>
-<li><b>D2C sales.</b> D2C Net Sales for August 1 — November 11 were $300.7K on 749 orders. Shopify is the primary source for actual D2C sales.</li>
-<li><b>Funnel.</b> Of 114,867 site-wide visits, 649 ended in a purchase, corresponding to a 0.57% site conversion rate. Session data covers the whole site and is not filtered by customer type.</li>
-<li><b>Attribution.</b> By Shopify last-click attribution, Direct and Organic Search account for 61.8% of D2C order value. This figure includes some untagged paid traffic and does not represent pure organic contribution.</li>
-<li><b>Paid ads.</b> For September 2 — November 11, Shopify last-click attribution assigned $31.8K of order value to Google, Meta and Microsoft on $14.7K spend, corresponding to a 2.17× ROAS. At an assumed 30% margin, estimated gross profit is $9.5K and contribution after media spend is −$5.1K. This is an attribution-based estimate, not a measure of incrementality.</li>
-<li><b>Google Ads.</b> Shopify last-click attribution assigned 43 orders worth $23.4K to Google Ads on $8.49K spend, corresponding to a 2.76× ROAS. Of these, 41 were new customers at a paid CAC of $207. At an assumed 30% margin, average first-order gross profit is approximately $159, so first-order contribution does not cover acquisition cost.</li>
-<li><b>Meta Ads.</b> Shopify last-click attribution assigned 3 orders worth $1.23K to Meta Ads on $3.41K spend, corresponding to a 0.36× ROAS. Until results improve or incrementality is demonstrated, Meta should remain limited to controlled D2C tests.</li>
-<li><b>Microsoft Ads.</b> Shopify last-click attribution assigned 16 orders worth $7.15K to Microsoft Ads on $2.79K spend — a 2.57× ROAS, CPA $174. All 16 are new customers; at an assumed 30% margin the first order brings about $134 of gross profit, less than the acquisition cost. Best result — PMax (4.34×); Shopping — 0.40× (paused now).</li>
-<li><b>Categories.</b> Shower doors are the largest category by gross sales and ad-attributed order value. For shower enclosures, returns processed in the period equal 52.3% of gross sales, but this is not a cohort return rate.</li>
-<li><b>Mobile.</b> On mobile, 1.7% of visits add to cart versus 2.6% on desktop. The main CRO opportunity is before the cart step, but product pages, category pages, landing pages, speed and session recordings should be reviewed before selecting a solution.</li>
-<li><b>Repeat purchases.</b> Over 103 days returning customers placed 60 of 749 D2C orders, or 8.0%. This period is too short to assess LTV; a cohort analysis over 90, 180 and 365 days is required.</li>
-<li><b>Promo codes.</b> A promo code was used in 38.9% of D2C orders, and discounts equal 3.9% of gross sales. Evaluate public and partner codes using discounts, commissions, incremental sales and contribution profit.</li>
+<li><b>D2C sales.</b> D2C Net Sales for August 1 — November 18 were $328.3K on 812 orders; for November 12–18 — $27.6K on 63 orders. Shopify is the primary source for actual D2C sales.</li>
+<li><b>Funnel.</b> Of 122,382 site-wide visits, 705 ended in a purchase, corresponding to a 0.58% site conversion rate; for November 12–18 — 0.75%. Session data covers the whole site and is not filtered by customer type.</li>
+<li><b>Attribution.</b> By Shopify last-click attribution, Direct and Organic Search account for 61.0% of D2C order value. This figure includes some untagged paid traffic and does not represent pure organic contribution.</li>
+<li><b>Paid ads.</b> For September 2 — November 18, Shopify last-click attribution assigned $37.4K of order value to Google, Meta and Microsoft on $16.5K spend, corresponding to a 2.27× ROAS. At an assumed 30% margin, estimated gross profit is $11.2K and contribution after media spend is −$5.3K. This is an attribution-based estimate, not a measure of incrementality.</li>
+<li><b>Google Ads.</b> Shopify last-click attribution assigned 52 orders worth $29.0K to Google Ads on $9.84K spend, corresponding to a 2.94× ROAS (4.09× for November 12–18). Of these, 49 were new customers at a paid CAC of $201. At an assumed 30% margin, average first-order gross profit is approximately $166, so first-order contribution does not cover acquisition cost.</li>
+<li><b>Meta Ads.</b> Shopify last-click attribution assigned 3 orders worth $1.23K to Meta Ads on $3.80K spend, corresponding to a 0.32× ROAS; none in November. Until results improve or incrementality is demonstrated, Meta should remain limited to controlled D2C tests.</li>
+<li><b>Microsoft Ads.</b> Shopify last-click attribution assigned 16 orders worth $7.15K to Microsoft Ads on $2.83K spend — a 2.53× ROAS, CPA $177. All 16 are new customers; at an assumed 30% margin the first order brings about $134 of gross profit, less than the acquisition cost. Best result — PMax (4.25×); Shopping — 0.40× (paused). For November 12–18 — $42 spend, no orders.</li>
+<li><b>Categories.</b> Shower doors are the largest category by gross sales and ad-attributed order value. For shower enclosures, returns processed in the period equal 51.7% of gross sales, but this is not a cohort return rate.</li>
+<li><b>Mobile.</b> On mobile, 1.8% of visits add to cart versus 2.6% on desktop. The main CRO opportunity is before the cart step, but product pages, category pages, landing pages, speed and session recordings should be reviewed before selecting a solution.</li>
+<li><b>Repeat purchases.</b> Over 110 days returning customers placed 67 of 812 D2C orders, or 8.3%. This period is too short to assess LTV; a cohort analysis over 90, 180 and 365 days is required.</li>
+<li><b>Promo codes.</b> A promo code was used in 39.2% of D2C orders, and discounts equal 4.0% of gross sales; in November the share of orders with a code rose to 41–43%. Evaluate public and partner codes using discounts, commissions, incremental sales and contribution profit.</li>
 <li><b>Next steps.</b> Confirm the D2C order scope (including the $3.0K manual order), confirm margin and cost of goods, fix UTM attribution, optimize the mobile path to the cart, build a cohort returns report and assess D2C customer LTV.</li>
 </ol>
 </div>
@@ -484,30 +559,30 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <thead><tr><th>№</th><th>What to do</th><th>Why — the numbers</th><th>Expected result</th><th>Deadline</th><th>Owner</th><th>Status</th></tr></thead>
 <tbody>
 <tr class="vg-group-row"><td colspan="7">Google Ads</td></tr>
-<tr><td>1<br><span class="vg-prio tone-bad">High</span></td><td class="vg-rec-what">Decide with the PPC team whether separate Shopping campaigns on the new Merchant Center are needed before BFCM, and resolve the “URGENT” flags on the Google tag and the Shopify link in Google Ads<br><span class="vg-src">“Discounts and value” plan</span></td><td class="vg-rec-why">Merchant Center “VIGO Industries” has been linked to Google Ads since September 9, and products show through PMax. Only the old pre-Netpeak campaigns are paused — 2 Shopping and 4 PMax: they point to the previous, unlinked Merchant Center. Shopify recorded 11 orders with the Google Shopping tag in October and 2 for November 1–11. The periods have different lengths, so this is a signal to check Merchant Center (product errors, free listings), not a proven decline. Another 11 October orders were assigned to PMax by GA4 — they are counted separately under Google Ads. The Google tag and the “Shopify: VIGO” link in Data manager are flagged “URGENT” — this may break conversion tracking.</td><td class="vg-rec-eff">Product ads run during peak season; Google receives correct purchase data, and PMax bids on the right conversions.</td><td class="vg-rec-when">by 11/20</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">open</td></tr>
+<tr><td>1<br><span class="vg-prio tone-bad">High</span></td><td class="vg-rec-what">Decide with the PPC team whether separate Shopping campaigns on the new Merchant Center are needed before BFCM, and resolve the “URGENT” flags on the Google tag and the Shopify link in Google Ads<br><span class="vg-src">“Discounts and value” plan</span></td><td class="vg-rec-why">Merchant Center “VIGO Industries” has been linked to Google Ads since September 9, and products show through PMax. Only the old pre-Netpeak campaigns are paused — 2 Shopping and 4 PMax: they point to the previous, unlinked Merchant Center. Shopify recorded 11 orders with the Google Shopping tag in October, 2 for November 1–11 and 1 for November 12–18. The periods have different lengths, so this is a signal to check Merchant Center (product errors, free listings), not a proven decline. Another 11 October orders were assigned to PMax by GA4 — they are counted separately under Google Ads. The Google tag and the “Shopify: VIGO” link in Data manager are flagged “URGENT” — this may break conversion tracking.</td><td class="vg-rec-eff">Product ads run during peak season; Google receives correct purchase data, and PMax bids on the right conversions.</td><td class="vg-rec-when">by 11/20</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">open</td></tr>
 <tr><td>2<br><span class="vg-prio tone-bad">High</span></td><td class="vg-rec-what">Move UTM tags from the tracking template to the final URL suffix — in Google and Microsoft Ads<br><span class="vg-src">“Discounts and value” plan</span></td><td class="vg-rec-why">Tags barely reach the site now: Shopify sees Google ads as search or direct visits. Direct visits follow PMax clicks: −110 a day when PMax was stopped in September, and +59 when it was restarted. Without tags, discount tests can't be measured.</td><td class="vg-rec-eff">Accurate ad order tracking right in Shopify, independent of GA4. Direct and search in reports become “clean”.</td><td class="vg-rec-when">by 11/15</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">open</td></tr>
-<tr><td>3<br><span class="vg-prio tone-bad">High</span></td><td class="vg-rec-what">Reallocate part of the Meta budget to a controlled Google PMax test (Competitor Audiences and Top 20%, Shower Doors groups). Set a limited budget, minimum order-volume requirement and Shopify-attributed ROAS guardrail. Review the test after sufficient conversion volume is collected</td><td class="vg-rec-why">By Shopify last-click, each $1 of Google spend corresponds to $2.76 of order value. However, at a 30% margin the estimated gross profit of the first order does not cover media spend. PMax in November — 3.2×; Meta — 0.4×. Doors are the main ad category: $16.9K of order value is attributed to it. Meta test budgets from 12/1 (row 10) are separate.</td><td class="vg-rec-eff">Determine whether incremental Google spend maintains order volume and approaches the confirmed break-even ROAS.</td><td class="vg-rec-when">by 11/15</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">open</td></tr>
-<tr><td>4<br><span class="vg-prio tone-bad">High</span></td><td class="vg-rec-what">After the margin is confirmed, test gradual target-ROAS increases in PMax Top 20% (300% → 350% → 400% …). Use Shopify-attributed ROAS, order volume and contribution after media spend as guardrails</td><td class="vg-rec-why">A new Google customer costs $207, while the first order brings ≈$159 of gross profit at a 30% margin; break-even is 3.3×. The account has reported 1.4× more value than Shopify attribution: 300% in the account ≈ 2.1× in Shopify. The historical 1.4× difference between Google-reported and Shopify-attributed value does not guarantee that a 450% account target will produce a 3.3× Shopify ROAS. A sharp increase would cut impressions, so go step by step.</td><td class="vg-rec-eff">Shows whether Shopify ROAS rises without losing volume; if orders drop noticeably while ROAS doesn't rise, return to the previous step.</td><td class="vg-rec-when">350% — after the margin is confirmed, by 11/20; then every 2 weeks</td><td class="vg-rec-own">PPC (Netpeak), VIGO — margin</td><td class="vg-rec-stat">open</td></tr>
+<tr><td>3<br><span class="vg-prio tone-bad">High</span></td><td class="vg-rec-what">Reallocate part of the Meta budget to a controlled Google PMax test (Competitor Audiences and Top 20%, Shower Doors groups). Set a limited budget, minimum order-volume requirement and Shopify-attributed ROAS guardrail. Review the test after sufficient conversion volume is collected</td><td class="vg-rec-why">By Shopify last-click, each $1 of Google spend corresponds to $2.94 of order value. However, at a 30% margin the estimated gross profit of the first order does not cover media spend. PMax and Shopping in November — 3.1× (November 1–11 3.2×, November 12–18 2.9×); Meta — 0.3× for the whole period and no orders in November. Doors are the main ad category: $19.3K of order value is attributed to it. Meta test budgets from 12/1 (row 10) are separate.</td><td class="vg-rec-eff">Determine whether incremental Google spend maintains order volume and approaches the confirmed break-even ROAS.</td><td class="vg-rec-when">by 11/15</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">open</td></tr>
+<tr><td>4<br><span class="vg-prio tone-bad">High</span></td><td class="vg-rec-what">After the margin is confirmed, test gradual target-ROAS increases in PMax Top 20% (300% → 350% → 400% …). Use Shopify-attributed ROAS, order volume and contribution after media spend as guardrails</td><td class="vg-rec-why">A new Google customer costs $201, while the first order brings ≈$166 of gross profit at a 30% margin; break-even is 3.3×. The account has reported 1.4× more value than Shopify attribution: 300% in the account ≈ 2.1× in Shopify. The historical 1.4× difference between Google-reported and Shopify-attributed value does not guarantee that a 450% account target will produce a 3.3× Shopify ROAS. A sharp increase would cut impressions, so go step by step.</td><td class="vg-rec-eff">Shows whether Shopify ROAS rises without losing volume; if orders drop noticeably while ROAS doesn't rise, return to the previous step.</td><td class="vg-rec-when">350% — after the margin is confirmed, by 11/20; then every 2 weeks</td><td class="vg-rec-own">PPC (Netpeak), VIGO — margin</td><td class="vg-rec-stat">open</td></tr>
 <tr><td>5<br><span class="vg-prio tone-bad">High</span></td><td class="vg-rec-what">Black Friday creatives in Google: PMax assets and ads with the BF −7% code<br><span class="vg-src">“Discounts and value” plan</span></td><td class="vg-rec-why">Under the “Discounts and value” plan one −7% code works on BF; ads should promote the same code as emails and the site.</td><td class="vg-rec-eff">One message across all channels; BF code orders visible separately.</td><td class="vg-rec-when">by 11/26</td><td class="vg-rec-own">PPC, creative</td><td class="vg-rec-stat">open</td></tr>
-<tr><td>6<br><span class="vg-prio tone-warn">Medium</span></td><td class="vg-rec-what">Brand Search: test a lower CPC cap, don't raise the budget</td><td class="vg-rec-why">Brand is 20% of Google spend — people already searching for VIGO. $568 in November and no orders by Shopify last-click yet.</td><td class="vg-rec-eff">Monitor total branded paid and organic clicks, Shopify-attributed orders and branded order value. Do not assume that reducing brand spend will have no effect on sales.</td><td class="vg-rec-when">now</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">open</td></tr>
-<tr><td>7<br><span class="vg-prio tone-warn">Medium</span></td><td class="vg-rec-what">PMax Medium income: don't switch off, review in 2 weeks</td><td class="vg-rec-why">1.1× in October, 4.2× in November — but that's only 2 orders, a small sample.</td><td class="vg-rec-eff">Don't lose a campaign that has started working.</td><td class="vg-rec-when">26.11</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">open</td></tr>
-<tr><td>8<br><span class="vg-prio tone-warn">Medium</span></td><td class="vg-rec-what">Panels: a controlled test — a separate PMax asset group with a limited budget and feed priority; after BFCM — ads for bundles<br><span class="vg-src">“Discounts and value” plan</span></td><td class="vg-rec-why">Panels are 9% of gross sales with 8.5% returns in the period, but only 5% of panel order value is attributed to ads. In the Matte Black Bath bundle, the Ellington panel comes with a door at 10% off (row 14).</td><td class="vg-rec-eff">Panels are a candidate for a controlled PMax test: check whether ads can grow a low-return category with an AOV of ≈$430. This is a hypothesis, not a confirmed growth opportunity.</td><td class="vg-rec-when">by 11/20; bundles — from 12/1</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">open</td></tr>
+<tr><td>6<br><span class="vg-prio tone-warn">Medium</span></td><td class="vg-rec-what">Brand Search: test a lower CPC cap, don't raise the budget</td><td class="vg-rec-why">Brand is 21% of Google spend — people already searching for VIGO. November 1–11: $568 and no orders by Shopify last-click; November 12–18: $416 and 4 orders worth $2.8K (6.8×).</td><td class="vg-rec-eff">Monitor total branded paid and organic clicks, Shopify-attributed orders and branded order value. Do not assume that reducing brand spend will have no effect on sales.</td><td class="vg-rec-when">now</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">open</td></tr>
+<tr><td>7<br><span class="vg-prio tone-warn">Medium</span></td><td class="vg-rec-what">PMax Medium income: don't switch off, review in 2 weeks</td><td class="vg-rec-why">1.1× in October, 4.2× for November 1–11 (only 2 orders), 0 conversions on $237 spend for November 12–18; a small sample.</td><td class="vg-rec-eff">Don't lose a campaign that has started working.</td><td class="vg-rec-when">26.11</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">open</td></tr>
+<tr><td>8<br><span class="vg-prio tone-warn">Medium</span></td><td class="vg-rec-what">Panels: a controlled test — a separate PMax asset group with a limited budget and feed priority; after BFCM — ads for bundles<br><span class="vg-src">“Discounts and value” plan</span></td><td class="vg-rec-why">Panels are 9% of gross sales with 9.1% returns in the period, but only 6% of panel order value is attributed to ads. In the Matte Black Bath bundle, the Ellington panel comes with a door at 10% off (row 14).</td><td class="vg-rec-eff">Panels are a candidate for a controlled PMax test: check whether ads can grow a low-return category with an AOV of ≈$430. This is a hypothesis, not a confirmed growth opportunity.</td><td class="vg-rec-when">by 11/20; bundles — from 12/1</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">open</td></tr>
 <tr class="vg-group-row"><td colspan="7">Meta Ads</td></tr>
-<tr><td>9<br><span class="vg-prio tone-bad">High</span></td><td class="vg-rec-what">Switch off Traffic Boosts, Advantage Offers and the video1_bathroom retargeting</td><td class="vg-rec-why">Not a single click-through purchase. In November all of Meta — $480 and 0 orders in Shopify; meanwhile the account shows 13× thanks to view-through purchases.</td><td class="vg-rec-eff">Frees up ≈$45 a day for Google.</td><td class="vg-rec-when">by 11/15</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">open</td></tr>
+<tr><td>9<br><span class="vg-prio tone-bad">High</span></td><td class="vg-rec-what">Switch off Traffic Boosts, Advantage Offers and the video1_bathroom retargeting</td><td class="vg-rec-why">No click-through purchases until November 11; for November 12–18 the account counted 3 click-through purchases (Builders and Design/Home), but Shopify has no orders from Meta. In November all of Meta — $877 and 0 orders in Shopify; meanwhile the account shows 13× thanks to view-through purchases.</td><td class="vg-rec-eff">Frees up ≈$45 a day for Google.</td><td class="vg-rec-when">by 11/15</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">open</td></tr>
 <tr><td>10<br><span class="vg-prio tone-warn">Medium</span></td><td class="vg-rec-what">From 12/1 — a 50/50 A/B test: no-discount creatives (“before and after”, finish choice, measuring, reviews) versus discount ones; 6–8 new creatives by 11/30<br><span class="vg-src">“Discounts and value” plan</span></td><td class="vg-rec-why">13 of 16 active VIGO ads are built on a discount. By click Meta brings ≈1 order a month, so we decide by cost per add-to-cart (no-discount — no more than 120% of the discount version) and by Shopify orders, not by the account.</td><td class="vg-rec-eff">An answer to whether VIGO sells without a discount. If yes — discounts in ads only during promotions.</td><td class="vg-rec-when">creatives 11/30; test 12/1–12/20</td><td class="vg-rec-own">PPC, creative</td><td class="vg-rec-stat">open</td></tr>
 <tr class="vg-group-row"><td colspan="7">Microsoft Ads</td></tr>
-<tr><td>11<br><span class="vg-prio tone-warn">Medium</span></td><td class="vg-rec-what">Discuss the Microsoft Ads budget with PPC: prioritize PMax; don't restart Shopping in its current form; for Brand Search — control the max CPC, as in Google</td><td class="vg-rec-why">For September 2 — November 11: $2.79K spend, 16 orders worth $7.15K, 2.57× Shopify ROAS. PMax — 4.34× on $928, Brand — 2.09× on 42% of spend, Shopping — 0.40× on $697.</td><td class="vg-rec-eff">More budget where ads pay back by Shopify attribution; this is a last-click estimate, not proven incremental lift.</td><td class="vg-rec-when">by 11/27</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">open</td></tr>
+<tr><td>11<br><span class="vg-prio tone-warn">Medium</span></td><td class="vg-rec-what">Discuss the Microsoft Ads budget with PPC: prioritize PMax; don't restart Shopping in its current form; for Brand Search — control the max CPC, as in Google</td><td class="vg-rec-why">For September 2 — November 18: $2.83K spend, 16 orders worth $7.15K, 2.53× Shopify ROAS. PMax — 4.25× on $947, Brand — 2.06× on 42% of spend, Shopping — 0.40× on $702. For November 12–18 spend was only $42, with no orders.</td><td class="vg-rec-eff">More budget where ads pay back by Shopify attribution; this is a last-click estimate, not proven incremental lift.</td><td class="vg-rec-when">by 11/27</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">open</td></tr>
 <tr class="vg-group-row"><td colspan="7">Discounts and promo codes</td></tr>
-<tr><td>12<br><span class="vg-prio tone-bad">High</span></td><td class="vg-rec-what">Create a BF −7% code with no stacking for 11/27–12/1 and close HALLOWEEN7; pause TAKE10, NEW10 and VIGOTAKE10 on those days; BF code in abandoned cart emails<br><span class="vg-src">“Discounts and value” plan</span></td><td class="vg-rec-why">Only one code works per order, and the shopper picks the best one: −10% instead of −7%. 39% of D2C orders use a promo code; public codes are also used via coupon and cashback sites — 21 orders worth $10.5K came from there; the data doesn't show what share of these orders is incremental.</td><td class="vg-rec-eff">BF order margin ≈25% instead of ≈22%; a separate code shows the promotion's real contribution — review on 12/8.</td><td class="vg-rec-when">decision — urgent; code by 11/20</td><td class="vg-rec-own">VIGO, CRO</td><td class="vg-rec-stat">decision overdue (11/13)</td></tr>
+<tr><td>12<br><span class="vg-prio tone-bad">High</span></td><td class="vg-rec-what">Create a BF −7% code with no stacking for 11/27–12/1 and close HALLOWEEN7; pause TAKE10, NEW10 and VIGOTAKE10 on those days; BF code in abandoned cart emails<br><span class="vg-src">“Discounts and value” plan</span></td><td class="vg-rec-why">Only one code works per order, and the shopper picks the best one: −10% instead of −7%. 39% of D2C orders use a promo code; public codes are also used via coupon and cashback sites — 23 orders worth $12.1K came from there; the data doesn't show what share of these orders is incremental.</td><td class="vg-rec-eff">BF order margin ≈25% instead of ≈22%; a separate code shows the promotion's real contribution — review on 12/8.</td><td class="vg-rec-when">decision — urgent; code by 11/20</td><td class="vg-rec-own">VIGO, CRO</td><td class="vg-rec-stat">decision overdue (11/13)</td></tr>
 <tr><td>13<br><span class="vg-prio tone-bad">High</span></td><td class="vg-rec-what">Fix the abandoned cart flow before BFCM; after — emails without escalating discounts: 1st without a discount, the 2nd with a one-time −5% single-use code<br><span class="vg-src">“Discounts and value” plan</span></td><td class="vg-rec-why">In Shopify, 6 orders over the period were attributed to tagged emails, none in October and November. Shared codes in emails are easy to forward.</td><td class="vg-rec-eff">Recover abandoned carts in BFCM week, when there are the most; afterwards — no reason to wait for a −10% email.</td><td class="vg-rec-when">flow by 11/26; test 12/1–3/2</td><td class="vg-rec-own">Retention</td><td class="vg-rec-stat">open</td></tr>
 <tr><td>14<br><span class="vg-prio tone-warn">Medium</span></td><td class="vg-rec-what">From 12/1 — single-finish bundles: door at regular price, −10% on panel and sink; start with The Matte Black Bath<br><span class="vg-src">“Discounts and value” plan</span></td><td class="vg-rec-why">Currently a faucet, panel or sink is added to a door in 9 of 232 door orders (3.9%). Doors are the main ad product, and ads barely sell panels: a bundle sells them together with the door.</td><td class="vg-rec-eff">≈+$0.5K gross profit a month at +5 bundles; goal — 10% of door orders with an add-on.</td><td class="vg-rec-when">1.12</td><td class="vg-rec-own">CRO, Retention</td><td class="vg-rec-stat">open</td></tr>
-<tr><td>15<br><span class="vg-prio tone-warn">Medium</span></td><td class="vg-rec-what">Develop partner codes (DGILL5, AMANDA10 and others) separately from public ones</td><td class="vg-rec-why">73 orders worth $43.6K with an average discount of 7.5%.</td><td class="vg-rec-eff">A measurable order volume. To assess acquisition cost, account for the discount, partner commissions and sales incrementality.</td><td class="vg-rec-when">December</td><td class="vg-rec-own">VIGO, Lead Marketer</td><td class="vg-rec-stat">open</td></tr>
+<tr><td>15<br><span class="vg-prio tone-warn">Medium</span></td><td class="vg-rec-what">Develop partner codes (DGILL5, AMANDA10 and others) separately from public ones</td><td class="vg-rec-why">82 orders worth $51.1K with an average discount of 7.7%; the CHELSEA10 code was added on November 12–18 (3 orders).</td><td class="vg-rec-eff">A measurable order volume. To assess acquisition cost, account for the discount, partner commissions and sales incrementality.</td><td class="vg-rec-when">December</td><td class="vg-rec-own">VIGO, Lead Marketer</td><td class="vg-rec-stat">open</td></tr>
 <tr><td>16<br><span class="vg-prio tone-good">Later</span></td><td class="vg-rec-what">Test removing the strikethrough price on vessel sinks and shower panels; if profit per visitor holds — prices +3%<br><span class="vg-src">“Discounts and value” plan</span></td><td class="vg-rec-why">A strikethrough price is on 240 of 241 products — shoppers no longer notice it, and it's a legal risk (FTC). A review by VIGO's lawyer is needed before the test.</td><td class="vg-rec-eff">≈+$1.8K a month across the catalog, even if sales drop 3%; negative only if sales drop more than 9%.</td><td class="vg-rec-when">lawyer 1/15; test 1/26–3/16</td><td class="vg-rec-own">VIGO (lawyer), CRO</td><td class="vg-rec-stat">open</td></tr>
 <tr class="vg-group-row"><td colspan="7">Site and conversion</td></tr>
-<tr><td>17<br><span class="vg-prio tone-bad">High</span></td><td class="vg-rec-what">Mobile path to the cart: first check product pages, category pages, landing pages, speed and session recordings; then — “Add to cart” button above the fold with warranty, delivery, dimensions and in-room photos next to it<br><span class="vg-src">“Discounts and value” plan</span></td><td class="vg-rec-why">Mobile is half of visits, but 1.7% add to cart versus 2.6% on desktop; the data shows a problem before the cart but doesn't prove it is on the product page. A warranty line by the button replaces the discount per the plan: delivery and 3/8 in. glass are already on the page.</td><td class="vg-rec-eff">A scenario, not a forecast: with mobile conversion at the desktop level — about 25 more purchases a month (upper estimate).</td><td class="vg-rec-when">by 12/1</td><td class="vg-rec-own">CRO</td><td class="vg-rec-stat">open</td></tr>
-<tr><td>18<br><span class="vg-prio tone-warn">Medium</span></td><td class="vg-rec-what">Walk through the cart and checkout as a shopper: delivery times, final price after discount, promo code field, Shop Pay and PayPal; add “Measuring help” to the “Why shop with VIGO” block for doors and panels<br><span class="vg-src">“Discounts and value” plan</span></td><td class="vg-rec-why">In November 66% of carts reach checkout, versus 78% in September. All other steps in November are the best of the period.</td><td class="vg-rec-eff">A scenario, not a forecast: returning this step to the September level — up to +18% orders on the same traffic.</td><td class="vg-rec-when">review by 11/20; block by 12/1</td><td class="vg-rec-own">CRO</td><td class="vg-rec-stat">open</td></tr>
+<tr><td>17<br><span class="vg-prio tone-bad">High</span></td><td class="vg-rec-what">Mobile path to the cart: first check product pages, category pages, landing pages, speed and session recordings; then — “Add to cart” button above the fold with warranty, delivery, dimensions and in-room photos next to it<br><span class="vg-src">“Discounts and value” plan</span></td><td class="vg-rec-why">Mobile is half of visits, but 1.8% add to cart versus 2.6% on desktop; the data shows a problem before the cart but doesn't prove it is on the product page. A warranty line by the button replaces the discount per the plan: delivery and 3/8 in. glass are already on the page.</td><td class="vg-rec-eff">A scenario, not a forecast: with mobile conversion at the desktop level — about 26 more purchases a month (upper estimate).</td><td class="vg-rec-when">by 12/1</td><td class="vg-rec-own">CRO</td><td class="vg-rec-stat">open</td></tr>
+<tr><td>18<br><span class="vg-prio tone-warn">Medium</span></td><td class="vg-rec-what">Walk through the cart and checkout as a shopper: delivery times, final price after discount, promo code field, Shop Pay and PayPal; add “Measuring help” to the “Why shop with VIGO” block for doors and panels<br><span class="vg-src">“Discounts and value” plan</span></td><td class="vg-rec-why">In both November weeks 66–67% of carts reach checkout, versus 78% in September. All other steps in November are the best of the period.</td><td class="vg-rec-eff">A scenario, not a forecast: returning this step to the September level — about +17% orders on the same traffic.</td><td class="vg-rec-when">review by 11/20; block by 12/1</td><td class="vg-rec-own">CRO</td><td class="vg-rec-stat">open</td></tr>
 <tr class="vg-group-row"><td colspan="7">Returns</td></tr>
-<tr><td>19<br><span class="vg-prio tone-bad">High</span></td><td class="vg-rec-what">Build a cohort returns report by original order date (units sold and returned, amount, reason); record a reason for every shower enclosure return; add measuring instructions to the product page and check the packaging</td><td class="vg-rec-why">For enclosures, returns processed in the period are $27.2K, 43% of all store returns and 52.3% of the category's gross sales for the period; this is not a cohort rate, the period includes returns of older orders. Returns are 4× all discounts.</td><td class="vg-rec-eff">Build the cohort return rate first. After that, estimate the financial effect of reducing returns. Illustrative scenario only: if the cohort rate is confirmed and sales remain unchanged, a 10 pp reduction would correspond to approximately $5.2K less returned value.</td><td class="vg-rec-when">December</td><td class="vg-rec-own">VIGO, Lead Marketer</td><td class="vg-rec-stat">open</td></tr>
+<tr><td>19<br><span class="vg-prio tone-bad">High</span></td><td class="vg-rec-what">Build a cohort returns report by original order date (units sold and returned, amount, reason); record a reason for every shower enclosure return; add measuring instructions to the product page and check the packaging</td><td class="vg-rec-why">For enclosures, returns processed in the period are $27.9K, 43% of all store returns and 51.7% of the category's gross sales for the period; this is not a cohort rate, the period includes returns of older orders. Returns are 4× all discounts.</td><td class="vg-rec-eff">Build the cohort return rate first. After that, estimate the financial effect of reducing returns. Illustrative scenario only: if the cohort rate is confirmed and sales remain unchanged, a 10 pp reduction would correspond to approximately $5.2K less returned value.</td><td class="vg-rec-when">December</td><td class="vg-rec-own">VIGO, Lead Marketer</td><td class="vg-rec-stat">open</td></tr>
 <tr class="vg-group-row"><td colspan="7">Tracking and analytics</td></tr>
 <tr><td>20<br><span class="vg-prio tone-bad">High</span></td><td class="vg-rec-what">From VIGO: cost of goods and margin by category, MAP policy; before BFCM — resolve the “Payouts are paused” banner in Shopify<br><span class="vg-src">“Discounts and value” plan</span></td><td class="vg-rec-why">All figures rely on the 30% margin assumption. Paused payouts during BFCM week are a cash risk.</td><td class="vg-rec-eff">Profit estimates become facts.</td><td class="vg-rec-when">by 11/20</td><td class="vg-rec-own">VIGO</td><td class="vg-rec-stat">open</td></tr>
 <tr><td>21<br><span class="vg-prio tone-warn">Medium</span></td><td class="vg-rec-what">Add an Include in D2C flag to the export and document exclusions, review manual orders; remove duplicate purchases in GA4, check the purchase event on Shop Pay and accelerated checkout, check Shop Campaigns spend in Shopify bills; weekly report on codes and tests<br><span class="vg-src">“Discounts and value” plan</span></td><td class="vg-rec-why">GA4 sees 87% of website orders. 27 orders from the Shop app are marked as Shop Cash cashback — possibly a paid channel with untracked spend.</td><td class="vg-rec-eff">A full picture of D2C channels before the BFCM review on 12/8.</td><td class="vg-rec-when">by 11/20; report — every Monday</td><td class="vg-rec-own">Lead Marketer, analytics</td><td class="vg-rec-stat">open</td></tr>
@@ -517,21 +592,21 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <p class="vg-note">Budget amounts (≈$45 a day, $1,000-a-month tests) and the ≈$200 CPA bar are guidelines based on current data; check them with the team running the ads before changing the accounts. Effects are estimates assuming current metrics hold.</p>
 </section>
 
-<details class="vg-details" id="method">
+<details class="vg-details vg-method" id="method">
 <summary>Methodology and differences between sources</summary>
 <ul>
 <li>Shopify is the main source for sales: net sales = gross − discounts − returns, excluding taxes and shipping.</li>
-<li>End-to-end analytics: Shopify orders are matched to GA4 purchases by order number — GA4 records the Shopify order ID as the transaction ID; all 434 GA4 purchases were found in Shopify. Shopify channel — the last visit before purchase; Shopify last-click for ads — orders that GA4 or a Shopify UTM tag assigned to a paid click. GA4 hasn't processed order sources for November 11 yet, so the Shopify channel is used for them; November ads figures are a lower bound.</li>
+<li>End-to-end analytics: Shopify orders are matched to GA4 purchases by order number — GA4 records the Shopify order ID as the transaction ID; all 492 GA4 purchases for September 2 — November 18 were found in Shopify. Shopify channel — the last visit before purchase; Shopify last-click for ads — orders that GA4 or a Shopify UTM tag assigned to a paid click. 8 orders from November 12–18 have no GA4 purchase (orders without visit data and from the Shop app) — the Shopify channel is used for them.</li>
 <li>Meta Ads — VIGO account, account attribution (7-day click, 1-day view); campaign and ad totals match the account total for each month.</li>
 <li>Google Ads — account 547-029-3556, campaigns by month without predicted value; totals reconciled with the account total. Auto-tagging is on; UTM tags are in the tracking template, the final URL suffix is empty. Conversions for the last few days may still be added.</li>
-<li>Microsoft Ads — VIGO account (G145AJT9), campaigns by month, exported 11/17/2026 in US Eastern time; totals reconciled with the account total. Orders — via GA4 and Shopify tags.</li>
+<li>Microsoft Ads — VIGO account (G145AJT9), campaigns by month, exported 11/17/2026 (week of November 12–18 — 11/19/2026) in US Eastern time; totals reconciled with the account total. Orders — via GA4 and Shopify tags.</li>
 <li>Meta, Google, Microsoft and GA4 claim the same orders, so their revenue can't be added up or compared with Shopify one-to-one. The most reliable overall metrics are MER and Shopify order value.</li>
-<li>This is a one-off snapshot: data was exported from the accounts on 11/12/2026 (Microsoft Ads — 11/17/2026) and does not update automatically.</li>
+<li>This is a one-off snapshot: data was exported from the accounts on 11/12/2026 (Microsoft Ads — 11/17/2026; the week of November 12–18 and updated totals — 11/19/2026) and does not update automatically.</li>
 </ul>
 </details>
 
 </div>
-<p class="vg-foot">Dashboard snapshot as of November 12, 2026. Data: Shopify, GA4, Google Ads, Meta Ads — August 1 — November 11, 2026.</p>
+<p class="vg-foot">Dashboard snapshot as of November 19, 2026. Data: Shopify, GA4, Google Ads, Meta Ads, Microsoft Ads — August 1 — November 18, 2026.</p>
 </main>
 <script>
 (function () {
@@ -550,7 +625,8 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
   };
   window.vgNum = function (v) { var n = +v; return isFinite(n) ? n : 0; };
   window.vgMonth = function () { var p = (window.dash && dash.params && dash.params()) || {}; return p.month || 'all'; };
-  window.vgMonthNames = {all: 'all period, August 1 — November 11', '2026-08': 'August', '2026-09': 'September', '2026-10': 'October', '2026-11': 'November 1–11'};
+  window.vgMonthNames = {all: 'all period, August 1 — November 18', '2026-08': 'August', '2026-09': 'September', '2026-10': 'October', '2026-11': 'November 1–11', '2026-11b': 'November 12–18'};
+  window.vgCmpL = {cmp: 'Comparison', vs: 'vs', metric: 'Metric', change: 'Change', pp: 'pp', allNote: 'all period selected — showing the latest week', first: 'August has no previous period to compare with.', fromZero: 'was 0', num: L.format(',.1f')};
   window.vgTip = function (box) {
     var tip = document.createElement('div');
     tip.className = 'vg-tip';
@@ -609,6 +685,8 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
     });
   });
   window.vgSync = syncButtons;
+  var mb = document.getElementById('method-btn');
+  if (mb) mb.addEventListener('click', function () { var on = document.body.classList.toggle('vg-show-method'); mb.setAttribute('aria-pressed', on ? 'true' : 'false'); });
   try { syncButtons(); } catch (e) {}
 })();
 </script>
@@ -619,9 +697,9 @@ dash.calc('mix', {
   description: 'Заказы Shopify по одному каналу на заказ: реклама — по GA4 (номер заказа совпадает с ID транзакции), остальное — по последнему визиту в журнале Shopify; число заказов и сумма после скидок и возвратов по месяцам, итог и доля суммы. Заказы на $0 (подарки, тесты) — отдельной строкой. Названия каналов — по-английски.',
   inputs: ['xorders'],
   fn: (allOrders) => {
-    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180'];
+    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180', '3186'];
     const orders = allOrders.filter((o) => !B2B.includes(String(o.order)));
-    const months = ['2026-08', '2026-09', '2026-10', '2026-11'];
+    const months = ['2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'];
     const map = {'Google Ads (метка)': 'Google Ads', 'Microsoft Ads': 'Microsoft Ads', 'Meta Ads (метка)': 'Meta Ads', 'Прямые заходы': 'Direct', 'Поиск (органика и реклама без меток)': 'Organic Search', 'Google Shopping (метка фида)': 'Google Shopping (feed tag)*', 'Письма': 'Email', 'AI-ассистенты': 'AI Assistants', 'Купонные и кешбэк-сайты': 'Coupon & Cashback Sites', 'Shop (приложение)': 'Shop App', 'Нет данных о визите': 'Unknown (no visit data)', 'Заказы на $0': '$0 Orders'};
     const chan = (o) => {
       const sm = o.ga4_source_medium || '';
@@ -650,14 +728,14 @@ dash.calc('months', {
   description: 'Для каждого месяца и для всего периода (month = all): продажи, заказы, средний чек, доли возвратов и повторных покупателей, расход Google, Meta и Microsoft, MER, а также ROAS и ROMI по Shopify last-click — заказы Shopify, атрибутированные Google, Meta и Microsoft, ÷ их расход (только сентябрь — 11 ноября: в августе GA4 не работал).',
   inputs: ['shopify', 'meta', 'gads', 'customers', 'xorders', 'msads'],
   fn: (shopify0, meta, gads, customers0, xorders0, msads) => {
-    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180'];
-    const ADJ = {'2026-08': {orders: 6, ret: 2, gross: 665.53, zd: 853.89}, '2026-09': {orders: 13, ret: 0, gross: 2583.63, zd: 907.58}, '2026-10': {orders: 8, ret: 0, gross: 189.9, zd: 0}, '2026-11': {orders: 11, ret: 6, gross: 1131.01, zd: 1705.3}};
+    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180', '3186'];
+    const ADJ = {'2026-08': {orders: 6, ret: 2, gross: 665.53, zd: 853.89}, '2026-09': {orders: 13, ret: 0, gross: 2583.63, zd: 907.58}, '2026-10': {orders: 8, ret: 0, gross: 189.9, zd: 0}, '2026-11': {orders: 11, ret: 6, gross: 1131.01, zd: 1705.3}, '2026-11b': {orders: 3, ret: 1, gross: 139.8, zd: 969.8}};
     const xorders = xorders0.filter((o) => !B2B.includes(String(o.order)));
     const shopify = shopify0.map((r) => { const a = ADJ[r.month] || {orders: 0, gross: 0, zd: 0}; return Object.assign({}, r, {orders: +r.orders - a.orders, gross_sales: +r.gross_sales - a.gross - a.zd, discounts: +r.discounts - a.zd, net_sales: +r.net_sales - a.gross}); });
     const customers = customers0.map((r) => { const a = ADJ[r.month] || {ret: 0}; return Object.assign({}, r, {returning_orders: +r.returning_orders - a.ret}); });
-    const vgS = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0); const VG_DAYS = {'2026-08': 31, '2026-09': 30, '2026-10': 31, '2026-11': 11, all: 103};
+    const vgS = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0); const VG_DAYS = {'2026-08': 31, '2026-09': 30, '2026-10': 31, '2026-11': 11, '2026-11b': 7, all: 110};
     const adsChan = (o) => { const sm = o.ga4_source_medium || ''; if (+o.value <= 0) return ''; if (sm === 'google / cpc' || o.shopify_channel === 'Google Ads (метка)') return 'g'; if (sm === 'bing / cpc' || o.shopify_channel === 'Microsoft Ads') return 'b'; if ((/facebook|instagram/.test(sm) && /cpc|paid/.test(sm)) || o.shopify_channel === 'Meta Ads (метка)') return 'm'; return ''; };
-    const FACT = ['2026-09', '2026-10', '2026-11'];
+    const FACT = ['2026-09', '2026-10', '2026-11', '2026-11b'];
     const build = (month, label, sh, me, ga, cu, bi) => {
       const gross = vgS(sh, 'gross_sales'), discounts = vgS(sh, 'discounts'), returns = vgS(sh, 'returns');
       const net = vgS(sh, 'net_sales'), orders = vgS(sh, 'orders');
@@ -690,7 +768,7 @@ dash.calc('meta_cm_v', {
   description: 'Кампании Meta по месяцам и за весь период (month = all): расход, частота, CTR, цена клика, корзины, покупки, ROAS и что в них смущает.',
   inputs: ['meta_cm'],
   fn: (rows) => {
-    const vgS = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0); const VG_DAYS = {'2026-08': 31, '2026-09': 30, '2026-10': 31, '2026-11': 11, all: 103};
+    const vgS = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0); const VG_DAYS = {'2026-08': 31, '2026-09': 30, '2026-10': 31, '2026-11': 11, '2026-11b': 7, all: 110};
     const flag = (r) => {
       const f = [];
       if (r.objective !== 'Sales') f.push('objective is not sales');
@@ -706,7 +784,7 @@ dash.calc('meta_cm_v', {
         month, campaign: r.campaign, objective: r.objective,
         spend: +r.spend, impressions: +r.impressions, link_clicks: +r.link_clicks,
         frequency: r.frequency === null ? null : +r.frequency,
-        landing_page_views: +r.landing_page_views, add_to_cart: +r.add_to_cart,
+        landing_page_views: r.landing_page_views == null ? null : +r.landing_page_views, add_to_cart: r.add_to_cart == null ? null : +r.add_to_cart,
         purchases: +r.purchases, purchase_value: +r.purchase_value
       };
       o.ctr = o.impressions ? o.link_clicks / o.impressions : null;
@@ -732,7 +810,7 @@ dash.calc('gads_cm_v', {
   description: 'Кампании Google по месяцам и за весь период (month = all): расход, доля расхода, клики, цена клика, конверсии, CPA, ценность, ROAS и что смущает.',
   inputs: ['gads_cm'],
   fn: (rows) => {
-    const vgS = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0); const VG_DAYS = {'2026-08': 31, '2026-09': 30, '2026-10': 31, '2026-11': 11, all: 103};
+    const vgS = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0); const VG_DAYS = {'2026-08': 31, '2026-09': 30, '2026-10': 31, '2026-11': 11, '2026-11b': 7, all: 110};
     const one = (r, month, total) => {
       const o = {month, campaign: r.campaign, owner: r.owner, type: r.type, cost: +r.cost, clicks: +r.clicks, conversions: +r.conversions, conv_value: +r.conv_value};
       o.share = total ? o.cost / total : null;
@@ -780,10 +858,10 @@ dash.calc('xpaid', {
   description: 'По месяцам и за 2 сентября — 11 ноября (month = all): расход и покупки по данным Google Ads, Meta и Microsoft Ads против заказов Shopify этого канала (реклама — по GA4 и UTM-меткам Shopify, письма — по Shopify), с ROAS и CPA по Shopify last-click и расхождением.',
   inputs: ['xorders', 'gads', 'gads_cm', 'meta_attr', 'msads'],
   fn: (orders0, gads, gcm, attr, msads) => {
-    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180'];
+    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180', '3186'];
     const orders = orders0.filter((o) => !B2B.includes(String(o.order)));
     const S = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0);
-    const months = ['2026-09', '2026-10', '2026-11'];
+    const months = ['2026-09', '2026-10', '2026-11', '2026-11b'];
     const chan = (o) => {
       const sm = o.ga4_source_medium || '';
       if (+o.value <= 0) return 'zero';
@@ -799,7 +877,7 @@ dash.calc('xpaid', {
     const defs = [
       {channel: 'Google Ads', fact: isG, spend: (ms) => S(gads.filter((r) => ms.includes(r.month)), 'cost'), pf: (ms) => [S(gads.filter((r) => ms.includes(r.month)), 'conversions'), S(gads.filter((r) => ms.includes(r.month)), 'conv_value')]},
       {channel: '— Brand Search', fact: isBrand, spend: (ms) => S(gcm.filter((r) => ms.includes(r.month) && /brand/.test(r.type)), 'cost'), pf: (ms) => { const x = gcm.filter((r) => ms.includes(r.month) && /brand/.test(r.type)); return [S(x, 'conversions'), S(x, 'conv_value')]; }},
-      {channel: '— PMax (non-brand)', fact: (o) => isG(o) && !isBrand(o), spend: (ms) => S(gcm.filter((r) => ms.includes(r.month) && !/brand/.test(r.type)), 'cost'), pf: (ms) => { const x = gcm.filter((r) => ms.includes(r.month) && !/brand/.test(r.type)); return [S(x, 'conversions'), S(x, 'conv_value')]; }},
+      {channel: '— PMax + Shopping (non-brand)', fact: (o) => isG(o) && !isBrand(o), spend: (ms) => S(gcm.filter((r) => ms.includes(r.month) && !/brand/.test(r.type)), 'cost'), pf: (ms) => { const x = gcm.filter((r) => ms.includes(r.month) && !/brand/.test(r.type)); return [S(x, 'conversions'), S(x, 'conv_value')]; }},
       {channel: 'Meta Ads', fact: (o) => chan(o) === 'meta', spend: (ms) => S(attr.filter((r) => ms.includes(r.month)), 'spend'), pf: (ms) => { const x = attr.filter((r) => ms.includes(r.month)); return [S(x, 'purchases'), S(x, 'value')]; }},
       {channel: 'Microsoft Ads', fact: (o) => chan(o) === 'bing', spend: (ms) => S(msads.filter((r) => ms.includes(r.month)), 'cost'), pf: (ms) => { const x = msads.filter((r) => ms.includes(r.month)); return [S(x, 'conversions'), S(x, 'conv_value')]; }}
     ];
@@ -811,6 +889,7 @@ dash.calc('xpaid', {
       r.roas = spend ? net / spend : null;
       r.cpa = spend && f.length ? spend / f.length : null;
       r.gap = net && pf[1] != null ? pf[1] / net : null;
+      r.profit = net * 0.3 - spend; r.romi = spend ? r.profit / spend : null; r.pf_romi = spend && pf[1] != null ? (pf[1] * 0.3 - spend) / spend : null;
       const fl = [];
       if (r.gap != null && r.gap > 3) fl.push('account shows revenue ×' + Math.round(r.gap) + ' vs Shopify last-click');
       if (r.roas != null && r.roas < 1) fl.push('ads don\'t pay back even on revenue');
@@ -821,7 +900,9 @@ dash.calc('xpaid', {
     let out = [];
     months.forEach((m) => { out = out.concat(build(m, [m])); });
     out = out.concat(build('all', months));
-    return out;
+    const withTot = [];
+    months.concat(['all']).forEach((mm) => { const all = out.filter((r) => r.month === mm), xs = all.filter((r) => r.channel.charAt(0) !== '—'); const spend = S(xs, 'spend'), net = S(xs, 'net'), pv = S(xs, 'pf_value'), orders = S(xs, 'orders'); withTot.push(...all, {month: mm, channel: 'All paid channels', total: true, spend, pf_orders: S(xs, 'pf_orders'), pf_value: pv, orders, net, pf_roas: spend ? pv / spend : null, roas: spend ? net / spend : null, cpa: orders ? spend / orders : null, gap: net ? pv / net : null, profit: net * 0.3 - spend, romi: spend ? (net * 0.3 - spend) / spend : null, pf_romi: spend ? (pv * 0.3 - spend) / spend : null, flags: ''}); });
+    return withTot;
   }
 });
 
@@ -830,7 +911,7 @@ dash.calc('cat_v', {
   description: 'Категории товаров (собраны из типов Shopify) по месяцам и за весь период (month = all): штуки, валовые продажи, доля, возвраты, доля возвратов и чистые продажи.',
   inputs: ['ptypes', 'ptypes_m'],
   fn: (pt0, ptm0) => {
-    const B2B_LINES = [['Widespread Bathroom Faucets', '2026-08', 1, 194.9], ['Bathroom Sink Grid Drain', '2026-08', 1, 34.9], ['Shipping Protection', '2026-08', 1, 10.83], ['Framed Fixed Bathtub Screen', '2026-08', 1, 424.9], ['Frameless Sliding Shower Door', '2026-09', 1, 1144.9], ['Shipping Protection', '2026-09', 1, 54.53], ['Widespread Bathroom Faucets', '2026-09', 7, 1194.3], ['Pull-Down Kitchen Faucet', '2026-09', 1, 189.9], ['Bar Kitchen Faucet', '2026-10', 1, 189.9], ['Frameless Sliding Shower Door', '2026-11', 1, 1079.9], ['Shipping Protection', '2026-11', 1, 51.11]];
+    const B2B_LINES = [['Widespread Bathroom Faucets', '2026-08', 1, 194.9], ['Bathroom Sink Grid Drain', '2026-08', 1, 34.9], ['Shipping Protection', '2026-08', 1, 10.83], ['Framed Fixed Bathtub Screen', '2026-08', 1, 424.9], ['Frameless Sliding Shower Door', '2026-09', 1, 1144.9], ['Shipping Protection', '2026-09', 1, 54.53], ['Widespread Bathroom Faucets', '2026-09', 7, 1194.3], ['Pull-Down Kitchen Faucet', '2026-09', 1, 189.9], ['Bar Kitchen Faucet', '2026-10', 1, 189.9], ['Frameless Sliding Shower Door', '2026-11', 1, 1079.9], ['Shipping Protection', '2026-11', 1, 51.11], ['Bathroom Hardware Set', '2026-11b', 1, 139.8]];
     const sub = (rows, byMonth) => rows.map((r) => { const ls = B2B_LINES.filter((l) => l[0] === r.product_type && (!byMonth || l[1] === r.month)); if (!ls.length) return r; const g = ls.reduce((t, l) => t + l[3], 0), u = ls.reduce((t, l) => t + l[2], 0); const o = Object.assign({}, r, {gross_sales: +r.gross_sales - g, net_sales: +r.net_sales - g}); if (r.units != null) o.units = +r.units - u; return o; });
     const pt = sub(pt0, false), ptm = sub(ptm0, true);
     const out = [];
@@ -841,7 +922,7 @@ dash.calc('cat_v', {
       Array.from(by.values()).sort((a, b) => b.gross - a.gross).forEach((a) => { a.share = tot ? a.gross / tot : null; a.ret_rate = a.gross && a.returns <= a.gross ? a.returns / a.gross : null; out.push(a); });
     };
     agg(pt, 'all', true);
-    ['2026-08', '2026-09', '2026-10', '2026-11'].forEach((m) => agg(ptm.filter((r) => r.month === m), m, false));
+    ['2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'].forEach((m) => agg(ptm.filter((r) => r.month === m), m, false));
     return out;
   }
 });
@@ -857,14 +938,14 @@ dash.calc('top_prod_v', {
   })
 });
 
-dash.calc('funnel_v', {
+dash.calc('funnel_dev_v', {
   title: 'Воронка сайта по месяцам и устройствам',
   description: 'Посещения, добавления в корзину, начатые оформления и покупки по сессиям Shopify — по месяцам и за весь период (month = all), всего и по устройствам, с процентами перехода на каждом шаге.',
   inputs: ['shopify', 'funnel_dev'],
   fn: (shop, dev) => {
     const out = [];
     const mk = (month, device, s, c, k, p) => ({month, device, sessions: s, cart: c, checkout: k, completed: p, cart_rate: s ? c / s : null, checkout_rate: c ? k / c : null, complete_rate: k ? p / k : null, conv: s ? p / s : null});
-    const months = ['2026-08', '2026-09', '2026-10', '2026-11'];
+    const months = ['2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'];
     const N = (v) => +v || 0;
     const sum = (rows, k) => rows.reduce((a, r) => a + N(r[k]), 0);
     months.concat(['all']).forEach((m) => {
@@ -879,37 +960,41 @@ dash.calc('funnel_v', {
 dash.calc('disc_type_v', {
   title: 'Скидки по типам кодов',
   description: 'Заказы, доля заказов, валовые продажи, сумма скидок, скидка в процентах от суммы и чистые продажи по типам промокодов за весь период.',
-  inputs: ['dcodes'],
-  fn: (rows0) => {
-    const ZC = ['NETPEAKTEST100', 'D93EQDM9XQEY', '5PPK1S6EDF5B', '0Y4R3H0NWZMG', 'CXZP2H6HPMC5', 'RXB6SW4PH879']; const d2c = (rs) => rs.filter((r) => !ZC.includes(r.code)).map((r) => r.code === '(no code)' ? Object.assign({}, r, {orders: +r.orders - 26, gross_sales: +r.gross_sales - 4570.07, net_sales: +r.net_sales - 4570.07}) : r);
-    const rows = d2c(rows0);
-    const by = new Map(); let tot = 0;
-    rows.forEach((r) => { const a = by.get(r.code_type) || {code_type: r.code_type, orders: 0, gross: 0, discounts: 0, net: 0}; a.orders += +r.orders || 0; a.gross += +r.gross_sales || 0; a.discounts += +r.discounts || 0; a.net += +r.net_sales || 0; by.set(r.code_type, a); tot += +r.orders || 0; });
-    return Array.from(by.values()).map((a) => Object.assign(a, {share: tot ? a.orders / tot : null, disc_pct: a.gross ? a.discounts / a.gross : null})).sort((a, b) => b.orders - a.orders);
+  inputs: ['dcodes', 'dcodes_m'],
+  fn: (all0, m0) => {
+    const ZC = ['NETPEAKTEST100', 'D93EQDM9XQEY', '5PPK1S6EDF5B', '0Y4R3H0NWZMG', 'CXZP2H6HPMC5', 'RXB6SW4PH879']; const NC = {all: [28, 4819.77], '2026-08': [2, 665.53], '2026-09': [10, 2583.63], '2026-10': [8, 189.9], '2026-11': [6, 1131.01], '2026-11b': [2, 249.7]}; const d2c = (rs, m) => rs.filter((r) => !ZC.includes(r.code)).map((r) => r.code === '(no code)' ? Object.assign({}, r, {orders: +r.orders - NC[m][0], gross_sales: +r.gross_sales - NC[m][1], net_sales: +r.net_sales - NC[m][1]}) : r); const periods = [['all', all0]].concat(['2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'].map((m) => [m, m0.filter((r) => r.month === m)]));
+    return periods.flatMap(([month, rs]) => {
+      const rows = d2c(rs, month);
+      const by = new Map(); let tot = 0;
+      rows.forEach((r) => { const a = by.get(r.code_type) || {month, code_type: r.code_type, orders: 0, gross: 0, discounts: 0, net: 0}; a.orders += +r.orders || 0; a.gross += +r.gross_sales || 0; a.discounts += +r.discounts || 0; a.net += +r.net_sales || 0; by.set(r.code_type, a); tot += +r.orders || 0; });
+      return Array.from(by.values()).filter((a) => a.orders > 0).map((a) => Object.assign(a, {share: tot ? a.orders / tot : null, disc_pct: a.gross ? a.discounts / a.gross : null})).sort((a, b) => b.orders - a.orders);
+    });
   }
 });
 
 dash.calc('disc_code_v', {
   title: 'Промокоды',
   description: 'Каждый промокод за весь период: тип, заказы, валовые продажи, сумма скидок, скидка в процентах и чистые продажи (до 25 кодов по числу заказов).',
-  inputs: ['dcodes'],
-  fn: (rows0) => { const ZC = ['NETPEAKTEST100', 'D93EQDM9XQEY', '5PPK1S6EDF5B', '0Y4R3H0NWZMG', 'CXZP2H6HPMC5', 'RXB6SW4PH879']; const d2c = (rs) => rs.filter((r) => !ZC.includes(r.code)).map((r) => r.code === '(no code)' ? Object.assign({}, r, {orders: +r.orders - 26, gross_sales: +r.gross_sales - 4570.07, net_sales: +r.net_sales - 4570.07}) : r); return d2c(rows0).filter((r) => r.code !== '(no code)').map((r) => ({code: r.code, code_type: r.code_type, orders: +r.orders, gross: +r.gross_sales, discounts: +r.discounts, disc_pct: +r.gross_sales ? +r.discounts / +r.gross_sales : null, net: +r.net_sales})).sort((a, b) => b.orders - a.orders || b.discounts - a.discounts).slice(0, 25); }
+  inputs: ['dcodes', 'dcodes_m'],
+  fn: (all0, m0) => { const ZC = ['NETPEAKTEST100', 'D93EQDM9XQEY', '5PPK1S6EDF5B', '0Y4R3H0NWZMG', 'CXZP2H6HPMC5', 'RXB6SW4PH879']; const NC = {all: [28, 4819.77], '2026-08': [2, 665.53], '2026-09': [10, 2583.63], '2026-10': [8, 189.9], '2026-11': [6, 1131.01], '2026-11b': [2, 249.7]}; const d2c = (rs, m) => rs.filter((r) => !ZC.includes(r.code)).map((r) => r.code === '(no code)' ? Object.assign({}, r, {orders: +r.orders - NC[m][0], gross_sales: +r.gross_sales - NC[m][1], net_sales: +r.net_sales - NC[m][1]}) : r); const periods = [['all', all0]].concat(['2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'].map((m) => [m, m0.filter((r) => r.month === m)])); return periods.flatMap(([month, rs]) => d2c(rs, month).filter((r) => r.code !== '(no code)').map((r) => ({month, code: r.code, code_type: r.code_type, orders: +r.orders, gross: +r.gross_sales, discounts: +r.discounts, disc_pct: +r.gross_sales ? +r.discounts / +r.gross_sales : null, net: +r.net_sales})).sort((a, b) => b.orders - a.orders || b.discounts - a.discounts).slice(0, 25)); }
 });
 
 dash.calc('disc_sum', {
   title: 'Итоги по скидкам',
   description: 'Сколько заказов с промокодом, их доля, заказы с VIGO5, общая сумма скидок и её доля от валовых продаж.',
-  inputs: ['dcodes', 'shopify'],
-  fn: (rows0, shop0) => {
-    const ZC = ['NETPEAKTEST100', 'D93EQDM9XQEY', '5PPK1S6EDF5B', '0Y4R3H0NWZMG', 'CXZP2H6HPMC5', 'RXB6SW4PH879']; const d2c = (rs) => rs.filter((r) => !ZC.includes(r.code)).map((r) => r.code === '(no code)' ? Object.assign({}, r, {orders: +r.orders - 26, gross_sales: +r.gross_sales - 4570.07, net_sales: +r.net_sales - 4570.07}) : r);
-    const rows = d2c(rows0);
-    const ADJ = {'2026-08': {orders: 6, gross: 665.53, zd: 853.89}, '2026-09': {orders: 13, gross: 2583.63, zd: 907.58}, '2026-10': {orders: 8, gross: 189.9, zd: 0}, '2026-11': {orders: 11, gross: 1131.01, zd: 1705.3}};
+  inputs: ['dcodes', 'dcodes_m', 'shopify'],
+  fn: (all0, m0, shop0) => {
+    const ZC = ['NETPEAKTEST100', 'D93EQDM9XQEY', '5PPK1S6EDF5B', '0Y4R3H0NWZMG', 'CXZP2H6HPMC5', 'RXB6SW4PH879']; const NC = {all: [28, 4819.77], '2026-08': [2, 665.53], '2026-09': [10, 2583.63], '2026-10': [8, 189.9], '2026-11': [6, 1131.01], '2026-11b': [2, 249.7]}; const d2c = (rs, m) => rs.filter((r) => !ZC.includes(r.code)).map((r) => r.code === '(no code)' ? Object.assign({}, r, {orders: +r.orders - NC[m][0], gross_sales: +r.gross_sales - NC[m][1], net_sales: +r.net_sales - NC[m][1]}) : r); const periods = [['all', all0]].concat(['2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'].map((m) => [m, m0.filter((r) => r.month === m)]));
+    const ADJ = {'2026-08': {orders: 6, gross: 665.53, zd: 853.89}, '2026-09': {orders: 13, gross: 2583.63, zd: 907.58}, '2026-10': {orders: 8, gross: 189.9, zd: 0}, '2026-11': {orders: 11, gross: 1131.01, zd: 1705.3}, '2026-11b': {orders: 3, gross: 139.8, zd: 969.8}};
     const shop = shop0.map((r) => { const a = ADJ[r.month] || {orders: 0, gross: 0, zd: 0}; return Object.assign({}, r, {orders: +r.orders - a.orders, gross_sales: +r.gross_sales - a.gross - a.zd, discounts: +r.discounts - a.zd}); });
-    const orders = shop.reduce((a, r) => a + (+r.orders || 0), 0);
+    return periods.map(([month, rs]) => {
+    const rows = d2c(rs, month); const sh = shop.filter((r) => month === 'all' || r.month === month);
+    const orders = sh.reduce((a, r) => a + (+r.orders || 0), 0);
     const code_orders = rows.filter((r) => r.code !== '(no code)').reduce((a, r) => a + (+r.orders || 0), 0);
     const v5 = rows.find((r) => r.code === 'VIGO5') || {};
-    const disc = shop.reduce((a, r) => a + (+r.discounts || 0), 0), gross = shop.reduce((a, r) => a + (+r.gross_sales || 0), 0);
-    return [{orders, code_orders, code_share: orders ? code_orders / orders : null, vigo5_orders: +v5.orders || 0, disc_total: disc, disc_pct: gross ? disc / gross : null}];
+    const disc = sh.reduce((a, r) => a + (+r.discounts || 0), 0), gross = sh.reduce((a, r) => a + (+r.gross_sales || 0), 0);
+    return {month, orders, code_orders, code_share: orders ? code_orders / orders : null, vigo5_orders: +v5.orders || 0, disc_total: disc, disc_pct: gross ? disc / gross : null};
+    });
   }
 });
 
@@ -918,7 +1003,7 @@ dash.calc('cat_ads_v', {
   description: 'Чистые продажи каждой категории товаров по месяцам и за 2 сентября — 11 ноября (month = all): сколько пришло с Google Ads, Microsoft Ads, Meta Ads и без рекламы, и доля рекламы. Сумма заказа разделена между категориями пропорционально стоимости товаров.',
   inputs: ['cat_ch'],
   fn: (rows) => {
-    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180'];
+    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180', '3186'];
     const W = rows.filter((r) => r.date >= '2026-09-02' && !B2B.includes(String(r.order)));
     const out = [];
     const build = (month, rs) => {
@@ -927,7 +1012,7 @@ dash.calc('cat_ads_v', {
       Array.from(by.values()).filter((a) => a.category !== 'No product type').sort((a, b) => b.total - a.total).forEach((a) => { a.ads = a.google + a.microsoft + a.meta; a.ads_share = a.total > 0 ? a.ads / a.total : null; out.push(a); });
     };
     build('all', W);
-    ['2026-09', '2026-10', '2026-11'].forEach((m) => build(m, W.filter((r) => r.month === m)));
+    ['2026-09', '2026-10', '2026-11', '2026-11b'].forEach((m) => build(m, W.filter((r) => r.month === m)));
     return out;
   }
 });
@@ -938,7 +1023,7 @@ dash.calc('conv_m', {
   inputs: ['shopify', 'sess_src'],
   fn: (shop, sess) => {
     const N = (v) => +v || 0;
-    const months = [['2026-08', 'August', 31], ['2026-09', 'September', 30], ['2026-10', 'October', 31], ['2026-11', 'November 1–11', 11], ['all', 'All period', 103]];
+    const months = [['2026-08', 'August', 31], ['2026-09', 'September', 30], ['2026-10', 'October', 31], ['2026-11', 'November 1–11', 11], ['2026-11b', 'November 12–18', 7], ['all', 'All period', 110]];
     return months.map(([m, label, days]) => {
       const sh = shop.filter((r) => m === 'all' || r.month === m);
       const S = (k) => sh.reduce((a, r) => a + N(r[k]), 0);
@@ -951,7 +1036,7 @@ dash.calc('conv_m', {
 
 dash.calc('ga4_conv_v', {
   title: 'Конверсия по каналам GA4, сентябрь — ноябрь',
-  description: 'Визиты и конверсия визитов в покупку по каналам GA4 за сентябрь, октябрь и 1–11 ноября; каналы с заметным трафиком, по убыванию визитов.',
+  description: 'Визиты и конверсия визитов в покупку по каналам GA4 за сентябрь, октябрь, 1–11 и 12–18 ноября; каналы с заметным трафиком, по убыванию визитов.',
   inputs: ['ga4_cm'],
   fn: (rows) => {
     const N = (v) => +v || 0;
@@ -970,7 +1055,7 @@ dash.calc('cac_v', {
   description: 'По месяцам, за весь период и за 2 сентября — 11 ноября: новые покупатели (первый заказ в магазине), расход Google, Meta и Microsoft, стоимость нового клиента по магазину и отдельно для Google, Meta и Microsoft, средний первый заказ и его валовая прибыль при марже 30%.',
   inputs: ['xorders', 'cust_type', 'meta', 'gads', 'msads'],
   fn: (orders0, ct, meta, gads, msads) => {
-    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180'];
+    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180', '3186'];
     const orders = orders0.filter((o) => !B2B.includes(String(o.order)));
     const N = (v) => +v || 0, M = 0.3;
     const first = new Map(ct.map((r) => [String(r.order), String(r.first_order) === '1']));
@@ -990,9 +1075,9 @@ dash.calc('cac_v', {
         b_new: fact ? b.length : null, b_cac: fact && b.length ? bsp / b.length : null, b_gp: fact && b.length ? avg(b) * M : null, first_aov: fa, first_gp: fa == null ? null : fa * M,
         p_new: fact ? g.length + m.length + b.length : null, p_cac: fact && (g.length + m.length + b.length) ? (gsp + msp + bsp) / (g.length + m.length + b.length) : null, p_gp: fact && (g.length + m.length + b.length) ? avg(g.concat(m, b)) * M : null};
     };
-    const out = [['2026-08', 'August'], ['2026-09', 'September'], ['2026-10', 'October'], ['2026-11', 'November 1–11']].map(([m, l]) => build(l, [m], false));
-    out.push(build('Aug 1 — Nov 11', ['2026-08', '2026-09', '2026-10', '2026-11'], true));
-    out.push(build('Sep 2 — Nov 11', ['2026-09', '2026-10', '2026-11'], true));
+    const out = [['2026-08', 'August'], ['2026-09', 'September'], ['2026-10', 'October'], ['2026-11', 'November 1–11'], ['2026-11b', 'November 12–18']].map(([m, l]) => Object.assign(build(l, [m], false), {month: m}));
+    out.push(build('Aug 1 — Nov 18', ['2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'], true));
+    out.push(build('Sep 2 — Nov 18', ['2026-09', '2026-10', '2026-11', '2026-11b'], true));
     return out;
   }
 });
@@ -1002,7 +1087,7 @@ dash.calc('funnel_v', {
   description: 'Для каждого месяца и за весь период: визиты, визиты с добавлением в корзину, с началом оформления и с покупкой по источнику визита в Shopify (прямой заход, поиск, реклама, другое); заказы и чистые продажи по каналам последнего визита (реклама — по GA4 и меткам); клики по рекламе из кабинетов Google Ads и Meta.',
   inputs: ['sess_src', 'xorders', 'gads', 'meta'],
   fn: (sess, orders0, gads, meta) => {
-    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180'];
+    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180', '3186'];
     const orders = orders0.filter((o) => !B2B.includes(String(o.order)));
     const N = (v) => +v || 0, G = ['direct', 'search', 'ads', 'other'];
     const sg = (s) => s === 'direct' ? 'direct' : s === 'search' ? 'search' : s === 'paid' ? 'ads' : 'other';
@@ -1014,7 +1099,7 @@ dash.calc('funnel_v', {
       return 'other';
     };
     const blank = () => { const o = {total: 0}; G.forEach((g) => { o[g] = 0; }); return o; };
-    return ['all', '2026-08', '2026-09', '2026-10', '2026-11'].map((m) => {
+    return ['all', '2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'].map((m) => {
       const inM = (r) => m === 'all' || r.month === m;
       const st = {sessions: blank(), cart_sessions: blank(), checkout_sessions: blank(), completed_sessions: blank()};
       sess.filter(inM).forEach((r) => { const g = sg(r.source); Object.keys(st).forEach((k) => { st[k][g] += N(r[k]); st[k].total += N(r[k]); }); });
@@ -1033,12 +1118,12 @@ dash.calc('g_month', {
   description: 'Google Ads по месяцам: расход, клики, конверсии и ценность из кабинета, заказы Shopify, атрибутированные Google (GA4 gclid и метка Shopify), CPA, ROAS и ROMI по Shopify last-click. Итог — 2 сентября — 11 ноября; за август GA4 не работал.',
   inputs: ['gads', 'xorders'],
   fn: (gads, orders0) => {
-    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180'];
+    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180', '3186'];
     const orders = orders0.filter((o) => !B2B.includes(String(o.order)));
     const S = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0);
     const isG = (o) => +o.value > 0 && ((o.ga4_source_medium || '') === 'google / cpc' || o.shopify_channel === 'Google Ads (метка)');
-    const NAMES = {'2026-08': 'August', '2026-09': 'September', '2026-10': 'October', '2026-11': 'November 1–11'};
-    const FACT = ['2026-09', '2026-10', '2026-11'];
+    const NAMES = {'2026-08': 'August', '2026-09': 'September', '2026-10': 'October', '2026-11': 'November 1–11', '2026-11b': 'November 12–18'};
+    const FACT = ['2026-09', '2026-10', '2026-11', '2026-11b'];
     const row = (period, ms, fact) => {
       const g = gads.filter((r) => ms.includes(r.month));
       const r = {period, spend: S(g, 'cost'), clicks: S(g, 'clicks'), pf_orders: S(g, 'conversions'), pf_value: S(g, 'conv_value')};
@@ -1047,8 +1132,8 @@ dash.calc('g_month', {
       else { r.orders = null; r.net = null; r.roas = null; r.romi = null; r.cpa = null; }
       return r;
     };
-    const out = Object.keys(NAMES).map((m) => row(NAMES[m], [m], FACT.includes(m)));
-    out.push(Object.assign(row('Total Sep — Nov 11', FACT, true), {total: true}));
+    const out = Object.keys(NAMES).map((m) => Object.assign(row(NAMES[m], [m], FACT.includes(m)), {month: m}));
+    out.push(Object.assign(row('Total Sep — Nov 18', FACT, true), {total: true}));
     return out;
   }
 });
@@ -1058,12 +1143,12 @@ dash.calc('m_month', {
   description: 'Meta Ads по месяцам: расход, клики по ссылке, покупки и ценность из кабинета (из них по клику), заказы Shopify, атрибутированные Meta (UTM и GA4), ROAS и ROMI по Shopify last-click. Итог — 2 сентября — 11 ноября; за август GA4 не работал.',
   inputs: ['meta', 'meta_attr', 'xorders'],
   fn: (meta, attr, orders0) => {
-    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180'];
+    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180', '3186'];
     const orders = orders0.filter((o) => !B2B.includes(String(o.order)));
     const S = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0);
     const isM = (o) => { const sm = o.ga4_source_medium || ''; return +o.value > 0 && ((/facebook|instagram/.test(sm) && /cpc|paid/.test(sm)) || o.shopify_channel === 'Meta Ads (метка)'); };
-    const NAMES = {'2026-08': 'August', '2026-09': 'September', '2026-10': 'October', '2026-11': 'November 1–11'};
-    const FACT = ['2026-09', '2026-10', '2026-11'];
+    const NAMES = {'2026-08': 'August', '2026-09': 'September', '2026-10': 'October', '2026-11': 'November 1–11', '2026-11b': 'November 12–18'};
+    const FACT = ['2026-09', '2026-10', '2026-11', '2026-11b'];
     const row = (period, ms, fact) => {
       const m = meta.filter((r) => ms.includes(r.month)), a = attr.filter((r) => ms.includes(r.month));
       const r = {period, spend: S(m, 'spend'), link_clicks: S(m, 'link_clicks'), pf_orders: S(m, 'purchases'), pf_click: S(a, 'purchases_click'), pf_value: S(m, 'purchase_value')};
@@ -1072,21 +1157,21 @@ dash.calc('m_month', {
       else { r.orders = null; r.net = null; r.roas = null; r.romi = null; }
       return r;
     };
-    const out = Object.keys(NAMES).map((m) => row(NAMES[m], [m], FACT.includes(m)));
-    out.push(Object.assign(row('Total Sep — Nov 11', FACT, true), {total: true}));
+    const out = Object.keys(NAMES).map((m) => Object.assign(row(NAMES[m], [m], FACT.includes(m)), {month: m}));
+    out.push(Object.assign(row('Total Sep — Nov 18', FACT, true), {total: true}));
     return out;
   }
 });
 
 dash.calc('ms_cm_v', {
-  title: 'Microsoft Ads by campaign: September 2 — November 11',
-  description: 'Microsoft Ads campaigns for September 2 — November 11: spend, clicks, conversions and value from the account and Shopify last-click orders by GA4 campaign tag (brand, PMax, Shopping).',
+  title: 'Microsoft Ads by campaign: September 2 — November 18',
+  description: 'Microsoft Ads campaigns for September 2 — November 18: spend, clicks, conversions and value from the account and Shopify last-click orders by GA4 campaign tag (brand, PMax, Shopping).',
   inputs: ['msads_cm', 'xorders'],
   fn: (cm, orders0) => {
-    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180'];
+    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180', '3186'];
     const orders = orders0.filter((o) => !B2B.includes(String(o.order)) && o.date >= '2026-09-02');
     const S = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0);
-    const FACT = ['2026-09', '2026-10', '2026-11'];
+    const FACT = ['2026-09', '2026-10', '2026-11', '2026-11b'];
     const isB = (o) => +o.value > 0 && ((o.ga4_source_medium || '') === 'bing / cpc' || o.shopify_channel === 'Microsoft Ads');
     const tag = (o) => { const c = (o.ga4_campaign || '') + ' ' + (o.utm_campaign || ''); if (/brand/i.test(c)) return 'brand'; if (/pmax/i.test(c)) return 'pmax'; if (/shopping/i.test(c)) return 'shop'; return 'other'; };
     const ST = {brand: 'active', pmax: 'active (limited reach)', shop: 'paused'};
@@ -1107,15 +1192,15 @@ dash.calc('ms_cm_v', {
 
 dash.calc('ms_month', {
   title: 'Microsoft Ads by month: account and Shopify last-click',
-  description: 'Microsoft Ads by month: spend, clicks, conversions and value from the account, Shopify orders attributed to Microsoft (GA4 bing / cpc and Shopify tag, no duplicates), CPA, ROAS and ROMI on Shopify last-click. Total — Sep 2 — Nov 11; GA4 was not working in August.',
+  description: 'Microsoft Ads by month: spend, clicks, conversions and value from the account, Shopify orders attributed to Microsoft (GA4 bing / cpc and Shopify tag, no duplicates), CPA, ROAS and ROMI on Shopify last-click. Total — Sep 2 — Nov 18; GA4 was not working in August.',
   inputs: ['msads', 'xorders'],
   fn: (msads, orders0) => {
-    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180'];
+    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180', '3186'];
     const orders = orders0.filter((o) => !B2B.includes(String(o.order)));
     const S = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0);
     const isB = (o) => +o.value > 0 && ((o.ga4_source_medium || '') === 'bing / cpc' || o.shopify_channel === 'Microsoft Ads');
-    const NAMES = {'2026-08': 'August', '2026-09': 'September', '2026-10': 'October', '2026-11': 'November 1–11'};
-    const FACT = ['2026-09', '2026-10', '2026-11'];
+    const NAMES = {'2026-08': 'August', '2026-09': 'September', '2026-10': 'October', '2026-11': 'November 1–11', '2026-11b': 'November 12–18'};
+    const FACT = ['2026-09', '2026-10', '2026-11', '2026-11b'];
     const row = (period, ms, fact) => {
       const g = msads.filter((r) => ms.includes(r.month));
       const r = {period, spend: S(g, 'cost'), clicks: S(g, 'clicks'), pf_orders: S(g, 'conversions'), pf_value: S(g, 'conv_value')};
@@ -1124,9 +1209,49 @@ dash.calc('ms_month', {
       else { r.orders = null; r.net = null; r.roas = null; r.romi = null; r.cpa = null; }
       return r;
     };
-    const out = Object.keys(NAMES).map((m) => row(NAMES[m], [m], FACT.includes(m)));
-    out.push(Object.assign(row('Total Sep — Nov 11', FACT, true), {total: true}));
+    const out = Object.keys(NAMES).map((m) => Object.assign(row(NAMES[m], [m], FACT.includes(m)), {month: m}));
+    out.push(Object.assign(row('Total Sep — Nov 18', FACT, true), {total: true}));
     return out;
+  }
+});
+
+
+dash.calc('cmp_v', {
+  title: 'Сравнение периодов / Period comparison',
+  description: 'Metrics per period (months and November weeks) used for the comparison blocks under each section.',
+  inputs: ['months', 'xpaid', 'conv_m', 'funnel_dev_v', 'disc_sum', 'g_month', 'm_month', 'ms_month', 'cat_v', 'cat_ads_v', 'mix', 'cac_v', 'gads', 'meta', 'msads'],
+  fn: (months, xpaid, conv, fdev, disc, gm, mm, bm, cat, catads, mix, cac, gads, meta, msads) => {
+    const P = ['2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'];
+    const S = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0);
+    const one = (rows, m) => rows.find((r) => r.month === m) || {};
+    const dv = (a, b) => (a == null || !b) ? null : a / b;
+    const mixTot = mix.find((r) => r.channel === 'Total') || {};
+    return P.map((m) => {
+      const o = {month: m};
+      const mo = one(months, m), d = mo.days || null;
+      Object.assign(o, {net_day: dv(mo.net, d), gross_day: dv(mo.gross, d), orders_day: dv(mo.orders, d), aov: mo.aov, disc_rate: dv(mo.discounts, mo.gross), ret_rate: mo.return_rate,
+        spend_day: dv(mo.spend, d), mer: mo.mer, roas: mo.roas, romi: mo.romi, ads_net_day: dv(mo.ads_net, d), ret_share: mo.returning_share});
+      const c = one(conv, m);
+      Object.assign(o, {sess_day: c.sess_day, cart_rate: c.cart_rate, checkout_rate: c.checkout_rate, complete_rate: c.complete_rate, conv: c.conv, conv_direct: c.conv_direct, conv_search: c.conv_search});
+      fdev.filter((r) => r.month === m).forEach((r) => { o['dev_conv:' + r.device] = r.conv; o['dev_cart:' + r.device] = r.cart_rate; o['dev_done:' + r.device] = r.complete_rate; o['dev_sess:' + r.device] = dv(r.sessions, d); });
+      const ds = one(disc, m);
+      Object.assign(o, {code_share: ds.code_share, disc_pct: ds.disc_pct, vigo5_share: dv(ds.vigo5_orders, ds.orders)});
+      xpaid.filter((r) => r.month === m).forEach((r) => { const k = r.total ? 'all' : r.channel; o['x_roas:' + k] = r.roas; o['x_romi:' + k] = r.romi; o['x_pfroas:' + k] = r.pf_roas; o['x_spend_day:' + k] = dv(r.spend, d); o['x_net_day:' + k] = dv(r.net, d); o['x_orders:' + k] = r.orders; o['x_cpa:' + k] = r.cpa; });
+      const g = one(gm, m), gc = gads.filter((r) => r.month === m);
+      Object.assign(o, {g_spend_day: dv(g.spend, d), g_clicks_day: dv(g.clicks, d), g_cpc: dv(g.spend, g.clicks), g_pfroas: g.pf_roas, g_orders: g.orders, g_net_day: dv(g.net, d), g_roas: g.roas, g_romi: g.romi, g_cpa: g.cpa, g_ctr: dv(S(gc, 'clicks'), S(gc, 'impressions'))});
+      const t = one(mm, m), mc = meta.filter((r) => r.month === m);
+      Object.assign(o, {m_spend_day: dv(t.spend, d), m_clicks_day: dv(t.link_clicks, d), m_cpc: dv(t.spend, t.link_clicks), m_ctr: dv(S(mc, 'link_clicks'), S(mc, 'impressions')), m_cpm: S(mc, 'impressions') ? S(mc, 'spend') / S(mc, 'impressions') * 1000 : null, m_pf: t.pf_orders, m_pfclick: t.pf_click, m_pfroas: t.pf_roas, m_orders: t.orders, m_roas: t.roas, m_romi: t.romi});
+      const b = one(bm, m), bc = msads.filter((r) => r.month === m);
+      Object.assign(o, {b_spend_day: dv(b.spend, d), b_clicks_day: dv(b.clicks, d), b_cpc: dv(b.spend, b.clicks), b_ctr: dv(S(bc, 'clicks'), S(bc, 'impressions')), b_pfroas: b.pf_roas, b_orders: b.orders, b_roas: b.roas, b_romi: b.romi, b_cpa: b.cpa});
+      cat.filter((r) => r.month === m).forEach((r) => { o['cs:' + r.category] = r.share; o['cr:' + r.category] = r.ret_rate; o['cn:' + r.category] = dv(r.net, d); });
+      catads.filter((r) => r.month === m).forEach((r) => { o['ca:' + r.category] = r.ads_share; });
+      const k = m.slice(5), tot = mixTot['s' + k] || 0;
+      mix.forEach((r) => { if (r.channel !== 'Total' && r.channel !== '$0 Orders') o['ms:' + r.channel] = tot ? (r['s' + k] || 0) / tot : null; });
+      if (tot) o['ms:paid'] = ['Google Ads', 'Microsoft Ads', 'Meta Ads'].reduce((a, ch) => a + (o['ms:' + ch] || 0), 0);
+      const cc = cac.find((r) => r.month === m) || {};
+      Object.assign(o, {new_day: dv(cc.new_all, d), cac_all: cc.cac_all, p_cac: cc.p_cac, p_new: cc.p_new, first_aov: cc.first_aov, g_cac: cc.g_cac});
+      return o;
+    });
   }
 });
 
@@ -1142,6 +1267,7 @@ dash.draw('num', function (el) {
   var d = dash.data(el.dataset.source);
   if (d.status !== 'ok' || !d.data) { el.textContent = '—'; return; }
   var rows = Array.isArray(d.data) ? d.data : [d.data];
+  if (el.hasAttribute('data-by-month')) rows = rows.filter(function (r) { return r.month === vgMonth(); });
   var row;
   if (el.dataset.where) {
     var conds = el.dataset.where.split('&').map(function (p) { return p.split('=').map(decodeURIComponent); });
@@ -1154,9 +1280,52 @@ dash.draw('num', function (el) {
   el.textContent = vgFmt[el.dataset.fmt || 'money'](+v);
 });
 
+dash.draw('cmp', function (el) {
+  var d = dash.data('cmp_v');
+  el.replaceChildren();
+  if (d.status !== 'ok' || !Array.isArray(d.data)) return;
+  var L = window.vgCmpL, order = ['2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'];
+  var m = vgMonth(), note = '';
+  if (m === 'all') { m = '2026-11b'; note = L.allNote; }
+  var i = order.indexOf(m);
+  var head = document.createElement('p'); head.className = 'vg-cmp-head';
+  if (i <= 0) { head.textContent = L.first; el.appendChild(head); return; }
+  var cur = d.data.find(function (r) { return r.month === m; }) || {}, prev = d.data.find(function (r) { return r.month === order[i - 1]; }) || {};
+  head.innerHTML = '<b>' + L.cmp + ':</b> ' + vgMonthNames[m] + ' ' + L.vs + ' ' + vgMonthNames[order[i - 1]] + (note ? ' <span>· ' + note + '</span>' : '');
+  el.appendChild(head);
+  var rows; try { rows = JSON.parse(el.dataset.rows); } catch (e) { return; }
+  var tbl = document.createElement('table'); tbl.className = 'vg-cmp-table';
+  var th = document.createElement('thead'); th.innerHTML = '<tr><th>' + L.metric + '</th><th>' + vgMonthNames[order[i - 1]] + '</th><th>' + vgMonthNames[m] + '</th><th>' + L.change + '</th></tr>';
+  tbl.appendChild(th);
+  var tb = document.createElement('tbody');
+  rows.forEach(function (r) {
+    var lab = r[0], key = r[1], fmt = r[2], mode = r[3] || 'rel', good = r[4] || 'up';
+    var a = prev[key], b = cur[key];
+    if ((a == null || !isFinite(a)) && (b == null || !isFinite(b))) return;
+    var tr = document.createElement('tr');
+    var f = function (v) { return (v == null || !isFinite(v)) ? '—' : vgFmt[fmt](v); };
+    var td0 = document.createElement('td'); td0.textContent = lab; tr.appendChild(td0);
+    var td1 = document.createElement('td'); td1.textContent = f(a); tr.appendChild(td1);
+    var td2 = document.createElement('td'); td2.textContent = f(b); tr.appendChild(td2);
+    var td3 = document.createElement('td'), ch = null, txt = '—';
+    if (a != null && b != null && isFinite(a) && isFinite(b) && Math.abs(b - a) < 1e-9) { ch = 0; txt = '0'; }
+    else if (a != null && b != null && isFinite(a) && isFinite(b)) {
+      if (mode === 'pp') { ch = b - a; txt = (ch >= 0 ? '▲ ' : '▼ ') + L.num(Math.abs(ch) * 100) + ' ' + L.pp; }
+      else if (mode === 'x') { ch = b - a; txt = (ch >= 0 ? '▲ ' : '▼ ') + L.num(Math.abs(ch)) + '×'; }
+      else if (a) { ch = b / a - 1; txt = (ch >= 0 ? '▲ ' : '▼ ') + vgFmt.pct(Math.abs(ch)); }
+      else if (b) { ch = 1; txt = L.fromZero; }
+      else { ch = 0; txt = '0'; }
+    }
+    td3.textContent = txt;
+    if (ch != null && Math.abs(ch) > 0.0001 && good !== 'none') td3.className = (good === 'up' ? ch > 0 : ch < 0) ? 'vg-good' : 'vg-badc';
+    tr.appendChild(td3); tb.appendChild(tr);
+  });
+  tbl.appendChild(tb); el.appendChild(tbl);
+});
+
 dash.draw('adsPeriod', function (el) {
   var m = vgMonth();
-  el.textContent = ({all: 'September 2 — November 11', '2026-08': 'August — no GA4 data', '2026-09': 'September 2–30', '2026-10': 'October', '2026-11': 'November 1–11'})[m] || '—';
+  el.textContent = ({all: 'September 2 — November 18', '2026-08': 'August — no GA4 data', '2026-09': 'September 2–30', '2026-10': 'October', '2026-11': 'November 1–11', '2026-11b': 'November 12–18'})[m] || '—';
 });
 
 dash.draw('selName', function (el) {
@@ -1176,9 +1345,9 @@ dash.draw('kdelta', function (el) {
   var d = dash.data('months');
   if (d.status !== 'ok' || !Array.isArray(d.data)) { el.textContent = '—'; return; }
   var m = vgMonth();
-  if (m === 'all') { el.textContent = (el.dataset.k === 'roas' || el.dataset.k === 'romi') ? 'Sep — Nov 11' : 'over 103 days'; return; }
-  var order = ['2026-08', '2026-09', '2026-10', '2026-11'];
-  var prevName = {'2026-09': 'August', '2026-10': 'September', '2026-11': 'October'};
+  if (m === 'all') { el.textContent = (el.dataset.k === 'roas' || el.dataset.k === 'romi') ? 'Sep — Nov 18' : 'over 110 days'; return; }
+  var order = ['2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'];
+  var prevName = {'2026-09': 'August', '2026-10': 'September', '2026-11': 'October', '2026-11b': 'November 1–11'};
   var i = order.indexOf(m);
   if (i <= 0) { el.textContent = 'first month of the period'; return; }
   var cur = d.data.find(function (r) { return r.month === m; });
@@ -1267,7 +1436,7 @@ dash.draw('mixTable', function (tbody) {
     };
     if (DESC[r.channel]) { var ds = document.createElement('span'); ds.className = 'vg-chan-desc'; ds.textContent = DESC[r.channel]; td.appendChild(ds); }
     tr.appendChild(td);
-    ['08', '09', '10', '11'].forEach(function (k) {
+    ['08', '09', '10', '11', '11b'].forEach(function (k) {
       var c = document.createElement('td');
       if (r.channel === 'Google Ads' && k === '08') { c.textContent = '—*'; tr.appendChild(c); return; }
       c.textContent = vgFmt.int(r['o' + k] || 0);
@@ -1294,7 +1463,7 @@ dash.draw('claimsChart', function (el) {
   var d = dash.data('xpaid');
   if (d.status !== 'ok' || !Array.isArray(d.data)) { el.replaceChildren(); el.textContent = d.status === 'error' ? 'Failed to load' : '—'; return; }
   var m = vgMonth(); if (m === '2026-08') m = 'all';
-  var rows = d.data.filter(function (r) { return r.month === m && r.pf_value != null && r.channel.charAt(0) !== '—'; });
+  var rows = d.data.filter(function (r) { return r.month === m && r.pf_value != null && !r.total && r.channel.charAt(0) !== '—'; });
   el.replaceChildren();
   el.setAttribute('aria-label', 'Revenue claimed by Google Ads, Meta and Microsoft Ads vs Shopify orders attributed to these channels');
   var W = Math.max(280, el.clientWidth || 600), rowH = 58, mt = 6, H = rows.length * rowH + mt + 4;
@@ -1370,10 +1539,10 @@ dash.draw('catChart', function (el) {
 });
 
 dash.draw('convChart', function (el) {
-  var d = dash.data('funnel_v');
+  var d = dash.data('funnel_dev_v');
   el.replaceChildren();
   if (d.status !== 'ok' || !Array.isArray(d.data)) { el.textContent = d.status === 'error' ? 'Failed to load' : '—'; return; }
-  var months = [['2026-08', 'August'], ['2026-09', 'September'], ['2026-10', 'October'], ['2026-11', 'November 1–11'], ['all', 'All period']];
+  var months = [['2026-08', 'August'], ['2026-09', 'September'], ['2026-10', 'October'], ['2026-11', 'November 1–11'], ['2026-11b', 'November 12–18'], ['all', 'All period']];
   var devs = [['Desktop', 0], ['Mobile', 1]];
   var get = function (m, dv) { return d.data.find(function (r) { return r.month === m && r.device === dv; }) || {}; };
   var W = Math.max(280, el.clientWidth || 600), H = 230, mt = 22, mb = 26;

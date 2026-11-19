@@ -130,9 +130,28 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .vg-kpi-label{min-height:0}
 @media (max-width:900px){.vg-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:640px){.vg-card{padding:16px}.vg-title{font-size:22px}.vg-kpi-val{font-size:19px}}
+.vg-cmp{margin-top:2px}
+.vg-cmp-head{font-size:12px;margin:0 0 6px;color:var(--color-fg)}
+.vg-cmp-head span{color:var(--color-fg-muted)}
+.vg-cmp-table{border-collapse:collapse;font-size:12.5px;width:auto;min-width:min(100%,560px)}
+.vg-cmp-table th,.vg-cmp-table td{padding:6px 12px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--color-border-line)}
+.vg-cmp-table th{font-size:11.5px;font-weight:700;color:var(--color-fg-muted)}
+.vg-cmp-table th:first-child,.vg-cmp-table td:first-child{text-align:left;white-space:normal}
+.vg-cmp-table td.vg-good{color:var(--vg-good);font-weight:600}
+.vg-cmp-table td.vg-badc{color:var(--vg-bad);font-weight:600}
+.vg-insight ul.vg-ins{margin:6px 0 0;padding-left:1.1em;display:flex;flex-direction:column;gap:5px}
+.vg-method-btn{font:inherit;font-size:12px;font-weight:600;margin-left:auto;padding:6px 12px;border:1px solid var(--color-border-line);border-radius:999px;background:none;color:var(--color-fg-muted);cursor:pointer}
+.vg-method-btn[aria-pressed="true"]{color:var(--vg-accent);border-color:var(--vg-accent)}
+body:not(.vg-show-method) p.vg-note,body:not(.vg-show-method) .vg-method{display:none!important}
+.vg-media th{text-align:left!important}
+.vg-media td{white-space:normal;vertical-align:top;text-align:left;line-height:1.5;font-weight:400}
+.vg-media td:first-child{font-weight:700;min-width:110px}
+.vg-media td.vg-m-what{min-width:240px;font-weight:600}
+.vg-media td.vg-m-why{min-width:240px;color:var(--color-fg-muted)}
+.vg-media td.vg-m-kpi{min-width:180px}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
-<script src="data.js?v=ms20261117"></script>
+<script src="data.js?v=w20261119b"></script>
 <script>
 (function () {
   var calcs = [], draws = {}, results = {}, cbs = [], params = {month: 'all'};
@@ -167,9 +186,9 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 
 <header class="vg-head" id="top">
 <h1 class="vg-title" data-read lang="ru">VIGO · маркетинг и продажи</h1>
-<p class="vg-period">Статус на 12 ноября 2026 · данные за 1 августа — 11 ноября · ноябрь неполный (1–11 число)</p>
-<p class="vg-summary" id="lede" data-read lang="ru">Основной источник данных о D2C-продажах — Shopify: за 1 августа — 11 ноября D2C Net Sales составили <b data-draw="num" data-source="months" data-where="month=all" data-field="net" data-fmt="k">—</b> при <b data-draw="num" data-source="months" data-where="month=all" data-field="orders" data-fmt="int">—</b> заказах. Каналы определены по последнему визиту перед покупкой (last click): такая атрибуция показывает последний зафиксированный источник, но не измеряет инкрементальный вклад канала.</p>
-<p class="vg-note" id="scope">Scope: только D2C. Шесть Shopify B2B-заказов исключены; B2B-воронка анализируется отдельно. Данные о сессиях охватывают весь сайт и не фильтруются по типу клиента. 32 заказа на $0 (подарки LTK, тестовые заказы, коды на 100%) в D2C-заказы не входят.</p>
+<p class="vg-period">Статус на 19 ноября 2026 · данные за 1 августа — 18 ноября · ноябрь по неделям: 1–11 и 12–18 ноября</p>
+<p class="vg-summary" id="lede" data-read lang="ru">Основной источник данных о D2C-продажах — Shopify: за 1 августа — 18 ноября D2C Net Sales составили <b data-draw="num" data-source="months" data-where="month=all" data-field="net" data-fmt="k">—</b> при <b data-draw="num" data-source="months" data-where="month=all" data-field="orders" data-fmt="int">—</b> заказах. Каналы определены по последнему визиту перед покупкой (last click): такая атрибуция показывает последний зафиксированный источник, но не измеряет инкрементальный вклад канала.</p>
+<p class="vg-note" id="scope">Scope: только D2C. Семь Shopify B2B-заказов исключены; B2B-воронка анализируется отдельно. Данные о сессиях охватывают весь сайт и не фильтруются по типу клиента. 34 заказа на $0 (подарки LTK, тестовые заказы, коды на 100%) в D2C-заказы не входят.</p>
 </header>
 
 <nav class="vg-bar" id="month-bar" aria-label="Выбор месяца">
@@ -180,7 +199,9 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <button type="button" data-month="2026-09" aria-pressed="false">Сентябрь</button>
 <button type="button" data-month="2026-10" aria-pressed="false">Октябрь</button>
 <button type="button" data-month="2026-11" aria-pressed="false">1–11 ноября</button>
+<button type="button" data-month="2026-11b" aria-pressed="false">12–18 ноября</button>
 </div>
+<button type="button" class="vg-method-btn" id="method-btn" aria-pressed="false">Методология</button>
 </nav>
 
 <section class="vg-card" id="funnel-top">
@@ -192,15 +213,17 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 
 <section class="vg-card" id="sources">
 <div class="vg-card-head"><h2 class="vg-card-title">Откуда пришли покупки</h2><span class="vg-note">все месяцы · фильтр по месяцу не применяется</span></div>
-<p class="vg-note">Каждый заказ Shopify отнесён к одному каналу по последнему визиту перед покупкой (last click). Рекламу Google, Meta и Microsoft определяет GA4 по номеру заказа: все 434 покупки GA4 нашлись в Shopify. В клетке — число заказов и сумма заказов после возвратов (order-level). Это не Net Sales: сумма по D2C-заказам — $317,5K, D2C Net Sales — $300,7K; разница $16,8K — возвраты, оформленные в периоде по заказам, сделанным до 1 августа (валовые продажи минус скидки по заказам совпадают с Shopify до цента). На Direct и Organic Search приходится 61,8% суммы D2C-заказов, но это не чистый органический вклад: в августе GA4 не работал, а часть платного трафика попала в Direct и Organic из-за отсутствующих меток.</p>
+<p class="vg-note">Каждый заказ Shopify отнесён к одному каналу по последнему визиту перед покупкой (last click). Рекламу Google, Meta и Microsoft определяет GA4 по номеру заказа: все 492 покупки GA4 за 2 сентября — 18 ноября нашлись в Shopify. В клетке — число заказов и сумма заказов после возвратов (order-level). Это не Net Sales: сумма по D2C-заказам — $345,1K, D2C Net Sales — $328,3K; разница $16,8K — возвраты, оформленные в периоде по заказам, сделанным до 1 августа (валовые продажи минус скидки по заказам совпадают с Shopify до цента). На Direct и Organic Search приходится 61,0% суммы D2C-заказов, но это не чистый органический вклад: в августе GA4 не работал, а часть платного трафика попала в Direct и Organic из-за отсутствующих меток.</p>
 <div class="vg-tablewrap">
 <table class="vg-table vg-mix" id="mix-table" data-source="mix">
-<thead><tr><th>Канал</th><th>Август</th><th>Сентябрь</th><th>Октябрь</th><th>1–11 ноября</th><th>Всего</th><th>Доля суммы</th></tr></thead>
+<thead><tr><th>Канал</th><th>Август</th><th>Сентябрь</th><th>Октябрь</th><th>1–11 ноября</th><th>12–18 ноября</th><th>Всего</th><th>Доля суммы</th></tr></thead>
 <tbody data-draw="mixTable"></tbody>
 </table>
 </div>
-<details class="vg-more"><summary>* Почему в августе нет Google Ads, что такое feed tag и почему в августе выше Direct</summary><div class="vg-more-body">
-<p class="vg-note">* В августе GA4 ещё не собирал данные, а UTM-метки Google стоят в шаблоне отслеживания и до сайта почти не доходят, поэтому августовские заказы с рекламы Google попали в Organic Search и Google Shopping (feed tag). Метку фида Shopify ставит и на бесплатные товарные объявления, и на клики PMax; в сентябре — ноябре 14 из 25 таких заказов оказались кликами по PMax и перенесены в Google Ads. В августе PMax потратил $9,4K, так что большая часть 25 августовских заказов на $12,3K, скорее всего, тоже реклама. Сумма считается по самим заказам после возвратов, поэтому отличается от D2C Net Sales ниже ($300,7K): там вычитаются все возвраты, оформленные в периоде, в том числе $16,8K по заказам до 1 августа.</p>
+<div class="vg-insight"><b>Вывод</b><ul class="vg-ins"><li><b>Весь период:</b> Direct и Organic Search — 61% суммы D2C-заказов, платные каналы по last click — 10,8%.</li><li><b>12–18 к 1–11 ноября:</b> доля Direct упала с 41% до 19% суммы, Organic Search выросла с 20% до 32%, Google Ads — с 13% до 19%. Без данных о визите — 15% суммы (было 8%): часть покупок без источника растёт к BFCM.</li><li><b>Что делать:</b> проверить UTM и согласие на cookies до BFCM — иначе в пиковую неделю большая часть заказов останется без источника.</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Direct, доля суммы", "ms:Direct", "pct", "pp", "none"], ["Organic Search", "ms:Organic Search", "pct", "pp", "none"], ["Без данных о визите", "ms:Unknown (no visit data)", "pct", "pp", "down"], ["Google Ads", "ms:Google Ads", "pct", "pp", "none"], ["Вся платная реклама", "ms:paid", "pct", "pp", "none"], ["Купонные и кешбэк-сайты", "ms:Coupon & Cashback Sites", "pct", "pp", "none"]]'></div>
+<details class="vg-more vg-method"><summary>* Почему в августе нет Google Ads, что такое feed tag и почему в августе выше Direct</summary><div class="vg-more-body">
+<p class="vg-note">* В августе GA4 ещё не собирал данные, а UTM-метки Google стоят в шаблоне отслеживания и до сайта почти не доходят, поэтому августовские заказы с рекламы Google попали в Organic Search и Google Shopping (feed tag). Метку фида Shopify ставит и на бесплатные товарные объявления, и на клики PMax; в сентябре — 18 ноября 14 из 28 таких заказов оказались кликами по PMax и перенесены в Google Ads. В августе PMax потратил $9,4K, так что большая часть 25 августовских заказов на $12,3K, скорее всего, тоже реклама. Сумма считается по самим заказам после возвратов, поэтому отличается от D2C Net Sales ниже ($328,3K): там вычитаются все возвраты, оформленные в периоде, в том числе $16,8K по заказам до 1 августа.</p>
 <p class="vg-note"><b>Почему в августе Direct выше.</b> Метки Google до сайта не доходят, поэтому часть кликов PMax — из YouTube, Gmail и приложений, откуда браузер не передаёт адрес источника, — Shopify записывает как прямой заход. Это видно по визитам: в августе PMax давал 152 клика в день; в сентябре его почти остановили (13 кликов в день), и визитов Direct стало меньше на 110 в день. В октябре PMax вернули (+60 кликов в день) — и визиты Direct выросли на 59 в день. С сентября GA4 помогает отделить такие заказы: 15 заказов, которые Shopify записал как Direct, перенесены в рекламные каналы. За август GA4 нет, поэтому в августовском Direct, судя по объёму PMax, ещё примерно 10–15 рекламных заказов. Без них прямой спрос ровный — около 3 заказов в день весь период, а в пересчёте на день Direct в ноябре ($1,5K) на уровне августа. Октябрь слабее ($1,1K в день) из-за повторных покупателей: их было 11 против 26 в сентябре.</p>
 </div></details>
 </section>
@@ -216,7 +239,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <div class="vg-kpi"><span class="vg-kpi-ic t-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span><div class="vg-kpi-body"><p class="vg-kpi-label">ROAS по Shopify last-click</p><p class="vg-kpi-val" data-draw="kpi" data-k="roas" data-fmt="x">—</p><p class="vg-delta" data-draw="kdelta" data-k="roas" data-mode="rel" data-good="up">—</p></div></div>
 <div class="vg-kpi"><span class="vg-kpi-ic t-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg></span><div class="vg-kpi-body"><p class="vg-kpi-label">ROMI при марже 30% (оценка)</p><p class="vg-kpi-val" data-draw="kpi" data-k="romi" data-fmt="pct">—</p><p class="vg-delta" data-draw="kdelta" data-k="romi" data-mode="pp" data-good="up">—</p></div></div>
 </div>
-<p class="vg-note">Показано: <b data-draw="selName">—</b>. Сравнение — с предыдущим месяцем, суммы в пересчёте на день. D2C Net Sales — Shopify Net Sales (валовые продажи − скидки − возвраты, оформленные в периоде) по заказам в рамках D2C-scope. D2C-заказы — заказы с ненулевой суммой в рамках scope; 32 заказа на $0 не считаются, а валовые продажи и скидки тестовых заказов с кодами на 100% исключены. Средний чек до возвратов — (валовые − скидки) ÷ D2C-заказы. MER — Net Sales ÷ расход Google, Meta и Microsoft Ads; комиссии агентства и другие маркетинговые расходы не включены. ROAS по Shopify last-click — сумма заказов Shopify, атрибутированных Google, Meta и Microsoft по последнему клику, ÷ их расход. ROMI — оценка при марже 30%: (выручка с рекламы × 30% − расход) ÷ расход; результат после медиарасходов за 2 сентября — 11 ноября — <b data-draw="num" data-source="months" data-where="month=all" data-field="ads_profit" data-fmt="k">—</b>. <b>Маржа 30% — рабочее предположение из брифа, которое требует подтверждения; все расчёты прибыли и окупаемости при марже 30% — оценка, а не факт.</b> ROMI считается по выручке, отнесённой к рекламе по last click: это оценка по атрибуции, а не измерение инкрементальности. В августе GA4 не работал, поэтому ROAS и ROMI за август не посчитать, а «весь период» для них — 2 сентября — 11 ноября. Возвраты ноябрьских заказов ещё впереди.</p>
+<p class="vg-note">Показано: <b data-draw="selName">—</b>. Сравнение — с предыдущим периодом (для 12–18 ноября — с 1–11 ноября), суммы в пересчёте на день. D2C Net Sales — Shopify Net Sales (валовые продажи − скидки − возвраты, оформленные в периоде) по заказам в рамках D2C-scope. D2C-заказы — заказы с ненулевой суммой в рамках scope; 34 заказа на $0 не считаются, а валовые продажи и скидки тестовых заказов с кодами на 100% исключены. Средний чек до возвратов — (валовые − скидки) ÷ D2C-заказы. MER — Net Sales ÷ расход Google, Meta и Microsoft Ads; комиссии агентства и другие маркетинговые расходы не включены. ROAS по Shopify last-click — сумма заказов Shopify, атрибутированных Google, Meta и Microsoft по последнему клику, ÷ их расход. ROMI — оценка при марже 30%: (выручка с рекламы × 30% − расход) ÷ расход; результат после медиарасходов за 2 сентября — 18 ноября — <b data-draw="num" data-source="months" data-where="month=all" data-field="ads_profit" data-fmt="k">—</b>. <b>Маржа 30% — рабочее предположение из брифа, которое требует подтверждения; все расчёты прибыли и окупаемости при марже 30% — оценка, а не факт.</b> ROMI считается по выручке, отнесённой к рекламе по last click: это оценка по атрибуции, а не измерение инкрементальности. В августе GA4 не работал, поэтому ROAS и ROMI за август не посчитать, а «весь период» для них — 2 сентября — 18 ноября. Возвраты ноябрьских заказов ещё впереди, поэтому недели ноября по возвратам предварительные.</p>
 </section>
 
 <div class="vg-grid2">
@@ -224,15 +247,29 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <div class="vg-card-head"><h2 class="vg-card-title">Продажи по месяцам</h2></div>
 <ul class="vg-legend" aria-hidden="true"><li><span class="vg-sw" data-swatch="0"></span>Чистые продажи</li><li><span class="vg-sw" data-swatch="1"></span>Возвраты</li><li><span class="vg-sw" data-swatch="2"></span>Скидки</li></ul>
 <div class="vg-chart" id="sales-chart" data-draw="salesChart" data-source="shopify"></div>
-<p class="vg-note">Высота столбца — валовые продажи, подпись — чистые. Ноябрь — 11 дней.</p>
+<p class="vg-note">Высота столбца — валовые продажи, подпись — чистые. Ноябрь показан неделями: 1–11 ноября (11 дней) и 12–18 ноября (7 дней), поэтому столбцы ноября ниже месячных.</p>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Net Sales в день", "net_day", "money"], ["Заказы в день", "orders_day", "num1"], ["Средний чек", "aov", "money"], ["Скидки ÷ валовые", "disc_rate", "pct", "pp", "down"], ["Возвраты ÷ валовые", "ret_rate", "pct", "pp", "down"], ["Доля повторных заказов", "ret_share", "pct", "pp", "up"]]'></div>
 </section>
 <section class="vg-card" id="crosschannel">
 <div class="vg-card-head"><h2 class="vg-card-title">Атрибуция кабинета против Shopify last-click</h2><span class="vg-note" data-draw="adsPeriod">—</span></div>
 <ul class="vg-legend" aria-hidden="true"><li><span class="vg-sw" data-swatch="0"></span>Засчитала себе площадка</li><li><span class="vg-sw" data-swatch="1"></span>Shopify last-click: сумма заказов</li></ul>
 <div class="vg-chart" id="claims-chart" data-draw="claimsChart" data-source="xpaid"></div>
-<p class="vg-note">Выручка, которую Google Ads, Meta и Microsoft Ads записали себе, против заказов Shopify, атрибутированных этим каналам. Период — 2 сентября — 11 ноября: за август GA4 данных нет.</p>
+<p class="vg-note">Выручка, которую Google Ads, Meta и Microsoft Ads записали себе, против заказов Shopify, атрибутированных этим каналам. Период — 2 сентября — 18 ноября: за август GA4 данных нет.</p>
 </section>
 </div>
+
+<section class="vg-card" id="romi">
+<div class="vg-card-head"><div class="vg-chan"><i class="ic-g">%</i><h2 class="vg-card-title">ROMI по каналам · <span data-draw="selName">—</span></h2></div><span class="vg-note">Shopify last-click · маржа 30%</span></div>
+<div class="vg-tablewrap">
+<table class="vg-table" id="romi-table" data-source="xpaid" data-row-key="channel" data-by-month data-no-aug>
+<thead><tr><th data-field="channel">Канал</th><th data-field="spend" data-fmt="money">Расход</th><th data-field="orders" data-fmt="int">Заказы Shopify</th><th data-field="net" data-fmt="money">Сумма заказов</th><th data-field="roas" data-fmt="x" data-tone="roas">ROAS Shopify</th><th data-field="profit" data-fmt="money">Прибыль 30% − расход</th><th data-field="romi" data-fmt="pct" data-tone="romi">ROMI Shopify</th><th data-field="pf_roas" data-fmt="x">ROAS кабинета</th><th data-field="pf_romi" data-fmt="pct">ROMI по кабинету</th></tr></thead>
+<tbody data-draw="tbl"></tbody>
+</table>
+</div>
+<p class="vg-note">ROMI = (сумма заказов Shopify last-click × 30% − расход) ÷ расход; маржа 30% — рабочее допущение из брифа. ROMI по кабинету — то же по ценности, которую записала себе площадка. Порог окупаемости при марже 30% — ROAS 3,33×. Brand Search — люди, которые уже искали VIGO, поэтому его ROMI не равен приросту продаж. Весь период для рекламы — 2 сентября — 18 ноября: в августе GA4 не работал.</p>
+<div class="vg-insight"><b>Вывод</b><ul class="vg-ins"><li><b>Весь период (2 сен — 18 ноя):</b> реклама вернула $37,4K при расходе $16,5K — ROAS 2,27×, ROMI −32% при марже 30%. В плюсе только Brand Search Google (ROMI +15%), но это люди, которые уже искали VIGO. PMax и Shopping — −23%, Microsoft — −24%, Meta — −90%.</li><li><b>12–18 к 1–11 ноября:</b> ROMI всех каналов вырос с −35% до −7%: Google стал прибыльным (+23%: бренд +104%, PMax и Shopping −13%), Meta и Microsoft не дали ни одного заказа.</li><li><b>Что делать:</b> порог окупаемости при марже 30% — ROAS 3,33×. До BFCM деньги — в Google (бренд и лучший PMax), Meta держать на минимуме до проверки инкрементальности.</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Расход в день", "spend_day", "money", "rel", "none"], ["Сумма заказов с рекламы в день", "ads_net_day", "money"], ["ROAS Shopify", "roas", "x", "x"], ["ROMI Shopify (30%)", "romi", "pct", "pp"], ["ROAS кабинетов", "x_pfroas:all", "x", "x", "none"], ["ROMI Google", "x_romi:Google Ads", "pct", "pp"], ["ROMI Meta", "x_romi:Meta Ads", "pct", "pp"], ["ROMI Microsoft", "x_romi:Microsoft Ads", "pct", "pp"], ["MER", "mer", "x", "x"]]'></div>
+</section>
 
 <section class="vg-card" id="cac">
 <div class="vg-card-head"><div class="vg-chan"><i class="ic-s">$</i><h2 class="vg-card-title">Стоимость клиента</h2></div><span class="vg-note">все месяцы · фильтр не применяется · новые покупатели</span></div>
@@ -243,8 +280,9 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <tbody data-draw="tbl"></tbody>
 </table>
 </div>
-<p class="vg-note">Средние медиазатраты — весь расход на рекламу ÷ все новые клиенты, включая тех, кто пришёл сам: это не настоящий CAC, потому что большинство клиентов не атрибутировано рекламе. Paid CAC — тот же расход ÷ новые клиенты, атрибутированные Google, Meta и Microsoft: это условная стоимость нового клиента по модели last-click; показатель не доказывает инкрементальность. Зелёный — клиент окупается первым заказом, жёлтый — дороже до полутора раз, красный — дороже больше чем в полтора раза. Не учтены: оплата подрядчиков и скидки — скидки уже вычтены из суммы заказа. За август paid CAC не посчитать: GA4 тогда не работал, поэтому итог в двух строках: 1 августа — 11 ноября (только средние медиазатраты) и 2 сентября — 11 ноября (paid CAC).</p>
-<div class="vg-insight"><b>Вывод.</b> Средние медиазатраты на одного нового клиента магазина — $37 за 1 августа — 11 ноября ($31 за 2 сентября — 11 ноября). Это не CAC: большинство новых клиентов не атрибутировано рекламе. Новый клиент, атрибутированный Google, Meta и Microsoft (paid CAC), стоит $245 за 2 сентября — 11 ноября, а его первый заказ при марже 30% приносит около $150 валовой прибыли — оценка до подтверждения маржи.<br><b>Google:</b> 43 атрибутированных заказа на $23,4K при расходе $8,49K, ROAS по Shopify last-click 2,76×. 41 новый клиент по $207; первый заказ приносит в среднем около $159 валовой прибыли, суммарно около $6,5K — примерно на $2,0K меньше рекламных расходов. По Shopify last-click на $1 расхода Google приходится $2,76 суммы заказов. Однако при марже 30% оценочная валовая прибыль первого заказа не покрывает медиарасход (порог — 3,33×).<br><b>Meta:</b> 3 заказа на $1,23K при расходе $3,41K, ROAS 0,36×; результат после медиарасходов при марже 30% — около −$3,0K, ROMI — около −89%.<br><b>Microsoft:</b> 16 новых клиентов по $174; первый заказ приносит в среднем около $134 валовой прибыли. ROAS по Shopify last-click 2,57× — ниже порога окупаемости 3,33×.<br><b>Повторные покупки:</b> за 103 дня повторные клиенты сделали 60 из 749 D2C-заказов — 8,0%. Этого периода недостаточно для оценки LTV; нужен когортный анализ на 90, 180 и 365 дней. До расчёта LTV окупаемость первого заказа — консервативный ориентир, а не подтверждённое требование.</div>
+<p class="vg-note">Средние медиазатраты — весь расход на рекламу ÷ все новые клиенты, включая тех, кто пришёл сам: это не настоящий CAC, потому что большинство клиентов не атрибутировано рекламе. Paid CAC — тот же расход ÷ новые клиенты, атрибутированные Google, Meta и Microsoft: это условная стоимость нового клиента по модели last-click; показатель не доказывает инкрементальность. Зелёный — клиент окупается первым заказом, жёлтый — дороже до полутора раз, красный — дороже больше чем в полтора раза. Не учтены: оплата подрядчиков и скидки — скидки уже вычтены из суммы заказа. За август paid CAC не посчитать: GA4 тогда не работал, поэтому итог в двух строках: 1 августа — 18 ноября (только средние медиазатраты) и 2 сентября — 18 ноября (paid CAC).</p>
+<div class="vg-insight"><b>Вывод</b><ul class="vg-ins"><li><b>Весь период:</b> средние медиазатраты на нового клиента — $37 (1 авг — 18 ноя); paid CAC — $242 (2 сен — 18 ноя) при валовой прибыли первого заказа ≈$156 — первый заказ не окупает рекламу. Повторные клиенты — 8,3% заказов за 110 дней.</li><li><b>12–18 к 1–11 ноября:</b> новых клиентов в день 6,8 → 8,0; paid CAC $262 → $224, у Google $259 → $169 — ниже прибыли первого заказа (≈$201). Все 8 платных новых клиентов недели — из Google.</li><li><b>Что делать:</b> считать окупаемость с учётом повторных покупок (когорты 90/180/365 дней) и подтвердить маржу — от неё зависит допустимый CAC.</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Новых клиентов в день", "new_day", "num1"], ["Медиазатраты на нового клиента", "cac_all", "money", "rel", "down"], ["Новых клиентов с рекламы", "p_new", "int"], ["Paid CAC", "p_cac", "money", "rel", "down"], ["CAC Google", "g_cac", "money", "rel", "down"], ["Средний первый заказ", "first_aov", "money"]]'></div>
 <details class="vg-more"><summary>По каналам: Google, Meta, Microsoft</summary><div class="vg-more-body">
 <div class="vg-tablewrap">
 <table class="vg-table" data-source="cac_v">
@@ -253,8 +291,8 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 </table>
 </div>
 </div></details>
-<details class="vg-more"><summary>Как считали</summary><div class="vg-more-body">
-<p class="vg-note">Новый клиент — заказ, который у этого покупателя в Shopify первый за всю историю магазина; заказы на $0 не считаем. Канал — как в таблице «Откуда пришли покупки»: GA4 и метки Shopify. По каналам считаем со 2 сентября, потому что в августе GA4 не работал; итог по каналам — в строке «2 сен — 11 ноя». Маржа 30% — допущение из брифа, точную маржу по категориям VIGO даёт до 20 ноября; при другой марже порог окупаемости — 1 ÷ маржа (при 35% — 2,9×, при 40% — 2,5×). Расход — Google, Meta и Microsoft Ads. В расход не входят оплата подрядчиков и скидки: скидки уже вычтены из суммы заказа.</p>
+<details class="vg-more vg-method"><summary>Как считали</summary><div class="vg-more-body">
+<p class="vg-note">Новый клиент — заказ, который у этого покупателя в Shopify первый за всю историю магазина; заказы на $0 не считаем. Канал — как в таблице «Откуда пришли покупки»: GA4 и метки Shopify. По каналам считаем со 2 сентября, потому что в августе GA4 не работал; итог по каналам — в строке «2 сен — 18 ноя». Маржа 30% — допущение из брифа, точную маржу по категориям VIGO даёт до 20 ноября; при другой марже порог окупаемости — 1 ÷ маржа (при 35% — 2,9×, при 40% — 2,5×). Расход — Google, Meta и Microsoft Ads. В расход не входят оплата подрядчиков и скидки: скидки уже вычтены из суммы заказа.</p>
 </div></details>
 </section>
 
@@ -268,7 +306,8 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <tbody data-draw="tbl"></tbody>
 </table>
 </div>
-<div class="vg-insight"><b>Вывод.</b> душевые двери обеспечили 41,1% валовых продаж D2C, а сумма возвратов, проведённых в периоде, равна 8,2% валовых продаж категории: это главный товар для рекламы и BFCM. По душевым кабинам сумма возвратов, проведённых в периоде, — $27,2K, 52,3% валовых продаж категории за тот же период; это не когортная доля возврата товаров: в периоде есть возвраты старых заказов (у товаров без типа $1,5K продаж и $13,3K возвратов). У кухонных смесителей и раковин отношение возвратов к валовым продажам за период низкое — 1,2% и 2,3%; это не когортные доли возврата.</div>
+<div class="vg-insight"><b>Вывод</b><ul class="vg-ins"><li><b>Весь период:</b> душевые двери — 42,0% валовых продаж D2C, возвраты 7,4% от продаж категории. Душевые кабины — возвраты $27,9K, 51,7% от продаж категории (в периоде есть возвраты старых заказов).</li><li><b>12–18 к 1–11 ноября:</b> доля дверей 54% → 52%; шторки для ванн выросли с 6% до 14% продаж, кабины — с 4% до 7%. Возвраты по кабинам за неделю — 35% от их продаж (было 76%).</li><li><b>Что делать:</b> двери — главный товар для BFCM; по кабинам собрать причины возвратов до масштабирования рекламы.</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Душевые двери, доля продаж", "cs:Душевые двери", "pct", "pp", "none"], ["Шторки и двери для ванны", "cs:Шторки и двери для ванны", "pct", "pp", "none"], ["Душевые панели", "cs:Душевые панели", "pct", "pp", "none"], ["Душевые кабины", "cs:Душевые кабины", "pct", "pp", "none"], ["Смесители для ванной", "cs:Смесители для ванной", "pct", "pp", "none"], ["Двери: чистые продажи в день", "cn:Душевые двери", "money"], ["Двери: возвраты ÷ продажи", "cr:Душевые двери", "pct", "pp", "down"], ["Кабины: возвраты ÷ продажи", "cr:Душевые кабины", "pct", "pp", "down"]]'></div>
 <details class="vg-more"><summary>Топ-15 товаров и пояснения</summary><div class="vg-more-body">
 <p class="vg-note">Категории собраны из типов товаров Shopify. Возврат попадает в месяц, когда его оформили, поэтому в отдельном месяце доля возвратов может быть выше 100%. Штуки — только за весь период. «Страховка доставки» — платная опция Shipping Protection в заказе.</p>
 <h3 class="vg-card-sub" style="margin:0">Топ-15 товаров · весь период</h3>
@@ -288,7 +327,8 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <tbody data-draw="tbl"></tbody>
 </table>
 </div>
-<div class="vg-insight"><b>Вывод.</b> со 2 сентября по 11 ноября к рекламе по last click отнесено $16,9K суммы заказов душевых дверей. Самая высокая доля, отнесённая к рекламе, — у шторок и дверей для ванн: 25,6%. К рекламе отнесено лишь $0,9K суммы заказов душевых кабин, но текущие данные не позволяют судить, связан ли канал привлечения с возвратами. Душевые панели можно рассмотреть для контролируемого рекламного теста — это гипотеза, а не подтверждённая возможность роста.</div>
+<div class="vg-insight"><b>Вывод</b><ul class="vg-ins"><li><b>Весь период (2 сен — 18 ноя):</b> к рекламе отнесено $19,3K продаж дверей (16,8% категории); выше всего доля у шторок для ванн — 25,3%; у панелей — 6,4%.</li><li><b>12–18 к 1–11 ноября:</b> реклама впервые дала продажи панелей (20% категории) и кабин (50%); доля рекламы в дверях снизилась с 21% до 17%.</li><li><b>Что делать:</b> в PMax выделить двери и шторки для ванн в отдельные группы ассетов с отдельным бюджетом; панели — контролируемый тест.</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Душевые двери", "ca:Душевые двери", "pct", "pp", "none"], ["Шторки и двери для ванны", "ca:Шторки и двери для ванны", "pct", "pp", "none"], ["Душевые панели", "ca:Душевые панели", "pct", "pp", "none"], ["Душевые кабины", "ca:Душевые кабины", "pct", "pp", "none"], ["Смесители для ванной", "ca:Смесители для ванной", "pct", "pp", "none"]]'></div>
 <p class="vg-note">Сумма каждого заказа после скидок и возвратов разделена между категориями пропорционально стоимости товаров в нём. Реклама — по последнему клику: GA4 и метки Shopify. Окно — со 2 сентября: за август GA4 данных нет.</p>
 
 </section>
@@ -303,9 +343,10 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <tbody data-draw="tbl"></tbody>
 </table>
 </div>
-<div class="vg-insight"><b>Вывод.</b> за 2 сентября — 11 ноября last-click атрибуция Shopify отнесла к Google Ads 43 заказа на $23,4K при расходе $8,49K, ROAS по Shopify — 2,76× (в ноябре 2,3×: PMax 3,2×, бренд пока 0). Из них 41 — новые клиенты, paid CAC $207. При марже 30% первый заказ нового клиента приносит в среднем около $159 валовой прибыли, суммарно около $6,5K — примерно на $2,0K меньше рекламных расходов. По Shopify last-click на $1 расхода Google приходится $2,76 суммы заказов. Однако при марже 30% оценочная валовая прибыль первого заказа не покрывает медиарасход (порог — 3,33×). Расчёт — оценка до подтверждения маржи. Кабинет завышает ценность в 1,4 раза; решения по бюджету принимаем по Shopify last-click.</div>
-<details class="vg-more"><summary>Кампании и как считали</summary><div class="vg-more-body">
-<p class="vg-note">Shopify last-click — заказы Shopify, которые GA4 отнёс к клику по Google Ads (автометка gclid), сумма после скидок и возвратов. Август: GA4 не работал, атрибуцию Shopify не посчитать. Итог по Shopify last-click — 2 сентября — 11 ноября. Кабинет — без прогнозной ценности; цель конверсии добавляет ценность за нового клиента, поэтому ROAS кабинета может быть завышен. UTM-метки стоят в шаблоне отслеживания и до сайта почти не доходят; обычные Shopping-кампании на паузе: они остались привязаны к прежнему Merchant Center, а новый (VIGO Industries) подключён к Google Ads с 9 сентября и работает через PMax.</p>
+<div class="vg-insight"><b>Вывод</b><ul class="vg-ins"><li><b>Весь период (2 сен — 18 ноя):</b> 52 заказа на $29,0K при расходе $9,84K — ROAS 2,94×, ROMI −12% при марже 30%. Кабинет показывает ценность в 1,4 раза выше Shopify.</li><li><b>12–18 к 1–11 ноября:</b> при том же расходе в день ($189 → $193) ROAS вырос с 2,30× до 4,09×, ROMI — с −31% до +23%, CPA $259 → $150. Рост дал бренд (0 → 4 заказа, 6,8×); PMax и Shopping — 3,16× → 2,89×. Medium income — 0 конверсий при $237.</li><li><b>Что делать:</b> не менять tROAS перед BFCM, задать корректировку сезонности на 27.11–1.12, объединить слабые PMax (см. блок медиабайера).</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Расход в день", "g_spend_day", "money", "rel", "none"], ["Клики в день", "g_clicks_day", "num1"], ["CTR", "g_ctr", "pct2", "pp"], ["CPC", "g_cpc", "money2", "rel", "down"], ["ROAS кабинета", "g_pfroas", "x", "x", "none"], ["Заказы Shopify", "g_orders", "int"], ["Сумма заказов в день", "g_net_day", "money"], ["ROAS Shopify", "g_roas", "x", "x"], ["ROMI (30%)", "g_romi", "pct", "pp"], ["CPA", "g_cpa", "money", "rel", "down"], ["Brand Search: ROAS", "x_roas:— Brand Search", "x", "x"], ["PMax и Shopping: ROAS", "x_roas:— PMax + Shopping (non-brand)", "x", "x"]]'></div>
+<details class="vg-more"><summary>Кампании</summary><div class="vg-more-body">
+<p class="vg-note">Shopify last-click — заказы Shopify, которые GA4 отнёс к клику по Google Ads (автометка gclid), сумма после скидок и возвратов. Август: GA4 не работал, атрибуцию Shopify не посчитать. Итог по Shopify last-click — 2 сентября — 18 ноября. Кабинет — без прогнозной ценности; цель конверсии добавляет ценность за нового клиента, поэтому ROAS кабинета может быть завышен. UTM-метки стоят в шаблоне отслеживания и до сайта почти не доходят; старые Shopping-кампании до Netpeak на паузе: они привязаны к прежнему Merchant Center, а новый (VIGO Industries) подключён к Google Ads с 9 сентября и работает через PMax. За 12–18 ноября в отчёте появилась новая кампания «NP / Shopping / Low performers from PMax»: $31 расхода, 3 конверсии на $2,3K в кабинете.</p>
 <h3 class="vg-card-sub" style="margin:0">Кампании по данным кабинета · <span data-draw="selName">—</span></h3>
 <div class="vg-tablewrap">
 <table class="vg-table" id="gads-camp-table" data-source="gads_cm_v" data-row-key="campaign" data-by-month>
@@ -327,9 +368,10 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <tbody data-draw="tbl"></tbody>
 </table>
 </div>
-<div class="vg-insight"><b>Вывод.</b> за 2 сентября — 11 ноября last-click атрибуция Shopify отнесла к Meta Ads 3 заказа на $1,23K при расходе $3,41K, ROAS по Shopify — 0,36×. При марже 30% результат после медиарасходов — около −$3,0K, ROMI — около −89% (оценка). Кабинет показывает существенно более высокую ценность (13×) преимущественно за счёт атрибуции по просмотрам. Пока результаты не улучшатся или не будет доказана инкрементальность, Meta — только контролируемые D2C-тесты.</div>
-<details class="vg-more"><summary>Кампании и как считали</summary><div class="vg-more-body">
-<p class="vg-note">Кабинет — атрибуция аккаунта: клик за 7 дней или просмотр за 1 день; почти все покупки Meta засчитывает по просмотру рекламы без клика. Shopify last-click — заказы Shopify с UTM-меткой Meta (все объявления Netpeak размечены) или с переходом facebook / cpc в GA4. Август: атрибуцию Shopify не посчитать — GA4 не работал. Итог по Shopify last-click — 2 сентября — 11 ноября.</p>
+<div class="vg-insight"><b>Вывод</b><ul class="vg-ins"><li><b>Весь период (2 сен — 18 ноя):</b> 3 заказа на $1,23K при расходе $3,80K — ROAS 0,32×, ROMI −90%. Кабинет показывает 13× почти целиком за счёт покупок по просмотру.</li><li><b>12–18 к 1–11 ноября:</b> расход в день $44 → $57, CTR 1,09% → 1,58%, CPC $1,57 → $1,19; кабинет — 11 покупок, из них 3 по клику (было 0). В Shopify — снова ни одного заказа с переходом из Meta. Корзины и оформления за неделю в кабинете недоступны.</li><li><b>Что делать:</b> проверить UTM-параметры в объявлениях Builders и Design/Home; оставить только продажи на 7-дневном клике; выключить Traffic Boosts.</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Расход в день", "m_spend_day", "money", "rel", "none"], ["CPM", "m_cpm", "money2", "rel", "down"], ["CTR по ссылке", "m_ctr", "pct2", "pp"], ["Цена клика", "m_cpc", "money2", "rel", "down"], ["Клики по ссылке в день", "m_clicks_day", "num1"], ["Покупки в кабинете", "m_pf", "int", "rel", "none"], ["из них по клику", "m_pfclick", "int"], ["ROAS кабинета", "m_pfroas", "x", "x", "none"], ["Заказы Shopify", "m_orders", "int"], ["ROAS Shopify", "m_roas", "x", "x"]]'></div>
+<details class="vg-more"><summary>Кампании</summary><div class="vg-more-body">
+<p class="vg-note">Кабинет — атрибуция аккаунта: клик за 7 дней или просмотр за 1 день; почти все покупки Meta засчитывает по просмотру рекламы без клика. Shopify last-click — заказы Shopify с UTM-меткой Meta (все объявления Netpeak размечены) или с переходом facebook / cpc в GA4. Август: атрибуцию Shopify не посчитать — GA4 не работал. Итог по Shopify last-click — 2 сентября — 18 ноября.</p>
 <h3 class="vg-card-sub" style="margin:0">Кампании по данным кабинета · <span data-draw="selName">—</span></h3>
 <div class="vg-tablewrap">
 <table class="vg-table" id="meta-camp-table" data-source="meta_cm_v" data-row-key="campaign" data-by-month>
@@ -350,8 +392,9 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <tbody data-draw="tbl"></tbody>
 </table>
 </div>
-<div class="vg-insight"><b>Вывод.</b> за 2 сентября — 11 ноября Microsoft Ads потратил $2,79K; Shopify last-click отнёс к нему 16 заказов на $7,15K — ROAS 2,57×, CPA $174. При марже 30% результат после медиарасходов — около −$0,64K, ROMI около −23% (оценка). Кабинет засчитал себе 24 конверсии на $14,4K (ROAS 5,16×) — вдвое больше, чем Shopify.<br>По кампаниям: PMax — ROAS по Shopify 4,34× при расходе $928, выше порога окупаемости 3,33×. Brand Search — 42% расхода и 2,09×: это люди, которые уже искали VIGO. Shopping — $697 расхода и 2 заказа на $280 (0,40×); сейчас кампания на паузе.</div>
-<details class="vg-more"><summary>По кампаниям: 2 сентября — 11 ноября</summary><div class="vg-more-body">
+<div class="vg-insight"><b>Вывод</b><ul class="vg-ins"><li><b>Весь период (2 сен — 18 ноя):</b> 16 заказов на $7,15K при расходе $2,83K — ROAS 2,53×, ROMI −24%. Лучший — PMax: 4,25× при $947.</li><li><b>12–18 к 1–11 ноября:</b> расход в день упал с $30 до $6, клики — с 34 до 7 в день, заказов нет (было 3 на $1,4K, ROAS 4,42×). Shopping формально на паузе, но списал $4,87.</li><li><b>Что делать:</b> выяснить причину падения расхода (бюджет, ставки, отклонённые объявления) и до BFCM вернуть PMax и бренд к $20–25 в день.</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Расход в день", "b_spend_day", "money", "rel", "none"], ["Клики в день", "b_clicks_day", "num1"], ["CTR", "b_ctr", "pct2", "pp"], ["CPC", "b_cpc", "money2", "rel", "down"], ["ROAS кабинета", "b_pfroas", "x", "x", "none"], ["Заказы Shopify", "b_orders", "int"], ["ROAS Shopify", "b_roas", "x", "x"], ["ROMI (30%)", "b_romi", "pct", "pp"]]'></div>
+<details class="vg-more"><summary>По кампаниям: 2 сентября — 18 ноября</summary><div class="vg-more-body">
 <div class="vg-tablewrap">
 <table class="vg-table" data-source="ms_cm_v" data-row-key="campaign">
 <thead><tr><th data-field="campaign">Кампания</th><th data-field="status">Статус на 17.11</th><th data-field="spend" data-fmt="money">Расход</th><th data-field="clicks" data-fmt="int">Клики</th><th data-field="pf_orders" data-fmt="num1">Кабинет: конверсии</th><th data-field="pf_value" data-fmt="money">Кабинет: ценность</th><th data-field="orders" data-fmt="int">Shopify last-click: заказы</th><th data-field="net" data-fmt="money">Shopify last-click: сумма заказов</th><th data-field="roas" data-fmt="x" data-tone="roas">ROAS по Shopify last-click</th></tr></thead>
@@ -359,12 +402,13 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 </table>
 </div>
 </div></details>
-<p class="vg-note">Расход, клики и конверсии — кабинет Microsoft Ads (аккаунт VIGO, G145AJT9), выгрузка 17.11.2026 по восточному времени США. Заказы — по GA4 (bing / cpc) и метке Microsoft Ads в Shopify, без повторов; кампания — по метке кампании GA4. 2 заказа на $420 без метки кампании в разбивке по кампаниям не участвуют. Август — без атрибуции Shopify: GA4 не работал. В кабинете есть предупреждение: одна цель конверсии давно не получала конверсий, поэтому ценность кабинета может быть неполной.</p>
+<p class="vg-note">Расход, клики и конверсии — кабинет Microsoft Ads (аккаунт VIGO, G145AJT9), выгрузка 17.11.2026 (неделя 12–18 ноября — 19.11.2026) по восточному времени США. Заказы — по GA4 (bing / cpc) и метке Microsoft Ads в Shopify, без повторов; кампания — по метке кампании GA4. 2 заказа на $420 без метки кампании в разбивке по кампаниям не участвуют. Август — без атрибуции Shopify: GA4 не работал. В кабинете есть предупреждение: одна цель конверсии давно не получала конверсий, поэтому ценность кабинета может быть неполной.</p>
 </section>
 
 <section class="vg-card" id="returns">
 <div class="vg-card-head"><div class="vg-chan"><i class="ic-r">↩</i><h2 class="vg-card-title">Возвраты по типам товаров</h2></div></div>
-<div class="vg-insight"><b>Вывод.</b> крупнейшие концентрации возвратов — душевые кабины (Neo-Angle, Rectangle, Winslow) и товары без сопоставленного типа в Shopify: вместе около 63,8% возвратов, проведённых в периоде. Товары без типа могут включать старые или несопоставленные заказы.</div>
+<div class="vg-insight"><b>Вывод</b><ul class="vg-ins"><li><b>Весь период:</b> возвраты — 16,0% валовых продаж; 62,9% всех возвратов — душевые кабины (Neo-Angle, Rectangle, Winslow) и товары без типа в Shopify.</li><li><b>12–18 к 1–11 ноября:</b> возвраты в периоде снизились с 11,0% до 6,9% валовых продаж, по кабинам — с 76% до 35% продаж категории. Возвраты ноябрьских заказов ещё впереди.</li><li><b>Что делать:</b> когортный отчёт по возвратам и причина по каждому возврату кабины.</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Возвраты ÷ валовые", "ret_rate", "pct", "pp", "down"], ["Кабины: возвраты ÷ продажи", "cr:Душевые кабины", "pct", "pp", "down"], ["Двери: возвраты ÷ продажи", "cr:Душевые двери", "pct", "pp", "down"], ["Шторки для ванн: возвраты ÷ продажи", "cr:Шторки и двери для ванны", "pct", "pp", "down"]]'></div>
 <details class="vg-more"><summary>Возвраты по типам товаров</summary><div class="vg-more-body">
 <div class="vg-tablewrap">
 <table class="vg-table" data-source="returns_v" data-row-key="product_type">
@@ -388,27 +432,29 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <tbody data-draw="tbl"></tbody>
 </table>
 </div>
-<div class="vg-insight"><b>Вывод.</b> За 1–11 ноября конверсия сайта составляет 0,63% — максимальное значение среди доступных периодов (в остальные месяцы 0,54–0,58%); из-за неполного месяца результат предварительный. Рост дают два шага: в корзину добавляют 2,4% визитов (в сентябре — 1,9%), а начатое оформление завершают 40% (в августе — 36%).<br><b>В сентябре просела конверсия поиска:</b> визитов из поиска стало на 3,7K больше, чем в августе, но в корзину их добавляли почти вдвое реже (1,4% против 2,6%), и конверсия поиска упала до 0,26%. Возможные причины — изменение структуры запросов, посадочных страниц или качества трафика; гипотезу нужно проверить в Search Console.<br><b>Слабое место ноября — шаг «корзина → оформление»:</b> до оформления доходят 66% корзин против 78% в сентябре. Перед BFCM стоит проверить, что покупатель видит в корзине: сроки доставки, итоговую цену со скидкой, поле для промокода. Возврат шага к уровню сентября — сценарий до +18% заказов при том же трафике, а не прогноз.</div>
+<div class="vg-insight"><b>Вывод</b><ul class="vg-ins"><li><b>Весь период:</b> конверсия сайта 0,58%; узкое место — шаг «корзина → оформление»: 71% за период, в сентябре 78%.</li><li><b>12–18 к 1–11 ноября:</b> конверсия 0,63% → 0,75% — максимум за все периоды. Рост — на шаге до корзины (2,39% → 2,86% визитов) и в поиске (0,41% → 0,78%); Direct просел (0,84% → 0,73%). До оформления по-прежнему доходят только 66–67% корзин.</li><li><b>Что делать:</b> до BFCM пройти корзину глазами покупателя: доставка, итоговая цена со скидкой, поле промокода. Возврат шага к 78% — около +17% заказов при том же трафике (сценарий).</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Визиты в день", "sess_day", "num1"], ["Добавили в корзину, % визитов", "cart_rate", "pct2", "pp"], ["Дошли до оформления, % корзин", "checkout_rate", "pct", "pp"], ["Купили, % оформлений", "complete_rate", "pct", "pp"], ["Конверсия сайта", "conv", "pct2", "pp"], ["Конверсия Direct", "conv_direct", "pct2", "pp"], ["Конверсия поиска", "conv_search", "pct2", "pp"]]'></div>
 <details class="vg-more"><summary>Конверсия по каналам GA4 · сентябрь — ноябрь</summary><div class="vg-more-body">
 <div class="vg-tablewrap">
 <table class="vg-table" data-source="ga4_conv_v">
-<thead><tr><th data-field="channel">Канал GA4</th><th data-field="s09" data-fmt="int">Визиты, сен</th><th data-field="c09" data-fmt="pct2">Конверсия, сен</th><th data-field="s10" data-fmt="int">Визиты, окт</th><th data-field="c10" data-fmt="pct2">Конверсия, окт</th><th data-field="s11" data-fmt="int">Визиты, 1–11 ноя</th><th data-field="c11" data-fmt="pct2">Конверсия, 1–11 ноя</th></tr></thead>
+<thead><tr><th data-field="channel">Канал GA4</th><th data-field="s09" data-fmt="int">Визиты, сен</th><th data-field="c09" data-fmt="pct2">Конверсия, сен</th><th data-field="s10" data-fmt="int">Визиты, окт</th><th data-field="c10" data-fmt="pct2">Конверсия, окт</th><th data-field="s11" data-fmt="int">Визиты, 1–11 ноя</th><th data-field="c11" data-fmt="pct2">Конверсия, 1–11 ноя</th><th data-field="s11b" data-fmt="int">Визиты, 12–18 ноя</th><th data-field="c11b" data-fmt="pct2">Конверсия, 12–18 ноя</th></tr></thead>
 <tbody data-draw="tbl"></tbody>
 </table>
 </div>
-<p class="vg-note">Cross-network — это PMax: он конвертирует лучше других платных каналов, 1,0–1,4%. Paid Search в ноябре упал до 0,51%: это в основном брендовая кампания, у которой в ноябре пока нет заказов (см. рекомендацию 4). Unassigned — покупки, у которых GA4 потерял источник визита; высокая конверсия там — особенность учёта, а не канал. Каналы GA4 размечены иначе, чем в Shopify, поэтому цифры Direct здесь и выше отличаются.</p>
+<p class="vg-note">Cross-network — это PMax: он конвертирует 0,8–1,4% (за 12–18 ноября — 0,76%, ниже прежних периодов). Paid Search — в основном брендовая кампания: за 1–11 ноября конверсия упала до 0,51%, за 12–18 ноября восстановилась до 1,42%. Unassigned — покупки, у которых GA4 потерял источник визита; высокая конверсия там — особенность учёта, а не канал. Каналы GA4 размечены иначе, чем в Shopify, поэтому цифры Direct здесь и выше отличаются.</p>
 </div></details>
 </section>
 
 <section class="vg-card" id="funnel">
 <div class="vg-card-head"><div class="vg-chan"><i class="ic-g">↘</i><h2 class="vg-card-title">Воронка сайта · <span data-draw="selName">—</span></h2></div></div>
 <ul class="vg-legend" aria-hidden="true"><li><span class="vg-sw" data-swatch="0"></span>Компьютер</li><li><span class="vg-sw" data-swatch="1"></span>Телефон</li></ul>
-<div class="vg-chart" data-draw="convChart" data-source="funnel_v"></div>
+<div class="vg-chart" data-draw="convChart" data-source="funnel_dev_v"></div>
 <p class="vg-note">Конверсия в покупку — доля посещений, которые закончились заказом, по месяцам.</p>
-<div class="vg-insight"><b>Вывод.</b> на мобильных слабее этап до добавления в корзину: 1,7% визитов против 2,6% на компьютере, при этом начатое оформление на мобильных завершается покупкой чаще (42% против 33%). Данные показывают проблему до корзины, но не позволяют утверждать, что она именно на карточке товара: перед изменениями проверить карточки, страницы категорий, посадочные страницы, скорость и записи сессий. Сценарий, а не прогноз: если мобильная конверсия достигнет уровня компьютера, это около 84 дополнительных сессий с покупкой за 103 дня, или около 25 в месяц (верхняя оценка).</div>
+<div class="vg-insight"><b>Вывод</b><ul class="vg-ins"><li><b>Весь период:</b> на телефоне в корзину добавляют 1,8% визитов против 2,6% на компьютере, зато начатое оформление завершают чаще (42% против 34%). Если мобильная конверсия догонит компьютер — около 26 дополнительных покупок в месяц (верхняя оценка).</li><li><b>12–18 к 1–11 ноября:</b> конверсия выросла на обоих устройствах: компьютер 0,77% → 0,94%, телефон 0,51% → 0,58%; корзина на телефоне 1,72% → 2,23%. Разрыв между устройствами сохраняется.</li><li><b>Что делать:</b> проверить мобильные карточки товара и скорость; кнопка «В корзину» на первом экране.</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Компьютер: конверсия", "dev_conv:Компьютер", "pct2", "pp"], ["Телефон: конверсия", "dev_conv:Телефон", "pct2", "pp"], ["Компьютер: в корзину", "dev_cart:Компьютер", "pct2", "pp"], ["Телефон: в корзину", "dev_cart:Телефон", "pct2", "pp"], ["Компьютер: оформление → покупка", "dev_done:Компьютер", "pct", "pp"], ["Телефон: оформление → покупка", "dev_done:Телефон", "pct", "pp"], ["Визиты с телефона в день", "dev_sess:Телефон", "num1", "rel", "none"]]'></div>
 <details class="vg-more"><summary>Воронка по шагам и устройствам</summary><div class="vg-more-body">
 <div class="vg-tablewrap">
-<table class="vg-table" data-source="funnel_v" data-row-key="device" data-by-month>
+<table class="vg-table" data-source="funnel_dev_v" data-row-key="device" data-by-month>
 <thead><tr><th data-field="device">Устройство</th><th data-field="sessions" data-fmt="int">Посещения</th><th data-field="cart" data-fmt="int">Добавили в корзину</th><th data-field="cart_rate" data-fmt="pct2">% от посещений</th><th data-field="checkout" data-fmt="int">Начали оформление</th><th data-field="checkout_rate" data-fmt="pct">% от корзины</th><th data-field="completed" data-fmt="int">Купили</th><th data-field="complete_rate" data-fmt="pct">% от оформления</th><th data-field="conv" data-fmt="pct2">Конверсия</th></tr></thead>
 <tbody data-draw="tbl"></tbody>
 </table>
@@ -418,19 +464,20 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 </section>
 
 <section class="vg-card" id="discounts">
-<div class="vg-card-head"><div class="vg-chan"><i class="ic-r">%</i><h2 class="vg-card-title">Скидки и промокоды · весь период</h2></div></div>
-<p class="vg-summary" style="font-size:14px;margin:0" data-read lang="ru">Промокод стоит в <b data-draw="num" data-source="disc_sum" data-field="code_orders" data-fmt="int">—</b> заказах из <b data-draw="num" data-source="disc_sum" data-field="orders" data-fmt="int">—</b> (<b data-draw="num" data-source="disc_sum" data-field="code_share" data-fmt="pct">—</b>). Один только общий VIGO5 — в <b data-draw="num" data-source="disc_sum" data-field="vigo5_orders" data-fmt="int">—</b> заказах. Скидки стоили <b data-draw="num" data-source="disc_sum" data-field="disc_total" data-fmt="k">—</b> — это <b data-draw="num" data-source="disc_sum" data-field="disc_pct" data-fmt="pct">—</b> валовых продаж, почти в 3,5 раза меньше возвратов.</p>
+<div class="vg-card-head"><div class="vg-chan"><i class="ic-r">%</i><h2 class="vg-card-title">Скидки и промокоды · <span data-draw="selName">весь период</span></h2></div></div>
+<p class="vg-summary" style="font-size:14px;margin:0" data-read lang="ru">Промокод стоит в <b data-draw="num" data-by-month data-source="disc_sum" data-field="code_orders" data-fmt="int">—</b> заказах из <b data-draw="num" data-by-month data-source="disc_sum" data-field="orders" data-fmt="int">—</b> (<b data-draw="num" data-by-month data-source="disc_sum" data-field="code_share" data-fmt="pct">—</b>). Один только общий VIGO5 — в <b data-draw="num" data-by-month data-source="disc_sum" data-field="vigo5_orders" data-fmt="int">—</b> заказах. Скидки стоили <b data-draw="num" data-by-month data-source="disc_sum" data-field="disc_total" data-fmt="k">—</b> — это <b data-draw="num" data-by-month data-source="disc_sum" data-field="disc_pct" data-fmt="pct">—</b> валовых продаж.</p>
 <div class="vg-tablewrap">
-<table class="vg-table" data-source="disc_type_v" data-row-key="code_type">
+<table class="vg-table" data-source="disc_type_v" data-row-key="code_type" data-by-month>
 <thead><tr><th data-field="code_type">Тип кода</th><th data-field="orders" data-fmt="int">Заказы</th><th data-field="share" data-fmt="pct">Доля заказов</th><th data-field="gross" data-fmt="money">Валовые продажи</th><th data-field="discounts" data-fmt="money">Сумма скидок</th><th data-field="disc_pct" data-fmt="pct">Скидка от суммы</th><th data-field="net" data-fmt="money">Чистые продажи</th></tr></thead>
 <tbody data-draw="tbl"></tbody>
 </table>
 </div>
-<div class="vg-insight"><b>Вывод.</b> скидки равны 3,9% валовых продаж D2C; их влияние на инкрементальные заказы и прибыль пока не измерено. Промокод использован в 38,9% D2C-заказов, VIGO5 — в 126. Публичные промокоды используются в том числе через купонные и кешбэк-сайты (21 заказ); текущие данные не показывают, какая часть этих заказов инкрементальна. Партнёрские коды дают измеримый объём — 73 заказа на $43,6K валовых продаж, но для оценки стоимости привлечения нужно учитывать скидку, комиссии партнёров и инкрементальность продаж.</div>
+<div class="vg-insight"><b>Вывод</b><ul class="vg-ins"><li><b>Весь период:</b> скидки — 4,0% валовых продаж; промокод в 39,2% D2C-заказов, VIGO5 — в 134. Купонные и кешбэк-сайты — 23 заказа, партнёрские коды — 82 заказа на $51,1K валовых продаж.</li><li><b>12–18 к 1–11 ноября:</b> доля заказов с кодом 41,3% → 42,9%, скидки 4,7% → 4,9% валовых; доля VIGO5 снизилась (17,5% → 12,7% заказов). Новые коды: VIGOBF10 (1 заказ), CHELSEA10 (3 заказа).</li><li><b>Что делать:</b> на BFCM — один публичный код без суммирования; партнёрские коды считать отдельно с комиссией.</li></ul></div>
+<div class="vg-cmp" data-draw="cmp" data-rows='[["Заказы с промокодом", "code_share", "pct", "pp", "none"], ["Скидки ÷ валовые", "disc_pct", "pct", "pp", "down"], ["Доля заказов с VIGO5", "vigo5_share", "pct", "pp", "none"]]'></div>
 <details class="vg-more"><summary>Все коды и пояснения</summary><div class="vg-more-body">
-<h3 class="vg-card-sub" style="margin:0">Коды · весь период</h3>
+<h3 class="vg-card-sub" style="margin:0">Коды · <span data-draw="selName">весь период</span></h3>
 <div class="vg-tablewrap">
-<table class="vg-table" data-source="disc_code_v" data-row-key="code">
+<table class="vg-table" data-source="disc_code_v" data-row-key="code" data-by-month>
 <thead><tr><th data-field="code">Код</th><th data-field="code_type">Тип</th><th data-field="orders" data-fmt="int">Заказы</th><th data-field="gross" data-fmt="money">Валовые продажи</th><th data-field="discounts" data-fmt="money">Сумма скидок</th><th data-field="disc_pct" data-fmt="pct">Скидка от суммы</th><th data-field="net" data-fmt="money">Чистые продажи</th></tr></thead>
 <tbody data-draw="tbl"></tbody>
 </table>
@@ -457,23 +504,51 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 </div>
 </section>
 
+<section class="vg-card" id="media">
+<div class="vg-card-head"><h2 class="vg-card-title">Реклама: рекомендации медиабайера · до и после BFCM</h2><span class="vg-note">на данных по 18 ноября</span></div>
+<div class="vg-insight"><b>Бюджет на неделю BFCM</b><ul class="vg-ins"><li><b>Сейчас:</b> ≈$256 в день — Google $193, Meta $57, Microsoft $6. ROAS Shopify за 12–18 ноября — 3,09×, ROMI −7%.</li><li><b>Предлагаем на 24.11–1.12:</b> ≈$305 в день (+20%) — Google $240 (бренд $65, PMax TOP20 $135, Shopping $20, остальные PMax $20), Microsoft $25, Meta $40.</li><li><b>Логика:</b> деньги туда, где ROAS по Shopify выше порога 3,33× или близок к нему (бренд Google, PMax, Microsoft PMax); Meta — на минимуме до проверки меток и инкрементальности. Суммы — ориентиры: перед изменениями сверить с PPC-командой.</li></ul></div>
+<div class="vg-tablewrap">
+<table class="vg-table vg-media">
+<thead><tr><th>№</th><th>Что сделать</th><th>Почему — цифры</th><th>Как</th><th>Ограничитель / KPI</th><th>Срок</th></tr></thead>
+<tbody>
+<tr class="vg-group-row"><td colspan="6">Google Ads</td></tr>
+<tr><td>1<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-m-what">Brand Search: защитить бренд на BFCM</td><td class="vg-m-why">12–18 ноября — 4 заказа на $2,8K, ROAS 6,8×; 1–11 ноября — 0 заказов при $568. В неделю BFCM конкуренты ставят ставки на бренд.</td><td>Цель — доля показов по бренду ≥90% с потолком CPC; акционный ассет (Promotion) с предложением BFCM; отдельные быстрые ссылки на двери и шторки для ванн.</td><td class="vg-m-kpi">CPC не выше ноябрьского +30%; ROAS Shopify ≥3,33×</td><td>до 24.11</td></tr>
+<tr><td>2<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-m-what">PMax TOP20 (tROAS 300%): не менять tROAS, поднять бюджет +25–30% на 26.11–1.12 и задать корректировку сезонности</td><td class="vg-m-why">Кабинет — 3,89× за 12–18 ноября, по Shopify PMax и Shopping — 2,89×. Смена tROAS в пиковую неделю снова запускает обучение; корректировка сезонности (+20–30% к ожидаемой конверсии на 27.11–1.12) поднимает ставки только на эти дни.</td><td>Бюджет ≈$135 в день; корректировка сезонности в «Инструменты → Ставки → Корректировки»; tROAS вернуть к обсуждению после 2.12.</td><td class="vg-m-kpi">ROAS Shopify PMax ≥2,5× за 3 дня подряд</td><td>до 25.11</td></tr>
+<tr><td>3<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-m-what">Объединить слабые PMax в TOP20</td><td class="vg-m-why">Medium income — 0 конверсий при $237 за неделю, Competitor Audiences — 1 конверсия при $154. На 3 PMax ≈$130 в день: меньше 30 конверсий на кампанию в месяц, автоматические ставки работают нестабильно.</td><td>Бюджет Medium income и Competitor перевести в TOP20; сигналы аудиторий конкурентов добавить в TOP20 как группу ассетов.</td><td class="vg-m-kpi">Конверсии TOP20 не падают после переноса</td><td>до 22.11</td></tr>
+<tr><td>4<br><span class="vg-prio tone-warn">Средний</span></td><td class="vg-m-what">Shopping «Low performers from PMax»: дать бюджет до конца BFCM</td><td class="vg-m-why">Новая кампания: $31 и 3 конверсии на $2,3K в кабинете за неделю — выборка мала.</td><td>$15–20 в день; смотреть заказы по Shopify, а не по кабинету.</td><td class="vg-m-kpi">0 заказов Shopify за 7 дней — вернуть товары в PMax</td><td>с 21.11</td></tr>
+<tr><td>5<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-m-what">Merchant Center: промоакции и цена со скидкой</td><td class="vg-m-why">Двери и шторки — главные категории рекламы; значок «Special offer» в Shopping и PMax повышает CTR без снижения ставок.</td><td>Merchant promotions с кодом BFCM; атрибут sale_price с датами начала и конца акции.</td><td class="vg-m-kpi">Акции одобрены до старта</td><td>до 24.11</td></tr>
+<tr><td>6<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-m-what">Учёт конверсий до пика</td><td class="vg-m-why">Кабинет показывает ценность в 1,4 раза выше Shopify; тег Google и связь Shopify помечены «URGENT».</td><td>Разобрать «URGENT», включить расширенные конверсии (Enhanced conversions), проверить ценность за нового клиента в цели конверсии.</td><td class="vg-m-kpi">Расхождение кабинета и Shopify ≤1,2×</td><td>до 21.11</td></tr>
+<tr class="vg-group-row"><td colspan="6">Meta Ads</td></tr>
+<tr><td>7<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-m-what">Сократить до одной продающей связки ≤$40 в день</td><td class="vg-m-why">В ноябре $877 и 0 заказов в Shopify; за период ROAS Shopify 0,32×. Traffic Boosts: 144 клика за $69 и 0 покупок; ретаргетинг — частота 4,5 за неделю.</td><td>Выключить Traffic Boosts; ретаргетинг — окно 30 дней, ограничить частоту; оставить Advantage+ Sales с каталогом и креативами BFCM.</td><td class="vg-m-kpi">ROAS Shopify (клик 7 дней) ≥1,5× за неделю</td><td>до 22.11</td></tr>
+<tr><td>8<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-m-what">Проверить UTM-метки</td><td class="vg-m-why">Кабинет за 12–18 ноября — 3 покупки по клику (Builders и Design/Home), Shopify — 0 заказов с переходом из Meta.</td><td>URL parameters на уровне объявлений Builders и Design/Home; тестовый клик и проверка заказа в Shopify.</td><td class="vg-m-kpi">Заказы с меткой Meta видны в Shopify</td><td>до 21.11</td></tr>
+<tr><td>9<br><span class="vg-prio tone-warn">Средний</span></td><td class="vg-m-what">После BFCM — тест инкрементальности</td><td class="vg-m-why">Почти все покупки кабинета — по просмотру; без теста неизвестно, приводит ли Meta новых покупателей.</td><td>Conversion Lift или гео-холдаут на 2–3 недели; бюджет возвращать только по результату.</td><td class="vg-m-kpi">Прирост заказов в тестовой группе</td><td>декабрь</td></tr>
+<tr class="vg-group-row"><td colspan="6">Microsoft Ads</td></tr>
+<tr><td>10<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-m-what">Восстановить расход до BFCM</td><td class="vg-m-why">Расход упал с $30 до $6 в день; за период PMax — 4,25× по Shopify, лучше Google PMax. Shopping на паузе, но списал $4,87.</td><td>PMax $15 в день, бренд $5–8 с потолком CPC; выяснить причину падения (бюджет, ставки, отклонения); проверить статус Shopping; импортировать промоакции из Google Ads.</td><td class="vg-m-kpi">ROAS Shopify PMax ≥3,33×</td><td>до 24.11</td></tr>
+<tr class="vg-group-row"><td colspan="6">Все каналы</td></tr>
+<tr><td>11<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-m-what">Правило бюджета в неделю BFCM</td><td class="vg-m-why">Окупаемость при марже 30% — ROAS 3,33×; реклама в целом за 12–18 ноября — 3,09×.</td><td>Ежедневно смотреть ROAS Shopify по каналу за 3 дня: ниже 2,5× три дня подряд — минус 20% бюджета; выше 3,33× — плюс 20%.</td><td class="vg-m-kpi">Ежедневный отчёт 24.11–2.12</td><td>24.11–2.12</td></tr>
+<tr><td>12<br><span class="vg-prio tone-warn">Средний</span></td><td class="vg-m-what">После BFCM: отделить брендовый спрос и считать ROMI по когортам</td><td class="vg-m-why">PMax частично собирает брендовый трафик; ROMI первого заказа не учитывает повторные покупки.</td><td>Список исключений бренда (brand exclusions) в PMax; ретаргетинг посетителей BFCM в декабре; ROMI по когортам 90/180 дней.</td><td class="vg-m-kpi">Non-brand ROAS PMax ≥3,33×</td><td>декабрь</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
 <section class="vg-card" id="recs">
-<div class="vg-card-head"><h2 class="vg-card-title">Выводы и рекомендации</h2><span class="vg-note">статичный снимок данных на 12 ноября · план обновлён 14 ноября · Microsoft Ads добавлен 17 ноября · до BFCM 27 ноября</span></div>
-<div class="vg-insight" id="summary"><b>Итог.</b> D2C Net Sales за 1 августа — 11 ноября составили $300,7K при 749 заказах.<br>За 2 сентября — 11 ноября Shopify last-click атрибутировал Google, Meta и Microsoft заказы на $31,8K при расходе $14,7K — ROAS 2,17×. При рабочем допущении маржи 30% оценочная валовая прибыль составляет $9,5K, а результат после медиарасходов — −$5,1K. Это оценка по атрибуции, а не доказанный инкрементальный эффект.<br>Google показывает ROAS 2,76×, но при марже 30% первый заказ пока не покрывает paid CAC. Meta показывает ROAS 0,36× и должна использоваться только для ограниченных тестов. Microsoft Ads показывает ROAS 2,57×, лучший результат — у PMax (4,34×).<br>Основные точки роста D2C: корректная атрибуция, мобильный путь до корзины, снижение возвратов душевых кабин, контроль промокодов и когортный анализ повторных покупок.</div>
+<div class="vg-card-head"><h2 class="vg-card-title">Выводы и рекомендации</h2><span class="vg-note">статичный снимок данных на 19 ноября · план обновлён 14 ноября · Microsoft Ads добавлен 17 ноября · неделя 12–18 ноября добавлена 19 ноября · до BFCM 27 ноября</span></div>
+<div class="vg-insight" id="summary"><b>Итог.</b> D2C Net Sales за 1 августа — 18 ноября составили $328,3K при 812 заказах.<br><b>Неделя 12–18 ноября:</b> $27,6K при 63 заказах — в день на 24% больше, чем 1–11 ноября; конверсия сайта 0,75% — лучшая за весь период. Реклама: $1,79K расхода, Shopify last-click — $5,5K (ROAS 3,09×), всё от Google; Meta и Microsoft заказов не дали.<br>За 2 сентября — 18 ноября Shopify last-click атрибутировал Google, Meta и Microsoft заказы на $37,4K при расходе $16,5K — ROAS 2,27×. При рабочем допущении маржи 30% оценочная валовая прибыль составляет $11,2K, а результат после медиарасходов — −$5,3K. Это оценка по атрибуции, а не доказанный инкрементальный эффект.<br>Google показывает ROAS 2,94×, но при марже 30% первый заказ пока не покрывает paid CAC. Meta показывает ROAS 0,32× и должна использоваться только для ограниченных тестов. Microsoft Ads показывает ROAS 2,53×, лучший результат — у PMax (4,25×).<br>Основные точки роста D2C: корректная атрибуция, мобильный путь до корзины, снижение возвратов душевых кабин, контроль промокодов и когортный анализ повторных покупок.</div>
 <h3 class="vg-card-sub">Главное</h3>
 <div class="vg-recs" style="grid-template-columns:1fr">
 <ol>
-<li><b>D2C-продажи.</b> D2C Net Sales за 1 августа — 11 ноября составили $300,7K при 749 заказах. Shopify — основной источник фактических D2C-продаж.</li>
-<li><b>Воронка.</b> Из 114 867 визитов по всему сайту 649 закончились покупкой — конверсия сайта 0,57%. Данные о сессиях охватывают весь сайт и не фильтруются по типу клиента.</li>
-<li><b>Атрибуция.</b> По last-click атрибуции Shopify на Direct и Organic Search приходится 61,8% суммы D2C-заказов. Сюда входит часть неразмеченного платного трафика, поэтому это не чистый органический вклад.</li>
-<li><b>Платная реклама.</b> За 2 сентября — 11 ноября last-click атрибуция Shopify отнесла к Google, Meta и Microsoft $31,8K суммы заказов при расходе $14,7K — ROAS 2,17×. При допущении маржи 30% оценочная валовая прибыль — $9,5K, результат после медиарасходов — −$5,1K. Это оценка по атрибуции, а не измерение инкрементальности.</li>
-<li><b>Google Ads.</b> Last-click атрибуция Shopify отнесла к Google Ads 43 заказа на $23,4K при расходе $8,49K — ROAS 2,76×. Из них 41 — новые клиенты, paid CAC $207. При допущении маржи 30% валовая прибыль с первого заказа — в среднем около $159, поэтому первый заказ не покрывает стоимость привлечения.</li>
-<li><b>Meta Ads.</b> Last-click атрибуция Shopify отнесла к Meta Ads 3 заказа на $1,23K при расходе $3,41K — ROAS 0,36×. Пока результаты не улучшатся или не будет доказана инкрементальность, Meta — только контролируемые D2C-тесты.</li>
-<li><b>Microsoft Ads.</b> Last-click атрибуция Shopify отнесла к Microsoft Ads 16 заказов на $7,15K при расходе $2,79K — ROAS 2,57×, CPA $174. Все 16 — новые клиенты; при допущении маржи 30% первый заказ приносит около $134 валовой прибыли, меньше стоимости клиента. Лучший результат — PMax (4,34×), Shopping — 0,40× (сейчас на паузе).</li>
-<li><b>Категории.</b> Душевые двери — крупнейшая категория и по валовым продажам, и по сумме заказов, отнесённой к рекламе. По душевым кабинам возвраты, проведённые в периоде, равны 52,3% валовых продаж категории, но это не когортная доля возврата.</li>
-<li><b>Мобильная версия.</b> На мобильных в корзину добавляют 1,7% визитов против 2,6% на компьютере. Основной потенциал CRO — до этапа корзины, но перед выбором решения нужно проверить карточки товара, страницы категорий, посадочные страницы, скорость и записи сессий.</li>
-<li><b>Повторные покупки.</b> За 103 дня повторные клиенты сделали 60 из 749 D2C-заказов — 8,0%. Этого периода недостаточно для оценки LTV; нужен когортный анализ на 90, 180 и 365 дней.</li>
-<li><b>Промокоды.</b> Промокод использован в 38,9% D2C-заказов, скидки равны 3,9% валовых продаж. Публичные и партнёрские коды нужно оценивать по скидке, комиссиям, инкрементальным продажам и прибыли.</li>
+<li><b>D2C-продажи.</b> D2C Net Sales за 1 августа — 18 ноября составили $328,3K при 812 заказах; за 12–18 ноября — $27,6K при 63 заказах. Shopify — основной источник фактических D2C-продаж.</li>
+<li><b>Воронка.</b> Из 122 382 визитов по всему сайту 705 закончились покупкой — конверсия сайта 0,58%; за 12–18 ноября — 0,75%. Данные о сессиях охватывают весь сайт и не фильтруются по типу клиента.</li>
+<li><b>Атрибуция.</b> По last-click атрибуции Shopify на Direct и Organic Search приходится 61,0% суммы D2C-заказов. Сюда входит часть неразмеченного платного трафика, поэтому это не чистый органический вклад.</li>
+<li><b>Платная реклама.</b> За 2 сентября — 18 ноября last-click атрибуция Shopify отнесла к Google, Meta и Microsoft $37,4K суммы заказов при расходе $16,5K — ROAS 2,27×. При допущении маржи 30% оценочная валовая прибыль — $11,2K, результат после медиарасходов — −$5,3K. Это оценка по атрибуции, а не измерение инкрементальности.</li>
+<li><b>Google Ads.</b> Last-click атрибуция Shopify отнесла к Google Ads 52 заказа на $29,0K при расходе $9,84K — ROAS 2,94× (за 12–18 ноября — 4,09×). Из них 49 — новые клиенты, paid CAC $201. При допущении маржи 30% валовая прибыль с первого заказа — в среднем около $166, поэтому первый заказ не покрывает стоимость привлечения.</li>
+<li><b>Meta Ads.</b> Last-click атрибуция Shopify отнесла к Meta Ads 3 заказа на $1,23K при расходе $3,80K — ROAS 0,32×; в ноябре — ни одного заказа. Пока результаты не улучшатся или не будет доказана инкрементальность, Meta — только контролируемые D2C-тесты.</li>
+<li><b>Microsoft Ads.</b> Last-click атрибуция Shopify отнесла к Microsoft Ads 16 заказов на $7,15K при расходе $2,83K — ROAS 2,53×, CPA $177. Все 16 — новые клиенты; при допущении маржи 30% первый заказ приносит около $134 валовой прибыли, меньше стоимости клиента. Лучший результат — PMax (4,25×), Shopping — 0,40× (на паузе). За 12–18 ноября — $42 расхода, заказов нет.</li>
+<li><b>Категории.</b> Душевые двери — крупнейшая категория и по валовым продажам, и по сумме заказов, отнесённой к рекламе. По душевым кабинам возвраты, проведённые в периоде, равны 51,7% валовых продаж категории, но это не когортная доля возврата.</li>
+<li><b>Мобильная версия.</b> На мобильных в корзину добавляют 1,8% визитов против 2,6% на компьютере. Основной потенциал CRO — до этапа корзины, но перед выбором решения нужно проверить карточки товара, страницы категорий, посадочные страницы, скорость и записи сессий.</li>
+<li><b>Повторные покупки.</b> За 110 дней повторные клиенты сделали 67 из 812 D2C-заказов — 8,3%. Этого периода недостаточно для оценки LTV; нужен когортный анализ на 90, 180 и 365 дней.</li>
+<li><b>Промокоды.</b> Промокод использован в 39,2% D2C-заказов, скидки равны 4,0% валовых продаж; в ноябре доля заказов с кодом выросла до 41–43%. Публичные и партнёрские коды нужно оценивать по скидке, комиссиям, инкрементальным продажам и прибыли.</li>
 <li><b>Следующие шаги.</b> Подтвердить состав D2C-заказов (в том числе ручной заказ на $3,0K), подтвердить маржу и себестоимость, исправить UTM-атрибуцию, улучшить мобильный путь до корзины, построить когортный отчёт по возвратам и оценить LTV D2C-клиентов.</li>
 </ol>
 </div>
@@ -484,30 +559,30 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <thead><tr><th>№</th><th>Что сделать</th><th>Почему — цифры</th><th>Что даст</th><th>Срок</th><th>Владелец</th><th>Статус</th></tr></thead>
 <tbody>
 <tr class="vg-group-row"><td colspan="7">Google Ads</td></tr>
-<tr><td>1<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-rec-what">Решить с PPC-командой, нужны ли отдельные Shopping-кампании на новом Merchant Center до BFCM, и разобраться с метками «URGENT» у тега Google и связи Shopify в Google Ads<br><span class="vg-src">план «Скидки и ценность»</span></td><td class="vg-rec-why">Merchant Center «VIGO Industries» привязан к Google Ads с 9 сентября, товары показываются через PMax. На паузе только старые кампании до Netpeak — 2 Shopping и 4 PMax: они смотрят на прежний, отвязанный Merchant Center. По метке Google Shopping в Shopify зафиксировано 11 заказов в октябре и 2 заказа за 1–11 ноября. Периоды имеют разную продолжительность, поэтому это сигнал для проверки Merchant Center (ошибки товаров, бесплатные показы), а не доказанное падение. Ещё 11 октябрьских заказов GA4 отнёс к PMax — они учитываются отдельно в Google Ads. Тег Google и связь «Shopify: VIGO» в Data manager помечены «URGENT» — это может ломать учёт конверсий.</td><td class="vg-rec-eff">Товарные объявления работают в главный сезон; Google получает верные данные о покупках, и ставки PMax считаются по правильным конверсиям.</td><td class="vg-rec-when">до 20.11</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">открыто</td></tr>
+<tr><td>1<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-rec-what">Решить с PPC-командой, нужны ли отдельные Shopping-кампании на новом Merchant Center до BFCM, и разобраться с метками «URGENT» у тега Google и связи Shopify в Google Ads<br><span class="vg-src">план «Скидки и ценность»</span></td><td class="vg-rec-why">Merchant Center «VIGO Industries» привязан к Google Ads с 9 сентября, товары показываются через PMax. На паузе только старые кампании до Netpeak — 2 Shopping и 4 PMax: они смотрят на прежний, отвязанный Merchant Center. По метке Google Shopping в Shopify зафиксировано 11 заказов в октябре, 2 заказа за 1–11 ноября и 1 заказ за 12–18 ноября. Периоды имеют разную продолжительность, поэтому это сигнал для проверки Merchant Center (ошибки товаров, бесплатные показы), а не доказанное падение. Ещё 11 октябрьских заказов GA4 отнёс к PMax — они учитываются отдельно в Google Ads. Тег Google и связь «Shopify: VIGO» в Data manager помечены «URGENT» — это может ломать учёт конверсий.</td><td class="vg-rec-eff">Товарные объявления работают в главный сезон; Google получает верные данные о покупках, и ставки PMax считаются по правильным конверсиям.</td><td class="vg-rec-when">до 20.11</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">открыто</td></tr>
 <tr><td>2<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-rec-what">Перенести UTM-метки из шаблона отслеживания в суффикс конечного URL — в Google и Microsoft Ads<br><span class="vg-src">план «Скидки и ценность»</span></td><td class="vg-rec-why">Сейчас метки до сайта почти не доходят: Shopify видит рекламу Google как поиск или прямой заход. Визиты Direct ходят вслед за кликами PMax: −110 в день, когда PMax остановили в сентябре, и +59, когда его вернули. Без меток не посчитать тесты по скидкам.</td><td class="vg-rec-eff">Точный учёт заказов с рекламы прямо в Shopify, без зависимости от GA4. Direct и поиск в отчёте станут «чистыми».</td><td class="vg-rec-when">до 15.11</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">открыто</td></tr>
-<tr><td>3<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-rec-what">Часть бюджета Meta перевести в контролируемый тест Google PMax (Competitor Audiences и Top 20%, группы Shower Doors): ограниченный бюджет, минимальный объём заказов и порог ROAS по атрибуции Shopify; оценивать, когда наберётся достаточно конверсий</td><td class="vg-rec-why">По Shopify last-click на $1 расхода Google приходится $2,76 суммы заказов. Однако при марже 30% оценочная валовая прибыль первого заказа не покрывает медиарасход. PMax в ноябре — 3,2×; Meta — 0,4×. Двери — главная категория в рекламе: к ней отнесено $16,9K суммы заказов. Тестовые бюджеты Meta с 1.12 (строка 10) — отдельно.</td><td class="vg-rec-eff">Понять, сохраняет ли дополнительный расход в Google объём заказов и приближается ли ROAS к подтверждённому порогу окупаемости.</td><td class="vg-rec-when">до 15.11</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">открыто</td></tr>
-<tr><td>4<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-rec-what">После подтверждения маржи тестировать постепенное повышение целевого ROAS в PMax Top 20% (300% → 350% → 400% …); ограничители — ROAS по атрибуции Shopify, число заказов и результат после медиарасходов</td><td class="vg-rec-why">Новый клиент из Google стоит $207, а первый заказ приносит ≈$159 валовой прибыли при марже 30%; порог окупаемости — 3,3×. Кабинет показывал ценность в 1,4 раза выше атрибуции Shopify: 300% в кабинете — около 2,1× по Shopify. Это историческое соотношение не гарантирует, что цель 450% в кабинете даст 3,3× по Shopify. Резкий подъём урежет показы, поэтому шагами.</td><td class="vg-rec-eff">Видно, растёт ли ROAS по Shopify без потери объёма; если заказов заметно меньше, а ROAS не растёт, — вернуться к предыдущему шагу.</td><td class="vg-rec-when">350% — после маржи, до 20.11; дальше раз в 2 недели</td><td class="vg-rec-own">PPC (Netpeak), VIGO — маржа</td><td class="vg-rec-stat">открыто</td></tr>
+<tr><td>3<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-rec-what">Часть бюджета Meta перевести в контролируемый тест Google PMax (Competitor Audiences и Top 20%, группы Shower Doors): ограниченный бюджет, минимальный объём заказов и порог ROAS по атрибуции Shopify; оценивать, когда наберётся достаточно конверсий</td><td class="vg-rec-why">По Shopify last-click на $1 расхода Google приходится $2,94 суммы заказов. Однако при марже 30% оценочная валовая прибыль первого заказа не покрывает медиарасход. PMax и Shopping в ноябре — 3,1× (1–11 ноября 3,2×, 12–18 ноября 2,9×); Meta — 0,3× за весь период и ни одного заказа в ноябре. Двери — главная категория в рекламе: к ней отнесено $19,3K суммы заказов. Тестовые бюджеты Meta с 1.12 (строка 10) — отдельно.</td><td class="vg-rec-eff">Понять, сохраняет ли дополнительный расход в Google объём заказов и приближается ли ROAS к подтверждённому порогу окупаемости.</td><td class="vg-rec-when">до 15.11</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">открыто</td></tr>
+<tr><td>4<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-rec-what">После подтверждения маржи тестировать постепенное повышение целевого ROAS в PMax Top 20% (300% → 350% → 400% …); ограничители — ROAS по атрибуции Shopify, число заказов и результат после медиарасходов</td><td class="vg-rec-why">Новый клиент из Google стоит $201, а первый заказ приносит ≈$166 валовой прибыли при марже 30%; порог окупаемости — 3,3×. Кабинет показывал ценность в 1,4 раза выше атрибуции Shopify: 300% в кабинете — около 2,1× по Shopify. Это историческое соотношение не гарантирует, что цель 450% в кабинете даст 3,3× по Shopify. Резкий подъём урежет показы, поэтому шагами.</td><td class="vg-rec-eff">Видно, растёт ли ROAS по Shopify без потери объёма; если заказов заметно меньше, а ROAS не растёт, — вернуться к предыдущему шагу.</td><td class="vg-rec-when">350% — после маржи, до 20.11; дальше раз в 2 недели</td><td class="vg-rec-own">PPC (Netpeak), VIGO — маржа</td><td class="vg-rec-stat">открыто</td></tr>
 <tr><td>5<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-rec-what">Креативы Black Friday в Google: ассеты PMax и объявления с кодом BF −7%<br><span class="vg-src">план «Скидки и ценность»</span></td><td class="vg-rec-why">По плану «Скидки и ценность» на BF работает один код −7%; реклама должна говорить о том же коде, что письма и сайт.</td><td class="vg-rec-eff">Одно сообщение во всех каналах; заказы по коду BF видно отдельно.</td><td class="vg-rec-when">до 26.11</td><td class="vg-rec-own">PPC, креатив</td><td class="vg-rec-stat">открыто</td></tr>
-<tr><td>6<br><span class="vg-prio tone-warn">Средний</span></td><td class="vg-rec-what">Brand Search: протестировать более низкий потолок цены клика, бюджет не повышать</td><td class="vg-rec-why">Бренд — 20% расхода Google, это люди, которые уже ищут VIGO. В ноябре $568 и пока ни одного заказа по Shopify last-click.</td><td class="vg-rec-eff">Следить за всеми брендовыми кликами (платными и органическими), заказами и суммой брендовых заказов по Shopify. Не считать заранее, что снижение расхода на бренд не повлияет на продажи.</td><td class="vg-rec-when">сейчас</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">открыто</td></tr>
-<tr><td>7<br><span class="vg-prio tone-warn">Средний</span></td><td class="vg-rec-what">PMax Medium income: не выключать, пересмотреть через 2 недели</td><td class="vg-rec-why">В октябре 1,1×, в ноябре 4,2× — но это всего 2 заказа, выборка маленькая.</td><td class="vg-rec-eff">Не потерять кампанию, которая начала работать.</td><td class="vg-rec-when">26.11</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">открыто</td></tr>
-<tr><td>8<br><span class="vg-prio tone-warn">Средний</span></td><td class="vg-rec-what">Панели: контролируемый тест — отдельная группа ассетов в PMax с ограниченным бюджетом и приоритет в фиде; после BFCM — реклама комплектов<br><span class="vg-src">план «Скидки и ценность»</span></td><td class="vg-rec-why">Панели — 9% валовых продаж и 8,5% возвратов в периоде, но к рекламе отнесено лишь 5% суммы заказов панелей. В комплекте Matte Black Bath панель Ellington идёт к двери со скидкой 10% (строка 14).</td><td class="vg-rec-eff">Проверить гипотезу, что реклама может растить категорию с низкими возвратами и средним чеком ≈$430; это не подтверждённая возможность роста.</td><td class="vg-rec-when">до 20.11; комплекты — с 1.12</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">открыто</td></tr>
+<tr><td>6<br><span class="vg-prio tone-warn">Средний</span></td><td class="vg-rec-what">Brand Search: протестировать более низкий потолок цены клика, бюджет не повышать</td><td class="vg-rec-why">Бренд — 21% расхода Google, это люди, которые уже ищут VIGO. За 1–11 ноября — $568 и ни одного заказа по Shopify last-click; за 12–18 ноября — $416 и 4 заказа на $2,8K (6,8×).</td><td class="vg-rec-eff">Следить за всеми брендовыми кликами (платными и органическими), заказами и суммой брендовых заказов по Shopify. Не считать заранее, что снижение расхода на бренд не повлияет на продажи.</td><td class="vg-rec-when">сейчас</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">открыто</td></tr>
+<tr><td>7<br><span class="vg-prio tone-warn">Средний</span></td><td class="vg-rec-what">PMax Medium income: не выключать, пересмотреть через 2 недели</td><td class="vg-rec-why">В октябре 1,1×, за 1–11 ноября 4,2× (всего 2 заказа), за 12–18 ноября — 0 конверсий при расходе $237; выборка маленькая.</td><td class="vg-rec-eff">Не потерять кампанию, которая начала работать.</td><td class="vg-rec-when">26.11</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">открыто</td></tr>
+<tr><td>8<br><span class="vg-prio tone-warn">Средний</span></td><td class="vg-rec-what">Панели: контролируемый тест — отдельная группа ассетов в PMax с ограниченным бюджетом и приоритет в фиде; после BFCM — реклама комплектов<br><span class="vg-src">план «Скидки и ценность»</span></td><td class="vg-rec-why">Панели — 9% валовых продаж и 9,1% возвратов в периоде, но к рекламе отнесено лишь 6% суммы заказов панелей. В комплекте Matte Black Bath панель Ellington идёт к двери со скидкой 10% (строка 14).</td><td class="vg-rec-eff">Проверить гипотезу, что реклама может растить категорию с низкими возвратами и средним чеком ≈$430; это не подтверждённая возможность роста.</td><td class="vg-rec-when">до 20.11; комплекты — с 1.12</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">открыто</td></tr>
 <tr class="vg-group-row"><td colspan="7">Meta Ads</td></tr>
-<tr><td>9<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-rec-what">Выключить Traffic Boosts, Advantage Offers и ретаргетинг video1_bathroom</td><td class="vg-rec-why">Ни одной покупки по клику. В ноябре вся Meta — $480 и 0 заказов в Shopify; кабинет при этом показывает 13× за счёт покупок по просмотру.</td><td class="vg-rec-eff">Освобождается ≈$45 в день для Google.</td><td class="vg-rec-when">до 15.11</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">открыто</td></tr>
+<tr><td>9<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-rec-what">Выключить Traffic Boosts, Advantage Offers и ретаргетинг video1_bathroom</td><td class="vg-rec-why">До 11 ноября — ни одной покупки по клику; за 12–18 ноября кабинет засчитал 3 покупки по клику (Builders и Design/Home), но заказов из Meta в Shopify нет. В ноябре вся Meta — $877 и 0 заказов в Shopify; кабинет при этом показывает 13× за счёт покупок по просмотру.</td><td class="vg-rec-eff">Освобождается ≈$45 в день для Google.</td><td class="vg-rec-when">до 15.11</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">открыто</td></tr>
 <tr><td>10<br><span class="vg-prio tone-warn">Средний</span></td><td class="vg-rec-what">С 1.12 — A/B-тест 50/50: креативы без скидки («до и после», выбор финиша, замер, отзывы) против скидочных; 6–8 новых креативов к 30.11<br><span class="vg-src">план «Скидки и ценность»</span></td><td class="vg-rec-why">13 из 16 активных объявлений VIGO построены на скидке. По клику Meta приносит ≈1 заказ в месяц, поэтому решаем по стоимости добавления в корзину (без скидки — не дороже 120% от скидочного) и по заказам Shopify, а не по кабинету.</td><td class="vg-rec-eff">Ответ, продаёт ли VIGO без скидки. Если да — скидка в рекламе только в акциях.</td><td class="vg-rec-when">креативы 30.11; тест 1–20.12</td><td class="vg-rec-own">PPC, креатив</td><td class="vg-rec-stat">открыто</td></tr>
 <tr class="vg-group-row"><td colspan="7">Microsoft Ads</td></tr>
-<tr><td>11<br><span class="vg-prio tone-warn">Средний</span></td><td class="vg-rec-what">Обсудить с PPC бюджет Microsoft Ads: приоритет — PMax; Shopping не возобновлять в текущем виде; для Brand Search — контроль цены клика, как в Google</td><td class="vg-rec-why">За 2 сентября — 11 ноября: расход $2,79K, 16 заказов на $7,15K, ROAS по Shopify 2,57×. PMax — 4,34× при $928, Brand — 2,09× при 42% расхода, Shopping — 0,40× при $697.</td><td class="vg-rec-eff">Больше бюджета там, где реклама окупается по атрибуции Shopify; это оценка по last-click, а не доказанный прирост.</td><td class="vg-rec-when">до 27.11</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">открыто</td></tr>
+<tr><td>11<br><span class="vg-prio tone-warn">Средний</span></td><td class="vg-rec-what">Обсудить с PPC бюджет Microsoft Ads: приоритет — PMax; Shopping не возобновлять в текущем виде; для Brand Search — контроль цены клика, как в Google</td><td class="vg-rec-why">За 2 сентября — 18 ноября: расход $2,83K, 16 заказов на $7,15K, ROAS по Shopify 2,53×. PMax — 4,25× при $947, Brand — 2,06× при 42% расхода, Shopping — 0,40× при $702. За 12–18 ноября расход — всего $42, заказов нет.</td><td class="vg-rec-eff">Больше бюджета там, где реклама окупается по атрибуции Shopify; это оценка по last-click, а не доказанный прирост.</td><td class="vg-rec-when">до 27.11</td><td class="vg-rec-own">PPC (Netpeak)</td><td class="vg-rec-stat">открыто</td></tr>
 <tr class="vg-group-row"><td colspan="7">Скидки и промокоды</td></tr>
-<tr><td>12<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-rec-what">Создать код BF −7% без сочетаний на 27.11–1.12 и закрыть HALLOWEEN7; на эти дни — пауза TAKE10, NEW10 и VIGOTAKE10; в письмах о корзине — код BF<br><span class="vg-src">план «Скидки и ценность»</span></td><td class="vg-rec-why">На заказ работает один код, и покупатель выберет самый выгодный: −10% вместо −7%. Промокод стоит в 39% D2C-заказов; публичные коды используются в том числе через купонные и кешбэк-сайты — оттуда 21 заказ на $10,5K; какая часть этих заказов инкрементальна, данные не показывают.</td><td class="vg-rec-eff">Маржа заказа на BF ≈25%, а не ≈22%; отдельный код покажет реальный вклад акции — разбор 8.12.</td><td class="vg-rec-when">решение — срочно; код до 20.11</td><td class="vg-rec-own">VIGO, CRO</td><td class="vg-rec-stat">решение просрочено (13.11)</td></tr>
+<tr><td>12<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-rec-what">Создать код BF −7% без сочетаний на 27.11–1.12 и закрыть HALLOWEEN7; на эти дни — пауза TAKE10, NEW10 и VIGOTAKE10; в письмах о корзине — код BF<br><span class="vg-src">план «Скидки и ценность»</span></td><td class="vg-rec-why">На заказ работает один код, и покупатель выберет самый выгодный: −10% вместо −7%. Промокод стоит в 39% D2C-заказов; публичные коды используются в том числе через купонные и кешбэк-сайты — оттуда 23 заказа на $12,1K; какая часть этих заказов инкрементальна, данные не показывают.</td><td class="vg-rec-eff">Маржа заказа на BF ≈25%, а не ≈22%; отдельный код покажет реальный вклад акции — разбор 8.12.</td><td class="vg-rec-when">решение — срочно; код до 20.11</td><td class="vg-rec-own">VIGO, CRO</td><td class="vg-rec-stat">решение просрочено (13.11)</td></tr>
 <tr><td>13<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-rec-what">Починить цепочку о брошенной корзине до BFCM; после — письма без растущей скидки: 1-е без скидки, во 2-м один раз −5% одноразовым кодом<br><span class="vg-src">план «Скидки и ценность»</span></td><td class="vg-rec-why">В Shopify из писем с меткой — 6 заказов за период, в октябре и ноябре ни одного. Общие коды в письмах легко переслать.</td><td class="vg-rec-eff">Возвращаем брошенные корзины в неделю BFCM, когда их больше всего; после — нет повода ждать письма с −10%.</td><td class="vg-rec-when">цепочка до 26.11; тест 1.12–2.03</td><td class="vg-rec-own">Retention</td><td class="vg-rec-stat">открыто</td></tr>
 <tr><td>14<br><span class="vg-prio tone-warn">Средний</span></td><td class="vg-rec-what">С 1.12 — комплекты в одном финише: дверь по обычной цене, −10% на панель и раковину; старт — The Matte Black Bath<br><span class="vg-src">план «Скидки и ценность»</span></td><td class="vg-rec-why">Сейчас смеситель, панель или раковину к двери берут в 9 из 232 заказов дверей (3,9%). Двери — главный рекламный товар, а панели реклама почти не продаёт: комплект продаёт их вместе с дверью.</td><td class="vg-rec-eff">≈+$0,5K валовой прибыли в месяц при +5 комплектах; цель — 10% заказов дверей с дополнением.</td><td class="vg-rec-when">1.12</td><td class="vg-rec-own">CRO, Retention</td><td class="vg-rec-stat">открыто</td></tr>
-<tr><td>15<br><span class="vg-prio tone-warn">Средний</span></td><td class="vg-rec-what">Развивать партнёрские коды (DGILL5, AMANDA10 и другие) отдельно от публичных</td><td class="vg-rec-why">73 заказа на $43,6K при средней скидке 7,5%.</td><td class="vg-rec-eff">Измеримый объём заказов. Для оценки стоимости привлечения учитывать скидку, комиссии партнёров и инкрементальность продаж.</td><td class="vg-rec-when">декабрь</td><td class="vg-rec-own">VIGO, Lead Marketer</td><td class="vg-rec-stat">открыто</td></tr>
+<tr><td>15<br><span class="vg-prio tone-warn">Средний</span></td><td class="vg-rec-what">Развивать партнёрские коды (DGILL5, AMANDA10 и другие) отдельно от публичных</td><td class="vg-rec-why">82 заказа на $51,1K при средней скидке 7,7%; за 12–18 ноября добавился код CHELSEA10 (3 заказа).</td><td class="vg-rec-eff">Измеримый объём заказов. Для оценки стоимости привлечения учитывать скидку, комиссии партнёров и инкрементальность продаж.</td><td class="vg-rec-when">декабрь</td><td class="vg-rec-own">VIGO, Lead Marketer</td><td class="vg-rec-stat">открыто</td></tr>
 <tr><td>16<br><span class="vg-prio tone-good">Позже</span></td><td class="vg-rec-what">Тест без зачёркнутой цены на накладных раковинах и душевых панелях; если прибыль на посетителя держится — цены +3%<br><span class="vg-src">план «Скидки и ценность»</span></td><td class="vg-rec-why">Зачёркнутая цена стоит на 240 из 241 товара — покупатель её уже не замечает, и это юридический риск (FTC). До теста нужна оценка юриста VIGO.</td><td class="vg-rec-eff">≈+$1,8K в месяц на всём каталоге, даже если продажи упадут на 3%; в минус — только при падении больше 9%.</td><td class="vg-rec-when">юрист 15.01; тест 26.01–16.03</td><td class="vg-rec-own">VIGO (юрист), CRO</td><td class="vg-rec-stat">открыто</td></tr>
 <tr class="vg-group-row"><td colspan="7">Сайт и конверсия</td></tr>
-<tr><td>17<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-rec-what">Мобильный путь до корзины: сначала проверить карточки товара, страницы категорий, посадочные страницы, скорость и записи сессий; затем — кнопка «В корзину» на первом экране, рядом гарантия, доставка, размеры и фото в интерьере<br><span class="vg-src">план «Скидки и ценность»</span></td><td class="vg-rec-why">Телефон — половина визитов, но в корзину добавляют 1,7% против 2,6% на компьютере; данные показывают проблему до корзины, но не доказывают, что она именно на карточке. Гарантия у кнопки — замена скидке из плана: доставка и стекло 3/8 in. в карточке уже есть.</td><td class="vg-rec-eff">Сценарий, а не прогноз: при конверсии мобильных на уровне компьютера — около 25 дополнительных покупок в месяц (верхняя оценка).</td><td class="vg-rec-when">до 1.12</td><td class="vg-rec-own">CRO</td><td class="vg-rec-stat">открыто</td></tr>
-<tr><td>18<br><span class="vg-prio tone-warn">Средний</span></td><td class="vg-rec-what">Пройти корзину и оформление глазами покупателя: сроки доставки, итоговая цена со скидкой, поле промокода, Shop Pay и PayPal; в блок «Why shop with VIGO» добавить «Помощь с замером» для дверей и панелей<br><span class="vg-src">план «Скидки и ценность»</span></td><td class="vg-rec-why">В ноябре до оформления доходят 66% корзин, в сентябре — 78%. Остальные шаги в ноябре — лучшие за период.</td><td class="vg-rec-eff">Сценарий, а не прогноз: возврат шага к уровню сентября — до +18% заказов при том же трафике.</td><td class="vg-rec-when">проверка до 20.11; блок до 1.12</td><td class="vg-rec-own">CRO</td><td class="vg-rec-stat">открыто</td></tr>
+<tr><td>17<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-rec-what">Мобильный путь до корзины: сначала проверить карточки товара, страницы категорий, посадочные страницы, скорость и записи сессий; затем — кнопка «В корзину» на первом экране, рядом гарантия, доставка, размеры и фото в интерьере<br><span class="vg-src">план «Скидки и ценность»</span></td><td class="vg-rec-why">Телефон — половина визитов, но в корзину добавляют 1,8% против 2,6% на компьютере; данные показывают проблему до корзины, но не доказывают, что она именно на карточке. Гарантия у кнопки — замена скидке из плана: доставка и стекло 3/8 in. в карточке уже есть.</td><td class="vg-rec-eff">Сценарий, а не прогноз: при конверсии мобильных на уровне компьютера — около 26 дополнительных покупок в месяц (верхняя оценка).</td><td class="vg-rec-when">до 1.12</td><td class="vg-rec-own">CRO</td><td class="vg-rec-stat">открыто</td></tr>
+<tr><td>18<br><span class="vg-prio tone-warn">Средний</span></td><td class="vg-rec-what">Пройти корзину и оформление глазами покупателя: сроки доставки, итоговая цена со скидкой, поле промокода, Shop Pay и PayPal; в блок «Why shop with VIGO» добавить «Помощь с замером» для дверей и панелей<br><span class="vg-src">план «Скидки и ценность»</span></td><td class="vg-rec-why">В обе недели ноября до оформления доходят 66–67% корзин, в сентябре — 78%. Остальные шаги в ноябре — лучшие за период.</td><td class="vg-rec-eff">Сценарий, а не прогноз: возврат шага к уровню сентября — около +17% заказов при том же трафике.</td><td class="vg-rec-when">проверка до 20.11; блок до 1.12</td><td class="vg-rec-own">CRO</td><td class="vg-rec-stat">открыто</td></tr>
 <tr class="vg-group-row"><td colspan="7">Возвраты</td></tr>
-<tr><td>19<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-rec-what">Построить когортный отчёт по возвратам по дате исходного заказа (проданные и возвращённые единицы, сумма, причина); по каждому возврату душевой кабины записывать причину; добавить на карточку инструкцию по замеру и проверить упаковку</td><td class="vg-rec-why">По кабинам возвраты, проведённые в периоде, — $27,2K, 43% всех возвратов магазина и 52,3% валовых продаж категории за период; это не когортная доля, в периоде есть возвраты старых заказов. Возвраты в 4 раза больше всех скидок.</td><td class="vg-rec-eff">Сначала построить когортную долю возвратов, потом оценивать финансовый эффект их снижения. Только иллюстрация: если когортная доля подтвердится, а продажи не изменятся, −10 п.п. — это около $5,2K меньше возвращённой суммы.</td><td class="vg-rec-when">декабрь</td><td class="vg-rec-own">VIGO, Lead Marketer</td><td class="vg-rec-stat">открыто</td></tr>
+<tr><td>19<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-rec-what">Построить когортный отчёт по возвратам по дате исходного заказа (проданные и возвращённые единицы, сумма, причина); по каждому возврату душевой кабины записывать причину; добавить на карточку инструкцию по замеру и проверить упаковку</td><td class="vg-rec-why">По кабинам возвраты, проведённые в периоде, — $27,9K, 43% всех возвратов магазина и 51,7% валовых продаж категории за период; это не когортная доля, в периоде есть возвраты старых заказов. Возвраты в 4 раза больше всех скидок.</td><td class="vg-rec-eff">Сначала построить когортную долю возвратов, потом оценивать финансовый эффект их снижения. Только иллюстрация: если когортная доля подтвердится, а продажи не изменятся, −10 п.п. — это около $5,2K меньше возвращённой суммы.</td><td class="vg-rec-when">декабрь</td><td class="vg-rec-own">VIGO, Lead Marketer</td><td class="vg-rec-stat">открыто</td></tr>
 <tr class="vg-group-row"><td colspan="7">Учёт и аналитика</td></tr>
 <tr><td>20<br><span class="vg-prio tone-bad">Высокий</span></td><td class="vg-rec-what">От VIGO: себестоимость и маржа по категориям, политика MAP; до BFCM — разобраться с баннером «Payouts are paused» в Shopify<br><span class="vg-src">план «Скидки и ценность»</span></td><td class="vg-rec-why">Все суммы держатся на допущении маржи 30%. Пауза выплат в неделю BFCM — риск для денег.</td><td class="vg-rec-eff">Оценки прибыли становятся фактом.</td><td class="vg-rec-when">до 20.11</td><td class="vg-rec-own">VIGO</td><td class="vg-rec-stat">открыто</td></tr>
 <tr><td>21<br><span class="vg-prio tone-warn">Средний</span></td><td class="vg-rec-what">Добавить в выгрузку признак Include in D2C и документировать исключения, проверить ручные заказы; убрать двойные покупки в GA4, проверить событие покупки на Shop Pay и ускоренном чекауте, проверить расход Shop Campaigns в счетах Shopify; еженедельный отчёт по кодам и тестам<br><span class="vg-src">план «Скидки и ценность»</span></td><td class="vg-rec-why">GA4 видит 87% заказов с сайта. 27 заказов из приложения Shop помечены как кэшбэк Shop Cash — возможно, это платный канал без учёта расхода.</td><td class="vg-rec-eff">Полная картина D2C-каналов перед разбором BFCM 8.12.</td><td class="vg-rec-when">до 20.11; отчёт — по понедельникам</td><td class="vg-rec-own">Lead Marketer, аналитика</td><td class="vg-rec-stat">открыто</td></tr>
@@ -517,21 +592,21 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 <p class="vg-note">Суммы бюджетов (≈$45 в день, тесты по $1 000 в месяц) и планка CPA ≈$200 — ориентиры по текущим данным; перед изменениями в кабинетах их стоит сверить с командой, которая ведёт рекламу. Эффекты — оценка при сохранении текущих показателей.</p>
 </section>
 
-<details class="vg-details" id="method">
+<details class="vg-details vg-method" id="method">
 <summary>Как считали и чем отличаются источники</summary>
 <ul>
 <li>Shopify — главный источник продаж: чистые продажи = валовые − скидки − возвраты, без налогов и доставки.</li>
-<li>Сквозная аналитика: заказы Shopify сопоставлены с покупками GA4 по номеру заказа — GA4 записывает ID заказа Shopify как ID транзакции; все 434 покупки GA4 нашлись в Shopify. Канал по Shopify — последний визит перед покупкой; Shopify last-click по рекламе — заказы, которые GA4 или UTM-метка Shopify отнесли к платному клику. Источники заказов за 11 ноября GA4 ещё не обработал, для них взят канал из Shopify; ноябрь по рекламе — нижняя оценка.</li>
+<li>Сквозная аналитика: заказы Shopify сопоставлены с покупками GA4 по номеру заказа — GA4 записывает ID заказа Shopify как ID транзакции; все 492 покупки GA4 за 2 сентября — 18 ноября нашлись в Shopify. Канал по Shopify — последний визит перед покупкой; Shopify last-click по рекламе — заказы, которые GA4 или UTM-метка Shopify отнесли к платному клику. У 8 заказов 12–18 ноября нет покупки в GA4 (заказы без данных о визите и из приложения Shop) — для них взят канал из Shopify.</li>
 <li>Meta Ads — аккаунт VIGO, атрибуция аккаунта (клик 7 дней, просмотр 1 день); суммы по кампаниям и объявлениям сходятся с итогом аккаунта за каждый месяц.</li>
 <li>Google Ads — аккаунт 547-029-3556, кампании по месяцам без прогнозной ценности; суммы сверены с итогом аккаунта. Автометка включена; UTM-метки стоят в шаблоне отслеживания, суффикс конечного URL пуст. Конверсии за последние дни ещё могут дозаписаться.</li>
-<li>Microsoft Ads — аккаунт VIGO (G145AJT9), кампании по месяцам, выгрузка 17.11.2026 по восточному времени США; суммы сверены с итогом аккаунта. Заказы — по GA4 и меткам Shopify.</li>
+<li>Microsoft Ads — аккаунт VIGO (G145AJT9), кампании по месяцам, выгрузка 17.11.2026 (неделя 12–18 ноября — 19.11.2026) по восточному времени США; суммы сверены с итогом аккаунта. Заказы — по GA4 и меткам Shopify.</li>
 <li>Meta, Google, Microsoft и GA4 засчитывают себе одни и те же заказы, поэтому их выручку нельзя складывать и сравнивать с Shopify один к одному. Самые надёжные общие метрики — MER и сумма заказов Shopify.</li>
-<li>Это разовый срез: данные выгружены из кабинетов 12.11.2026 (Microsoft Ads — 17.11.2026) и сами не обновляются.</li>
+<li>Это разовый срез: данные выгружены из кабинетов 12.11.2026 (Microsoft Ads — 17.11.2026; неделя 12–18 ноября и обновлённые итоги — 19.11.2026) и сами не обновляются.</li>
 </ul>
 </details>
 
 </div>
-<p class="vg-foot">Снимок дашборда на 12 ноября 2026. Данные: Shopify, GA4, Google Ads, Meta Ads — 1 августа — 11 ноября 2026.</p>
+<p class="vg-foot">Снимок дашборда на 19 ноября 2026. Данные: Shopify, GA4, Google Ads, Meta Ads, Microsoft Ads — 1 августа — 18 ноября 2026.</p>
 </main>
 <script>
 (function () {
@@ -550,7 +625,8 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
   };
   window.vgNum = function (v) { var n = +v; return isFinite(n) ? n : 0; };
   window.vgMonth = function () { var p = (window.dash && dash.params && dash.params()) || {}; return p.month || 'all'; };
-  window.vgMonthNames = {all: 'весь период, 1 августа — 11 ноября', '2026-08': 'август', '2026-09': 'сентябрь', '2026-10': 'октябрь', '2026-11': '1–11 ноября'};
+  window.vgMonthNames = {all: 'весь период, 1 августа — 18 ноября', '2026-08': 'август', '2026-09': 'сентябрь', '2026-10': 'октябрь', '2026-11': '1–11 ноября', '2026-11b': '12–18 ноября'};
+  window.vgCmpL = {cmp: 'Сравнение', vs: 'к', metric: 'Показатель', change: 'Изменение', pp: 'п.п.', allNote: 'выбран весь период — показана последняя неделя', first: 'Для августа нет предыдущего периода для сравнения.', fromZero: 'было 0', num: L.format(',.1f')};
   window.vgTip = function (box) {
     var tip = document.createElement('div');
     tip.className = 'vg-tip';
@@ -609,6 +685,8 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
     });
   });
   window.vgSync = syncButtons;
+  var mb = document.getElementById('method-btn');
+  if (mb) mb.addEventListener('click', function () { var on = document.body.classList.toggle('vg-show-method'); mb.setAttribute('aria-pressed', on ? 'true' : 'false'); });
   try { syncButtons(); } catch (e) {}
 })();
 </script>
@@ -619,9 +697,9 @@ dash.calc('mix', {
   description: 'Заказы Shopify по одному каналу на заказ: реклама — по GA4 (номер заказа совпадает с ID транзакции), остальное — по последнему визиту в журнале Shopify; число заказов и сумма после скидок и возвратов по месяцам, итог и доля суммы. Заказы на $0 (подарки, тесты) — отдельной строкой. Названия каналов — по-английски.',
   inputs: ['xorders'],
   fn: (allOrders) => {
-    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180'];
+    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180', '3186'];
     const orders = allOrders.filter((o) => !B2B.includes(String(o.order)));
-    const months = ['2026-08', '2026-09', '2026-10', '2026-11'];
+    const months = ['2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'];
     const map = {'Google Ads (метка)': 'Google Ads', 'Microsoft Ads': 'Microsoft Ads', 'Meta Ads (метка)': 'Meta Ads', 'Прямые заходы': 'Direct', 'Поиск (органика и реклама без меток)': 'Organic Search', 'Google Shopping (метка фида)': 'Google Shopping (feed tag)*', 'Письма': 'Email', 'AI-ассистенты': 'AI Assistants', 'Купонные и кешбэк-сайты': 'Coupon & Cashback Sites', 'Shop (приложение)': 'Shop App', 'Нет данных о визите': 'Unknown (no visit data)', 'Заказы на $0': '$0 Orders'};
     const chan = (o) => {
       const sm = o.ga4_source_medium || '';
@@ -647,17 +725,17 @@ dash.calc('mix', {
 
 dash.calc('months', {
   title: 'Итоги по месяцам и за весь период',
-  description: 'Для каждого месяца и для всего периода (month = all): продажи, заказы, средний чек, доли возвратов и повторных покупателей, расход Google, Meta и Microsoft, MER, а также ROAS и ROMI по Shopify last-click — заказы Shopify, атрибутированные Google, Meta и Microsoft, ÷ их расход (только сентябрь — 11 ноября: в августе GA4 не работал).',
+  description: 'Для каждого месяца и для всего периода (month = all): продажи, заказы, средний чек, доли возвратов и повторных покупателей, расход Google, Meta и Microsoft, MER, а также ROAS и ROMI по Shopify last-click — заказы Shopify, атрибутированные Google, Meta и Microsoft, ÷ их расход (только сентябрь — 18 ноября: в августе GA4 не работал).',
   inputs: ['shopify', 'meta', 'gads', 'customers', 'xorders', 'msads'],
   fn: (shopify0, meta, gads, customers0, xorders0, msads) => {
-    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180'];
-    const ADJ = {'2026-08': {orders: 6, ret: 2, gross: 665.53, zd: 853.89}, '2026-09': {orders: 13, ret: 0, gross: 2583.63, zd: 907.58}, '2026-10': {orders: 8, ret: 0, gross: 189.9, zd: 0}, '2026-11': {orders: 11, ret: 6, gross: 1131.01, zd: 1705.3}};
+    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180', '3186'];
+    const ADJ = {'2026-08': {orders: 6, ret: 2, gross: 665.53, zd: 853.89}, '2026-09': {orders: 13, ret: 0, gross: 2583.63, zd: 907.58}, '2026-10': {orders: 8, ret: 0, gross: 189.9, zd: 0}, '2026-11': {orders: 11, ret: 6, gross: 1131.01, zd: 1705.3}, '2026-11b': {orders: 3, ret: 1, gross: 139.8, zd: 969.8}};
     const xorders = xorders0.filter((o) => !B2B.includes(String(o.order)));
     const shopify = shopify0.map((r) => { const a = ADJ[r.month] || {orders: 0, gross: 0, zd: 0}; return Object.assign({}, r, {orders: +r.orders - a.orders, gross_sales: +r.gross_sales - a.gross - a.zd, discounts: +r.discounts - a.zd, net_sales: +r.net_sales - a.gross}); });
     const customers = customers0.map((r) => { const a = ADJ[r.month] || {ret: 0}; return Object.assign({}, r, {returning_orders: +r.returning_orders - a.ret}); });
-    const vgS = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0); const VG_DAYS = {'2026-08': 31, '2026-09': 30, '2026-10': 31, '2026-11': 11, all: 103};
+    const vgS = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0); const VG_DAYS = {'2026-08': 31, '2026-09': 30, '2026-10': 31, '2026-11': 11, '2026-11b': 7, all: 110};
     const adsChan = (o) => { const sm = o.ga4_source_medium || ''; if (+o.value <= 0) return ''; if (sm === 'google / cpc' || o.shopify_channel === 'Google Ads (метка)') return 'g'; if (sm === 'bing / cpc' || o.shopify_channel === 'Microsoft Ads') return 'b'; if ((/facebook|instagram/.test(sm) && /cpc|paid/.test(sm)) || o.shopify_channel === 'Meta Ads (метка)') return 'm'; return ''; };
-    const FACT = ['2026-09', '2026-10', '2026-11'];
+    const FACT = ['2026-09', '2026-10', '2026-11', '2026-11b'];
     const build = (month, label, sh, me, ga, cu, bi) => {
       const gross = vgS(sh, 'gross_sales'), discounts = vgS(sh, 'discounts'), returns = vgS(sh, 'returns');
       const net = vgS(sh, 'net_sales'), orders = vgS(sh, 'orders');
@@ -690,7 +768,7 @@ dash.calc('meta_cm_v', {
   description: 'Кампании Meta по месяцам и за весь период (month = all): расход, частота, CTR, цена клика, корзины, покупки, ROAS и что в них смущает.',
   inputs: ['meta_cm'],
   fn: (rows) => {
-    const vgS = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0); const VG_DAYS = {'2026-08': 31, '2026-09': 30, '2026-10': 31, '2026-11': 11, all: 103};
+    const vgS = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0); const VG_DAYS = {'2026-08': 31, '2026-09': 30, '2026-10': 31, '2026-11': 11, '2026-11b': 7, all: 110};
     const flag = (r) => {
       const f = [];
       if (r.objective !== 'Продажи') f.push('цель не продажи');
@@ -706,7 +784,7 @@ dash.calc('meta_cm_v', {
         month, campaign: r.campaign, objective: r.objective,
         spend: +r.spend, impressions: +r.impressions, link_clicks: +r.link_clicks,
         frequency: r.frequency === null ? null : +r.frequency,
-        landing_page_views: +r.landing_page_views, add_to_cart: +r.add_to_cart,
+        landing_page_views: r.landing_page_views == null ? null : +r.landing_page_views, add_to_cart: r.add_to_cart == null ? null : +r.add_to_cart,
         purchases: +r.purchases, purchase_value: +r.purchase_value
       };
       o.ctr = o.impressions ? o.link_clicks / o.impressions : null;
@@ -732,7 +810,7 @@ dash.calc('gads_cm_v', {
   description: 'Кампании Google по месяцам и за весь период (month = all): расход, доля расхода, клики, цена клика, конверсии, CPA, ценность, ROAS и что смущает.',
   inputs: ['gads_cm'],
   fn: (rows) => {
-    const vgS = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0); const VG_DAYS = {'2026-08': 31, '2026-09': 30, '2026-10': 31, '2026-11': 11, all: 103};
+    const vgS = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0); const VG_DAYS = {'2026-08': 31, '2026-09': 30, '2026-10': 31, '2026-11': 11, '2026-11b': 7, all: 110};
     const one = (r, month, total) => {
       const o = {month, campaign: r.campaign, owner: r.owner, type: r.type, cost: +r.cost, clicks: +r.clicks, conversions: +r.conversions, conv_value: +r.conv_value};
       o.share = total ? o.cost / total : null;
@@ -777,13 +855,13 @@ dash.calc('returns_v', {
 
 dash.calc('xpaid', {
   title: 'Платные каналы: кабинет против Shopify last-click',
-  description: 'По месяцам и за 2 сентября — 11 ноября (month = all): расход и покупки по данным Google Ads, Meta и Microsoft Ads против заказов Shopify этого канала (реклама — по GA4 и UTM-меткам Shopify, письма — по Shopify), с ROAS и CPA по Shopify last-click и расхождением.',
+  description: 'По месяцам и за 2 сентября — 18 ноября (month = all): расход и покупки по данным Google Ads, Meta и Microsoft Ads против заказов Shopify этого канала (реклама — по GA4 и UTM-меткам Shopify, письма — по Shopify), с ROAS и CPA по Shopify last-click и расхождением.',
   inputs: ['xorders', 'gads', 'gads_cm', 'meta_attr', 'msads'],
   fn: (orders0, gads, gcm, attr, msads) => {
-    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180'];
+    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180', '3186'];
     const orders = orders0.filter((o) => !B2B.includes(String(o.order)));
     const S = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0);
-    const months = ['2026-09', '2026-10', '2026-11'];
+    const months = ['2026-09', '2026-10', '2026-11', '2026-11b'];
     const chan = (o) => {
       const sm = o.ga4_source_medium || '';
       if (+o.value <= 0) return 'zero';
@@ -799,7 +877,7 @@ dash.calc('xpaid', {
     const defs = [
       {channel: 'Google Ads', fact: isG, spend: (ms) => S(gads.filter((r) => ms.includes(r.month)), 'cost'), pf: (ms) => [S(gads.filter((r) => ms.includes(r.month)), 'conversions'), S(gads.filter((r) => ms.includes(r.month)), 'conv_value')]},
       {channel: '— Brand Search', fact: isBrand, spend: (ms) => S(gcm.filter((r) => ms.includes(r.month) && /бренд/.test(r.type)), 'cost'), pf: (ms) => { const x = gcm.filter((r) => ms.includes(r.month) && /бренд/.test(r.type)); return [S(x, 'conversions'), S(x, 'conv_value')]; }},
-      {channel: '— PMax (non-brand)', fact: (o) => isG(o) && !isBrand(o), spend: (ms) => S(gcm.filter((r) => ms.includes(r.month) && !/бренд/.test(r.type)), 'cost'), pf: (ms) => { const x = gcm.filter((r) => ms.includes(r.month) && !/бренд/.test(r.type)); return [S(x, 'conversions'), S(x, 'conv_value')]; }},
+      {channel: '— PMax + Shopping (non-brand)', fact: (o) => isG(o) && !isBrand(o), spend: (ms) => S(gcm.filter((r) => ms.includes(r.month) && !/бренд/.test(r.type)), 'cost'), pf: (ms) => { const x = gcm.filter((r) => ms.includes(r.month) && !/бренд/.test(r.type)); return [S(x, 'conversions'), S(x, 'conv_value')]; }},
       {channel: 'Meta Ads', fact: (o) => chan(o) === 'meta', spend: (ms) => S(attr.filter((r) => ms.includes(r.month)), 'spend'), pf: (ms) => { const x = attr.filter((r) => ms.includes(r.month)); return [S(x, 'purchases'), S(x, 'value')]; }},
       {channel: 'Microsoft Ads', fact: (o) => chan(o) === 'bing', spend: (ms) => S(msads.filter((r) => ms.includes(r.month)), 'cost'), pf: (ms) => { const x = msads.filter((r) => ms.includes(r.month)); return [S(x, 'conversions'), S(x, 'conv_value')]; }}
     ];
@@ -811,6 +889,7 @@ dash.calc('xpaid', {
       r.roas = spend ? net / spend : null;
       r.cpa = spend && f.length ? spend / f.length : null;
       r.gap = net && pf[1] != null ? pf[1] / net : null;
+      r.profit = net * 0.3 - spend; r.romi = spend ? r.profit / spend : null; r.pf_romi = spend && pf[1] != null ? (pf[1] * 0.3 - spend) / spend : null;
       const fl = [];
       if (r.gap != null && r.gap > 3) fl.push('кабинет показывает выручку ×' + Math.round(r.gap) + ' к Shopify last-click');
       if (r.roas != null && r.roas < 1) fl.push('реклама не окупает себя даже по выручке');
@@ -821,7 +900,9 @@ dash.calc('xpaid', {
     let out = [];
     months.forEach((m) => { out = out.concat(build(m, [m])); });
     out = out.concat(build('all', months));
-    return out;
+    const withTot = [];
+    months.concat(['all']).forEach((mm) => { const all = out.filter((r) => r.month === mm), xs = all.filter((r) => r.channel.charAt(0) !== '—'); const spend = S(xs, 'spend'), net = S(xs, 'net'), pv = S(xs, 'pf_value'), orders = S(xs, 'orders'); withTot.push(...all, {month: mm, channel: 'Все платные каналы', total: true, spend, pf_orders: S(xs, 'pf_orders'), pf_value: pv, orders, net, pf_roas: spend ? pv / spend : null, roas: spend ? net / spend : null, cpa: orders ? spend / orders : null, gap: net ? pv / net : null, profit: net * 0.3 - spend, romi: spend ? (net * 0.3 - spend) / spend : null, pf_romi: spend ? (pv * 0.3 - spend) / spend : null, flags: ''}); });
+    return withTot;
   }
 });
 
@@ -830,7 +911,7 @@ dash.calc('cat_v', {
   description: 'Категории товаров (собраны из типов Shopify) по месяцам и за весь период (month = all): штуки, валовые продажи, доля, возвраты, доля возвратов и чистые продажи.',
   inputs: ['ptypes', 'ptypes_m'],
   fn: (pt0, ptm0) => {
-    const B2B_LINES = [['Widespread Bathroom Faucets', '2026-08', 1, 194.9], ['Bathroom Sink Grid Drain', '2026-08', 1, 34.9], ['Shipping Protection', '2026-08', 1, 10.83], ['Framed Fixed Bathtub Screen', '2026-08', 1, 424.9], ['Frameless Sliding Shower Door', '2026-09', 1, 1144.9], ['Shipping Protection', '2026-09', 1, 54.53], ['Widespread Bathroom Faucets', '2026-09', 7, 1194.3], ['Pull-Down Kitchen Faucet', '2026-09', 1, 189.9], ['Bar Kitchen Faucet', '2026-10', 1, 189.9], ['Frameless Sliding Shower Door', '2026-11', 1, 1079.9], ['Shipping Protection', '2026-11', 1, 51.11]];
+    const B2B_LINES = [['Widespread Bathroom Faucets', '2026-08', 1, 194.9], ['Bathroom Sink Grid Drain', '2026-08', 1, 34.9], ['Shipping Protection', '2026-08', 1, 10.83], ['Framed Fixed Bathtub Screen', '2026-08', 1, 424.9], ['Frameless Sliding Shower Door', '2026-09', 1, 1144.9], ['Shipping Protection', '2026-09', 1, 54.53], ['Widespread Bathroom Faucets', '2026-09', 7, 1194.3], ['Pull-Down Kitchen Faucet', '2026-09', 1, 189.9], ['Bar Kitchen Faucet', '2026-10', 1, 189.9], ['Frameless Sliding Shower Door', '2026-11', 1, 1079.9], ['Shipping Protection', '2026-11', 1, 51.11], ['Bathroom Hardware Set', '2026-11b', 1, 139.8]];
     const sub = (rows, byMonth) => rows.map((r) => { const ls = B2B_LINES.filter((l) => l[0] === r.product_type && (!byMonth || l[1] === r.month)); if (!ls.length) return r; const g = ls.reduce((t, l) => t + l[3], 0), u = ls.reduce((t, l) => t + l[2], 0); const o = Object.assign({}, r, {gross_sales: +r.gross_sales - g, net_sales: +r.net_sales - g}); if (r.units != null) o.units = +r.units - u; return o; });
     const pt = sub(pt0, false), ptm = sub(ptm0, true);
     const out = [];
@@ -841,14 +922,14 @@ dash.calc('cat_v', {
       Array.from(by.values()).sort((a, b) => b.gross - a.gross).forEach((a) => { a.share = tot ? a.gross / tot : null; a.ret_rate = a.gross && a.returns <= a.gross ? a.returns / a.gross : null; out.push(a); });
     };
     agg(pt, 'all', true);
-    ['2026-08', '2026-09', '2026-10', '2026-11'].forEach((m) => agg(ptm.filter((r) => r.month === m), m, false));
+    ['2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'].forEach((m) => agg(ptm.filter((r) => r.month === m), m, false));
     return out;
   }
 });
 
 dash.calc('top_prod_v', {
   title: 'Топ-15 товаров',
-  description: 'Пятнадцать товаров с наибольшими валовыми продажами за 1 августа — 11 ноября: категория, штуки, валовые продажи, возвраты, доля возвратов и чистые продажи.',
+  description: 'Пятнадцать товаров с наибольшими валовыми продажами за 1 августа — 18 ноября: категория, штуки, валовые продажи, возвраты, доля возвратов и чистые продажи.',
   inputs: ['ptop'],
   fn: (rows0) => rows0.map((r) => r.product === 'Elan Frameless Sliding Shower Door' ? Object.assign({}, r, {orders: +r.orders - 2, units: +r.units - 2, gross_sales: +r.gross_sales - 2224.8, net_sales: +r.net_sales - 2224.8}) : r).filter((r) => r.product !== 'Shipping Protection').slice(0, 15).map((r) => {
     const t = String(r.product).replace(/ System with .*$/, ' System').replace(/ in Stainless Steel$/, '');
@@ -857,14 +938,14 @@ dash.calc('top_prod_v', {
   })
 });
 
-dash.calc('funnel_v', {
+dash.calc('funnel_dev_v', {
   title: 'Воронка сайта по месяцам и устройствам',
   description: 'Посещения, добавления в корзину, начатые оформления и покупки по сессиям Shopify — по месяцам и за весь период (month = all), всего и по устройствам, с процентами перехода на каждом шаге.',
   inputs: ['shopify', 'funnel_dev'],
   fn: (shop, dev) => {
     const out = [];
     const mk = (month, device, s, c, k, p) => ({month, device, sessions: s, cart: c, checkout: k, completed: p, cart_rate: s ? c / s : null, checkout_rate: c ? k / c : null, complete_rate: k ? p / k : null, conv: s ? p / s : null});
-    const months = ['2026-08', '2026-09', '2026-10', '2026-11'];
+    const months = ['2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'];
     const N = (v) => +v || 0;
     const sum = (rows, k) => rows.reduce((a, r) => a + N(r[k]), 0);
     months.concat(['all']).forEach((m) => {
@@ -879,46 +960,50 @@ dash.calc('funnel_v', {
 dash.calc('disc_type_v', {
   title: 'Скидки по типам кодов',
   description: 'Заказы, доля заказов, валовые продажи, сумма скидок, скидка в процентах от суммы и чистые продажи по типам промокодов за весь период.',
-  inputs: ['dcodes'],
-  fn: (rows0) => {
-    const ZC = ['NETPEAKTEST100', 'D93EQDM9XQEY', '5PPK1S6EDF5B', '0Y4R3H0NWZMG', 'CXZP2H6HPMC5', 'RXB6SW4PH879']; const d2c = (rs) => rs.filter((r) => !ZC.includes(r.code)).map((r) => r.code === '(без кода)' ? Object.assign({}, r, {orders: +r.orders - 26, gross_sales: +r.gross_sales - 4570.07, net_sales: +r.net_sales - 4570.07}) : r);
-    const rows = d2c(rows0);
-    const by = new Map(); let tot = 0;
-    rows.forEach((r) => { const a = by.get(r.code_type) || {code_type: r.code_type, orders: 0, gross: 0, discounts: 0, net: 0}; a.orders += +r.orders || 0; a.gross += +r.gross_sales || 0; a.discounts += +r.discounts || 0; a.net += +r.net_sales || 0; by.set(r.code_type, a); tot += +r.orders || 0; });
-    return Array.from(by.values()).map((a) => Object.assign(a, {share: tot ? a.orders / tot : null, disc_pct: a.gross ? a.discounts / a.gross : null})).sort((a, b) => b.orders - a.orders);
+  inputs: ['dcodes', 'dcodes_m'],
+  fn: (all0, m0) => {
+    const ZC = ['NETPEAKTEST100', 'D93EQDM9XQEY', '5PPK1S6EDF5B', '0Y4R3H0NWZMG', 'CXZP2H6HPMC5', 'RXB6SW4PH879']; const NC = {all: [28, 4819.77], '2026-08': [2, 665.53], '2026-09': [10, 2583.63], '2026-10': [8, 189.9], '2026-11': [6, 1131.01], '2026-11b': [2, 249.7]}; const d2c = (rs, m) => rs.filter((r) => !ZC.includes(r.code)).map((r) => r.code === '(без кода)' ? Object.assign({}, r, {orders: +r.orders - NC[m][0], gross_sales: +r.gross_sales - NC[m][1], net_sales: +r.net_sales - NC[m][1]}) : r); const periods = [['all', all0]].concat(['2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'].map((m) => [m, m0.filter((r) => r.month === m)]));
+    return periods.flatMap(([month, rs]) => {
+      const rows = d2c(rs, month);
+      const by = new Map(); let tot = 0;
+      rows.forEach((r) => { const a = by.get(r.code_type) || {month, code_type: r.code_type, orders: 0, gross: 0, discounts: 0, net: 0}; a.orders += +r.orders || 0; a.gross += +r.gross_sales || 0; a.discounts += +r.discounts || 0; a.net += +r.net_sales || 0; by.set(r.code_type, a); tot += +r.orders || 0; });
+      return Array.from(by.values()).filter((a) => a.orders > 0).map((a) => Object.assign(a, {share: tot ? a.orders / tot : null, disc_pct: a.gross ? a.discounts / a.gross : null})).sort((a, b) => b.orders - a.orders);
+    });
   }
 });
 
 dash.calc('disc_code_v', {
   title: 'Промокоды',
   description: 'Каждый промокод за весь период: тип, заказы, валовые продажи, сумма скидок, скидка в процентах и чистые продажи (до 25 кодов по числу заказов).',
-  inputs: ['dcodes'],
-  fn: (rows0) => { const ZC = ['NETPEAKTEST100', 'D93EQDM9XQEY', '5PPK1S6EDF5B', '0Y4R3H0NWZMG', 'CXZP2H6HPMC5', 'RXB6SW4PH879']; const d2c = (rs) => rs.filter((r) => !ZC.includes(r.code)).map((r) => r.code === '(без кода)' ? Object.assign({}, r, {orders: +r.orders - 26, gross_sales: +r.gross_sales - 4570.07, net_sales: +r.net_sales - 4570.07}) : r); return d2c(rows0).filter((r) => r.code !== '(без кода)').map((r) => ({code: r.code, code_type: r.code_type, orders: +r.orders, gross: +r.gross_sales, discounts: +r.discounts, disc_pct: +r.gross_sales ? +r.discounts / +r.gross_sales : null, net: +r.net_sales})).sort((a, b) => b.orders - a.orders || b.discounts - a.discounts).slice(0, 25); }
+  inputs: ['dcodes', 'dcodes_m'],
+  fn: (all0, m0) => { const ZC = ['NETPEAKTEST100', 'D93EQDM9XQEY', '5PPK1S6EDF5B', '0Y4R3H0NWZMG', 'CXZP2H6HPMC5', 'RXB6SW4PH879']; const NC = {all: [28, 4819.77], '2026-08': [2, 665.53], '2026-09': [10, 2583.63], '2026-10': [8, 189.9], '2026-11': [6, 1131.01], '2026-11b': [2, 249.7]}; const d2c = (rs, m) => rs.filter((r) => !ZC.includes(r.code)).map((r) => r.code === '(без кода)' ? Object.assign({}, r, {orders: +r.orders - NC[m][0], gross_sales: +r.gross_sales - NC[m][1], net_sales: +r.net_sales - NC[m][1]}) : r); const periods = [['all', all0]].concat(['2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'].map((m) => [m, m0.filter((r) => r.month === m)])); return periods.flatMap(([month, rs]) => d2c(rs, month).filter((r) => r.code !== '(без кода)').map((r) => ({month, code: r.code, code_type: r.code_type, orders: +r.orders, gross: +r.gross_sales, discounts: +r.discounts, disc_pct: +r.gross_sales ? +r.discounts / +r.gross_sales : null, net: +r.net_sales})).sort((a, b) => b.orders - a.orders || b.discounts - a.discounts).slice(0, 25)); }
 });
 
 dash.calc('disc_sum', {
   title: 'Итоги по скидкам',
   description: 'Сколько заказов с промокодом, их доля, заказы с VIGO5, общая сумма скидок и её доля от валовых продаж.',
-  inputs: ['dcodes', 'shopify'],
-  fn: (rows0, shop0) => {
-    const ZC = ['NETPEAKTEST100', 'D93EQDM9XQEY', '5PPK1S6EDF5B', '0Y4R3H0NWZMG', 'CXZP2H6HPMC5', 'RXB6SW4PH879']; const d2c = (rs) => rs.filter((r) => !ZC.includes(r.code)).map((r) => r.code === '(без кода)' ? Object.assign({}, r, {orders: +r.orders - 26, gross_sales: +r.gross_sales - 4570.07, net_sales: +r.net_sales - 4570.07}) : r);
-    const rows = d2c(rows0);
-    const ADJ = {'2026-08': {orders: 6, gross: 665.53, zd: 853.89}, '2026-09': {orders: 13, gross: 2583.63, zd: 907.58}, '2026-10': {orders: 8, gross: 189.9, zd: 0}, '2026-11': {orders: 11, gross: 1131.01, zd: 1705.3}};
+  inputs: ['dcodes', 'dcodes_m', 'shopify'],
+  fn: (all0, m0, shop0) => {
+    const ZC = ['NETPEAKTEST100', 'D93EQDM9XQEY', '5PPK1S6EDF5B', '0Y4R3H0NWZMG', 'CXZP2H6HPMC5', 'RXB6SW4PH879']; const NC = {all: [28, 4819.77], '2026-08': [2, 665.53], '2026-09': [10, 2583.63], '2026-10': [8, 189.9], '2026-11': [6, 1131.01], '2026-11b': [2, 249.7]}; const d2c = (rs, m) => rs.filter((r) => !ZC.includes(r.code)).map((r) => r.code === '(без кода)' ? Object.assign({}, r, {orders: +r.orders - NC[m][0], gross_sales: +r.gross_sales - NC[m][1], net_sales: +r.net_sales - NC[m][1]}) : r); const periods = [['all', all0]].concat(['2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'].map((m) => [m, m0.filter((r) => r.month === m)]));
+    const ADJ = {'2026-08': {orders: 6, gross: 665.53, zd: 853.89}, '2026-09': {orders: 13, gross: 2583.63, zd: 907.58}, '2026-10': {orders: 8, gross: 189.9, zd: 0}, '2026-11': {orders: 11, gross: 1131.01, zd: 1705.3}, '2026-11b': {orders: 3, gross: 139.8, zd: 969.8}};
     const shop = shop0.map((r) => { const a = ADJ[r.month] || {orders: 0, gross: 0, zd: 0}; return Object.assign({}, r, {orders: +r.orders - a.orders, gross_sales: +r.gross_sales - a.gross - a.zd, discounts: +r.discounts - a.zd}); });
-    const orders = shop.reduce((a, r) => a + (+r.orders || 0), 0);
+    return periods.map(([month, rs]) => {
+    const rows = d2c(rs, month); const sh = shop.filter((r) => month === 'all' || r.month === month);
+    const orders = sh.reduce((a, r) => a + (+r.orders || 0), 0);
     const code_orders = rows.filter((r) => r.code !== '(без кода)').reduce((a, r) => a + (+r.orders || 0), 0);
     const v5 = rows.find((r) => r.code === 'VIGO5') || {};
-    const disc = shop.reduce((a, r) => a + (+r.discounts || 0), 0), gross = shop.reduce((a, r) => a + (+r.gross_sales || 0), 0);
-    return [{orders, code_orders, code_share: orders ? code_orders / orders : null, vigo5_orders: +v5.orders || 0, disc_total: disc, disc_pct: gross ? disc / gross : null}];
+    const disc = sh.reduce((a, r) => a + (+r.discounts || 0), 0), gross = sh.reduce((a, r) => a + (+r.gross_sales || 0), 0);
+    return {month, orders, code_orders, code_share: orders ? code_orders / orders : null, vigo5_orders: +v5.orders || 0, disc_total: disc, disc_pct: gross ? disc / gross : null};
+    });
   }
 });
 
 dash.calc('cat_ads_v', {
   title: 'Продажи категорий по рекламным каналам',
-  description: 'Чистые продажи каждой категории товаров по месяцам и за 2 сентября — 11 ноября (month = all): сколько пришло с Google Ads, Microsoft Ads, Meta Ads и без рекламы, и доля рекламы. Сумма заказа разделена между категориями пропорционально стоимости товаров.',
+  description: 'Чистые продажи каждой категории товаров по месяцам и за 2 сентября — 18 ноября (month = all): сколько пришло с Google Ads, Microsoft Ads, Meta Ads и без рекламы, и доля рекламы. Сумма заказа разделена между категориями пропорционально стоимости товаров.',
   inputs: ['cat_ch'],
   fn: (rows) => {
-    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180'];
+    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180', '3186'];
     const W = rows.filter((r) => r.date >= '2026-09-02' && !B2B.includes(String(r.order)));
     const out = [];
     const build = (month, rs) => {
@@ -927,7 +1012,7 @@ dash.calc('cat_ads_v', {
       Array.from(by.values()).filter((a) => a.category !== 'Без типа товара').sort((a, b) => b.total - a.total).forEach((a) => { a.ads = a.google + a.microsoft + a.meta; a.ads_share = a.total > 0 ? a.ads / a.total : null; out.push(a); });
     };
     build('all', W);
-    ['2026-09', '2026-10', '2026-11'].forEach((m) => build(m, W.filter((r) => r.month === m)));
+    ['2026-09', '2026-10', '2026-11', '2026-11b'].forEach((m) => build(m, W.filter((r) => r.month === m)));
     return out;
   }
 });
@@ -938,7 +1023,7 @@ dash.calc('conv_m', {
   inputs: ['shopify', 'sess_src'],
   fn: (shop, sess) => {
     const N = (v) => +v || 0;
-    const months = [['2026-08', 'Август', 31], ['2026-09', 'Сентябрь', 30], ['2026-10', 'Октябрь', 31], ['2026-11', '1–11 ноября', 11], ['all', 'Весь период', 103]];
+    const months = [['2026-08', 'Август', 31], ['2026-09', 'Сентябрь', 30], ['2026-10', 'Октябрь', 31], ['2026-11', '1–11 ноября', 11], ['2026-11b', '12–18 ноября', 7], ['all', 'Весь период', 110]];
     return months.map(([m, label, days]) => {
       const sh = shop.filter((r) => m === 'all' || r.month === m);
       const S = (k) => sh.reduce((a, r) => a + N(r[k]), 0);
@@ -951,7 +1036,7 @@ dash.calc('conv_m', {
 
 dash.calc('ga4_conv_v', {
   title: 'Конверсия по каналам GA4, сентябрь — ноябрь',
-  description: 'Визиты и конверсия визитов в покупку по каналам GA4 за сентябрь, октябрь и 1–11 ноября; каналы с заметным трафиком, по убыванию визитов.',
+  description: 'Визиты и конверсия визитов в покупку по каналам GA4 за сентябрь, октябрь, 1–11 и 12–18 ноября; каналы с заметным трафиком, по убыванию визитов.',
   inputs: ['ga4_cm'],
   fn: (rows) => {
     const N = (v) => +v || 0;
@@ -967,10 +1052,10 @@ dash.calc('ga4_conv_v', {
 
 dash.calc('cac_v', {
   title: 'Стоимость нового клиента',
-  description: 'По месяцам, за весь период и за 2 сентября — 11 ноября: новые покупатели (первый заказ в магазине), расход Google, Meta и Microsoft, стоимость нового клиента по магазину и отдельно для Google, Meta и Microsoft, средний первый заказ и его валовая прибыль при марже 30%.',
+  description: 'По месяцам, за весь период и за 2 сентября — 18 ноября: новые покупатели (первый заказ в магазине), расход Google, Meta и Microsoft, стоимость нового клиента по магазину и отдельно для Google, Meta и Microsoft, средний первый заказ и его валовая прибыль при марже 30%.',
   inputs: ['xorders', 'cust_type', 'meta', 'gads', 'msads'],
   fn: (orders0, ct, meta, gads, msads) => {
-    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180'];
+    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180', '3186'];
     const orders = orders0.filter((o) => !B2B.includes(String(o.order)));
     const N = (v) => +v || 0, M = 0.3;
     const first = new Map(ct.map((r) => [String(r.order), String(r.first_order) === '1']));
@@ -990,9 +1075,9 @@ dash.calc('cac_v', {
         b_new: fact ? b.length : null, b_cac: fact && b.length ? bsp / b.length : null, b_gp: fact && b.length ? avg(b) * M : null, first_aov: fa, first_gp: fa == null ? null : fa * M,
         p_new: fact ? g.length + m.length + b.length : null, p_cac: fact && (g.length + m.length + b.length) ? (gsp + msp + bsp) / (g.length + m.length + b.length) : null, p_gp: fact && (g.length + m.length + b.length) ? avg(g.concat(m, b)) * M : null};
     };
-    const out = [['2026-08', 'Август'], ['2026-09', 'Сентябрь'], ['2026-10', 'Октябрь'], ['2026-11', '1–11 ноября']].map(([m, l]) => build(l, [m], false));
-    out.push(build('1 авг — 11 ноя', ['2026-08', '2026-09', '2026-10', '2026-11'], true));
-    out.push(build('2 сен — 11 ноя', ['2026-09', '2026-10', '2026-11'], true));
+    const out = [['2026-08', 'Август'], ['2026-09', 'Сентябрь'], ['2026-10', 'Октябрь'], ['2026-11', '1–11 ноября'], ['2026-11b', '12–18 ноября']].map(([m, l]) => Object.assign(build(l, [m], false), {month: m}));
+    out.push(build('1 авг — 18 ноя', ['2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'], true));
+    out.push(build('2 сен — 18 ноя', ['2026-09', '2026-10', '2026-11', '2026-11b'], true));
     return out;
   }
 });
@@ -1002,7 +1087,7 @@ dash.calc('funnel_v', {
   description: 'Для каждого месяца и за весь период: визиты, визиты с добавлением в корзину, с началом оформления и с покупкой по источнику визита в Shopify (прямой заход, поиск, реклама, другое); заказы и чистые продажи по каналам последнего визита (реклама — по GA4 и меткам); клики по рекламе из кабинетов Google Ads и Meta.',
   inputs: ['sess_src', 'xorders', 'gads', 'meta'],
   fn: (sess, orders0, gads, meta) => {
-    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180'];
+    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180', '3186'];
     const orders = orders0.filter((o) => !B2B.includes(String(o.order)));
     const N = (v) => +v || 0, G = ['direct', 'search', 'ads', 'other'];
     const sg = (s) => s === 'direct' ? 'direct' : s === 'search' ? 'search' : s === 'paid' ? 'ads' : 'other';
@@ -1014,7 +1099,7 @@ dash.calc('funnel_v', {
       return 'other';
     };
     const blank = () => { const o = {total: 0}; G.forEach((g) => { o[g] = 0; }); return o; };
-    return ['all', '2026-08', '2026-09', '2026-10', '2026-11'].map((m) => {
+    return ['all', '2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'].map((m) => {
       const inM = (r) => m === 'all' || r.month === m;
       const st = {sessions: blank(), cart_sessions: blank(), checkout_sessions: blank(), completed_sessions: blank()};
       sess.filter(inM).forEach((r) => { const g = sg(r.source); Object.keys(st).forEach((k) => { st[k][g] += N(r[k]); st[k].total += N(r[k]); }); });
@@ -1030,15 +1115,15 @@ dash.calc('funnel_v', {
 
 dash.calc('g_month', {
   title: 'Google Ads по месяцам: кабинет и Shopify last-click',
-  description: 'Google Ads по месяцам: расход, клики, конверсии и ценность из кабинета, заказы Shopify, атрибутированные Google (GA4 gclid и метка Shopify), CPA, ROAS и ROMI по Shopify last-click. Итог — 2 сентября — 11 ноября; за август GA4 не работал.',
+  description: 'Google Ads по месяцам: расход, клики, конверсии и ценность из кабинета, заказы Shopify, атрибутированные Google (GA4 gclid и метка Shopify), CPA, ROAS и ROMI по Shopify last-click. Итог — 2 сентября — 18 ноября; за август GA4 не работал.',
   inputs: ['gads', 'xorders'],
   fn: (gads, orders0) => {
-    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180'];
+    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180', '3186'];
     const orders = orders0.filter((o) => !B2B.includes(String(o.order)));
     const S = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0);
     const isG = (o) => +o.value > 0 && ((o.ga4_source_medium || '') === 'google / cpc' || o.shopify_channel === 'Google Ads (метка)');
-    const NAMES = {'2026-08': 'Август', '2026-09': 'Сентябрь', '2026-10': 'Октябрь', '2026-11': '1–11 ноября'};
-    const FACT = ['2026-09', '2026-10', '2026-11'];
+    const NAMES = {'2026-08': 'Август', '2026-09': 'Сентябрь', '2026-10': 'Октябрь', '2026-11': '1–11 ноября', '2026-11b': '12–18 ноября'};
+    const FACT = ['2026-09', '2026-10', '2026-11', '2026-11b'];
     const row = (period, ms, fact) => {
       const g = gads.filter((r) => ms.includes(r.month));
       const r = {period, spend: S(g, 'cost'), clicks: S(g, 'clicks'), pf_orders: S(g, 'conversions'), pf_value: S(g, 'conv_value')};
@@ -1047,23 +1132,23 @@ dash.calc('g_month', {
       else { r.orders = null; r.net = null; r.roas = null; r.romi = null; r.cpa = null; }
       return r;
     };
-    const out = Object.keys(NAMES).map((m) => row(NAMES[m], [m], FACT.includes(m)));
-    out.push(Object.assign(row('Итого сен — 11 ноя', FACT, true), {total: true}));
+    const out = Object.keys(NAMES).map((m) => Object.assign(row(NAMES[m], [m], FACT.includes(m)), {month: m}));
+    out.push(Object.assign(row('Итого сен — 18 ноя', FACT, true), {total: true}));
     return out;
   }
 });
 
 dash.calc('m_month', {
   title: 'Meta Ads по месяцам: кабинет и Shopify last-click',
-  description: 'Meta Ads по месяцам: расход, клики по ссылке, покупки и ценность из кабинета (из них по клику), заказы Shopify, атрибутированные Meta (UTM и GA4), ROAS и ROMI по Shopify last-click. Итог — 2 сентября — 11 ноября; за август GA4 не работал.',
+  description: 'Meta Ads по месяцам: расход, клики по ссылке, покупки и ценность из кабинета (из них по клику), заказы Shopify, атрибутированные Meta (UTM и GA4), ROAS и ROMI по Shopify last-click. Итог — 2 сентября — 18 ноября; за август GA4 не работал.',
   inputs: ['meta', 'meta_attr', 'xorders'],
   fn: (meta, attr, orders0) => {
-    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180'];
+    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180', '3186'];
     const orders = orders0.filter((o) => !B2B.includes(String(o.order)));
     const S = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0);
     const isM = (o) => { const sm = o.ga4_source_medium || ''; return +o.value > 0 && ((/facebook|instagram/.test(sm) && /cpc|paid/.test(sm)) || o.shopify_channel === 'Meta Ads (метка)'); };
-    const NAMES = {'2026-08': 'Август', '2026-09': 'Сентябрь', '2026-10': 'Октябрь', '2026-11': '1–11 ноября'};
-    const FACT = ['2026-09', '2026-10', '2026-11'];
+    const NAMES = {'2026-08': 'Август', '2026-09': 'Сентябрь', '2026-10': 'Октябрь', '2026-11': '1–11 ноября', '2026-11b': '12–18 ноября'};
+    const FACT = ['2026-09', '2026-10', '2026-11', '2026-11b'];
     const row = (period, ms, fact) => {
       const m = meta.filter((r) => ms.includes(r.month)), a = attr.filter((r) => ms.includes(r.month));
       const r = {period, spend: S(m, 'spend'), link_clicks: S(m, 'link_clicks'), pf_orders: S(m, 'purchases'), pf_click: S(a, 'purchases_click'), pf_value: S(m, 'purchase_value')};
@@ -1072,21 +1157,21 @@ dash.calc('m_month', {
       else { r.orders = null; r.net = null; r.roas = null; r.romi = null; }
       return r;
     };
-    const out = Object.keys(NAMES).map((m) => row(NAMES[m], [m], FACT.includes(m)));
-    out.push(Object.assign(row('Итого сен — 11 ноя', FACT, true), {total: true}));
+    const out = Object.keys(NAMES).map((m) => Object.assign(row(NAMES[m], [m], FACT.includes(m)), {month: m}));
+    out.push(Object.assign(row('Итого сен — 18 ноя', FACT, true), {total: true}));
     return out;
   }
 });
 
 dash.calc('ms_cm_v', {
-  title: 'Microsoft Ads по кампаниям: 2 сентября — 11 ноября',
-  description: 'Кампании Microsoft Ads за 2 сентября — 11 ноября: расход, клики, конверсии и ценность из кабинета и заказы Shopify last-click по метке кампании GA4 (бренд, PMax, Shopping).',
+  title: 'Microsoft Ads по кампаниям: 2 сентября — 18 ноября',
+  description: 'Кампании Microsoft Ads за 2 сентября — 18 ноября: расход, клики, конверсии и ценность из кабинета и заказы Shopify last-click по метке кампании GA4 (бренд, PMax, Shopping).',
   inputs: ['msads_cm', 'xorders'],
   fn: (cm, orders0) => {
-    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180'];
+    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180', '3186'];
     const orders = orders0.filter((o) => !B2B.includes(String(o.order)) && o.date >= '2026-09-02');
     const S = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0);
-    const FACT = ['2026-09', '2026-10', '2026-11'];
+    const FACT = ['2026-09', '2026-10', '2026-11', '2026-11b'];
     const isB = (o) => +o.value > 0 && ((o.ga4_source_medium || '') === 'bing / cpc' || o.shopify_channel === 'Microsoft Ads');
     const tag = (o) => { const c = (o.ga4_campaign || '') + ' ' + (o.utm_campaign || ''); if (/brand/i.test(c)) return 'brand'; if (/pmax/i.test(c)) return 'pmax'; if (/shopping/i.test(c)) return 'shop'; return 'other'; };
     const ST = {brand: 'активна', pmax: 'активна (ограниченный охват)', shop: 'на паузе'};
@@ -1107,15 +1192,15 @@ dash.calc('ms_cm_v', {
 
 dash.calc('ms_month', {
   title: 'Microsoft Ads по месяцам: кабинет и Shopify last-click',
-  description: 'Microsoft Ads по месяцам: расход, клики, конверсии и ценность из кабинета, заказы Shopify, атрибутированные Microsoft (GA4 bing / cpc и метка Shopify, без повторов), CPA, ROAS и ROMI по Shopify last-click. Итог — 2 сентября — 11 ноября; за август GA4 не работал.',
+  description: 'Microsoft Ads по месяцам: расход, клики, конверсии и ценность из кабинета, заказы Shopify, атрибутированные Microsoft (GA4 bing / cpc и метка Shopify, без повторов), CPA, ROAS и ROMI по Shopify last-click. Итог — 2 сентября — 18 ноября; за август GA4 не работал.',
   inputs: ['msads', 'xorders'],
   fn: (msads, orders0) => {
-    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180'];
+    const B2B = ['2523', '2618', '2809', '2817', '3048', '3180', '3186'];
     const orders = orders0.filter((o) => !B2B.includes(String(o.order)));
     const S = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0);
     const isB = (o) => +o.value > 0 && ((o.ga4_source_medium || '') === 'bing / cpc' || o.shopify_channel === 'Microsoft Ads');
-    const NAMES = {'2026-08': 'Август', '2026-09': 'Сентябрь', '2026-10': 'Октябрь', '2026-11': '1–11 ноября'};
-    const FACT = ['2026-09', '2026-10', '2026-11'];
+    const NAMES = {'2026-08': 'Август', '2026-09': 'Сентябрь', '2026-10': 'Октябрь', '2026-11': '1–11 ноября', '2026-11b': '12–18 ноября'};
+    const FACT = ['2026-09', '2026-10', '2026-11', '2026-11b'];
     const row = (period, ms, fact) => {
       const g = msads.filter((r) => ms.includes(r.month));
       const r = {period, spend: S(g, 'cost'), clicks: S(g, 'clicks'), pf_orders: S(g, 'conversions'), pf_value: S(g, 'conv_value')};
@@ -1124,9 +1209,49 @@ dash.calc('ms_month', {
       else { r.orders = null; r.net = null; r.roas = null; r.romi = null; r.cpa = null; }
       return r;
     };
-    const out = Object.keys(NAMES).map((m) => row(NAMES[m], [m], FACT.includes(m)));
-    out.push(Object.assign(row('Итого сен — 11 ноя', FACT, true), {total: true}));
+    const out = Object.keys(NAMES).map((m) => Object.assign(row(NAMES[m], [m], FACT.includes(m)), {month: m}));
+    out.push(Object.assign(row('Итого сен — 18 ноя', FACT, true), {total: true}));
     return out;
+  }
+});
+
+
+dash.calc('cmp_v', {
+  title: 'Сравнение периодов / Period comparison',
+  description: 'Metrics per period (months and November weeks) used for the comparison blocks under each section.',
+  inputs: ['months', 'xpaid', 'conv_m', 'funnel_dev_v', 'disc_sum', 'g_month', 'm_month', 'ms_month', 'cat_v', 'cat_ads_v', 'mix', 'cac_v', 'gads', 'meta', 'msads'],
+  fn: (months, xpaid, conv, fdev, disc, gm, mm, bm, cat, catads, mix, cac, gads, meta, msads) => {
+    const P = ['2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'];
+    const S = (rows, k) => rows.reduce((a, r) => a + (+r[k] || 0), 0);
+    const one = (rows, m) => rows.find((r) => r.month === m) || {};
+    const dv = (a, b) => (a == null || !b) ? null : a / b;
+    const mixTot = mix.find((r) => r.channel === 'Total') || {};
+    return P.map((m) => {
+      const o = {month: m};
+      const mo = one(months, m), d = mo.days || null;
+      Object.assign(o, {net_day: dv(mo.net, d), gross_day: dv(mo.gross, d), orders_day: dv(mo.orders, d), aov: mo.aov, disc_rate: dv(mo.discounts, mo.gross), ret_rate: mo.return_rate,
+        spend_day: dv(mo.spend, d), mer: mo.mer, roas: mo.roas, romi: mo.romi, ads_net_day: dv(mo.ads_net, d), ret_share: mo.returning_share});
+      const c = one(conv, m);
+      Object.assign(o, {sess_day: c.sess_day, cart_rate: c.cart_rate, checkout_rate: c.checkout_rate, complete_rate: c.complete_rate, conv: c.conv, conv_direct: c.conv_direct, conv_search: c.conv_search});
+      fdev.filter((r) => r.month === m).forEach((r) => { o['dev_conv:' + r.device] = r.conv; o['dev_cart:' + r.device] = r.cart_rate; o['dev_done:' + r.device] = r.complete_rate; o['dev_sess:' + r.device] = dv(r.sessions, d); });
+      const ds = one(disc, m);
+      Object.assign(o, {code_share: ds.code_share, disc_pct: ds.disc_pct, vigo5_share: dv(ds.vigo5_orders, ds.orders)});
+      xpaid.filter((r) => r.month === m).forEach((r) => { const k = r.total ? 'all' : r.channel; o['x_roas:' + k] = r.roas; o['x_romi:' + k] = r.romi; o['x_pfroas:' + k] = r.pf_roas; o['x_spend_day:' + k] = dv(r.spend, d); o['x_net_day:' + k] = dv(r.net, d); o['x_orders:' + k] = r.orders; o['x_cpa:' + k] = r.cpa; });
+      const g = one(gm, m), gc = gads.filter((r) => r.month === m);
+      Object.assign(o, {g_spend_day: dv(g.spend, d), g_clicks_day: dv(g.clicks, d), g_cpc: dv(g.spend, g.clicks), g_pfroas: g.pf_roas, g_orders: g.orders, g_net_day: dv(g.net, d), g_roas: g.roas, g_romi: g.romi, g_cpa: g.cpa, g_ctr: dv(S(gc, 'clicks'), S(gc, 'impressions'))});
+      const t = one(mm, m), mc = meta.filter((r) => r.month === m);
+      Object.assign(o, {m_spend_day: dv(t.spend, d), m_clicks_day: dv(t.link_clicks, d), m_cpc: dv(t.spend, t.link_clicks), m_ctr: dv(S(mc, 'link_clicks'), S(mc, 'impressions')), m_cpm: S(mc, 'impressions') ? S(mc, 'spend') / S(mc, 'impressions') * 1000 : null, m_pf: t.pf_orders, m_pfclick: t.pf_click, m_pfroas: t.pf_roas, m_orders: t.orders, m_roas: t.roas, m_romi: t.romi});
+      const b = one(bm, m), bc = msads.filter((r) => r.month === m);
+      Object.assign(o, {b_spend_day: dv(b.spend, d), b_clicks_day: dv(b.clicks, d), b_cpc: dv(b.spend, b.clicks), b_ctr: dv(S(bc, 'clicks'), S(bc, 'impressions')), b_pfroas: b.pf_roas, b_orders: b.orders, b_roas: b.roas, b_romi: b.romi, b_cpa: b.cpa});
+      cat.filter((r) => r.month === m).forEach((r) => { o['cs:' + r.category] = r.share; o['cr:' + r.category] = r.ret_rate; o['cn:' + r.category] = dv(r.net, d); });
+      catads.filter((r) => r.month === m).forEach((r) => { o['ca:' + r.category] = r.ads_share; });
+      const k = m.slice(5), tot = mixTot['s' + k] || 0;
+      mix.forEach((r) => { if (r.channel !== 'Total' && r.channel !== '$0 Orders') o['ms:' + r.channel] = tot ? (r['s' + k] || 0) / tot : null; });
+      if (tot) o['ms:paid'] = ['Google Ads', 'Microsoft Ads', 'Meta Ads'].reduce((a, ch) => a + (o['ms:' + ch] || 0), 0);
+      const cc = cac.find((r) => r.month === m) || {};
+      Object.assign(o, {new_day: dv(cc.new_all, d), cac_all: cc.cac_all, p_cac: cc.p_cac, p_new: cc.p_new, first_aov: cc.first_aov, g_cac: cc.g_cac});
+      return o;
+    });
   }
 });
 
@@ -1142,6 +1267,7 @@ dash.draw('num', function (el) {
   var d = dash.data(el.dataset.source);
   if (d.status !== 'ok' || !d.data) { el.textContent = '—'; return; }
   var rows = Array.isArray(d.data) ? d.data : [d.data];
+  if (el.hasAttribute('data-by-month')) rows = rows.filter(function (r) { return r.month === vgMonth(); });
   var row;
   if (el.dataset.where) {
     var conds = el.dataset.where.split('&').map(function (p) { return p.split('=').map(decodeURIComponent); });
@@ -1154,9 +1280,52 @@ dash.draw('num', function (el) {
   el.textContent = vgFmt[el.dataset.fmt || 'money'](+v);
 });
 
+dash.draw('cmp', function (el) {
+  var d = dash.data('cmp_v');
+  el.replaceChildren();
+  if (d.status !== 'ok' || !Array.isArray(d.data)) return;
+  var L = window.vgCmpL, order = ['2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'];
+  var m = vgMonth(), note = '';
+  if (m === 'all') { m = '2026-11b'; note = L.allNote; }
+  var i = order.indexOf(m);
+  var head = document.createElement('p'); head.className = 'vg-cmp-head';
+  if (i <= 0) { head.textContent = L.first; el.appendChild(head); return; }
+  var cur = d.data.find(function (r) { return r.month === m; }) || {}, prev = d.data.find(function (r) { return r.month === order[i - 1]; }) || {};
+  head.innerHTML = '<b>' + L.cmp + ':</b> ' + vgMonthNames[m] + ' ' + L.vs + ' ' + vgMonthNames[order[i - 1]] + (note ? ' <span>· ' + note + '</span>' : '');
+  el.appendChild(head);
+  var rows; try { rows = JSON.parse(el.dataset.rows); } catch (e) { return; }
+  var tbl = document.createElement('table'); tbl.className = 'vg-cmp-table';
+  var th = document.createElement('thead'); th.innerHTML = '<tr><th>' + L.metric + '</th><th>' + vgMonthNames[order[i - 1]] + '</th><th>' + vgMonthNames[m] + '</th><th>' + L.change + '</th></tr>';
+  tbl.appendChild(th);
+  var tb = document.createElement('tbody');
+  rows.forEach(function (r) {
+    var lab = r[0], key = r[1], fmt = r[2], mode = r[3] || 'rel', good = r[4] || 'up';
+    var a = prev[key], b = cur[key];
+    if ((a == null || !isFinite(a)) && (b == null || !isFinite(b))) return;
+    var tr = document.createElement('tr');
+    var f = function (v) { return (v == null || !isFinite(v)) ? '—' : vgFmt[fmt](v); };
+    var td0 = document.createElement('td'); td0.textContent = lab; tr.appendChild(td0);
+    var td1 = document.createElement('td'); td1.textContent = f(a); tr.appendChild(td1);
+    var td2 = document.createElement('td'); td2.textContent = f(b); tr.appendChild(td2);
+    var td3 = document.createElement('td'), ch = null, txt = '—';
+    if (a != null && b != null && isFinite(a) && isFinite(b) && Math.abs(b - a) < 1e-9) { ch = 0; txt = '0'; }
+    else if (a != null && b != null && isFinite(a) && isFinite(b)) {
+      if (mode === 'pp') { ch = b - a; txt = (ch >= 0 ? '▲ ' : '▼ ') + L.num(Math.abs(ch) * 100) + ' ' + L.pp; }
+      else if (mode === 'x') { ch = b - a; txt = (ch >= 0 ? '▲ ' : '▼ ') + L.num(Math.abs(ch)) + '×'; }
+      else if (a) { ch = b / a - 1; txt = (ch >= 0 ? '▲ ' : '▼ ') + vgFmt.pct(Math.abs(ch)); }
+      else if (b) { ch = 1; txt = L.fromZero; }
+      else { ch = 0; txt = '0'; }
+    }
+    td3.textContent = txt;
+    if (ch != null && Math.abs(ch) > 0.0001 && good !== 'none') td3.className = (good === 'up' ? ch > 0 : ch < 0) ? 'vg-good' : 'vg-badc';
+    tr.appendChild(td3); tb.appendChild(tr);
+  });
+  tbl.appendChild(tb); el.appendChild(tbl);
+});
+
 dash.draw('adsPeriod', function (el) {
   var m = vgMonth();
-  el.textContent = ({all: '2 сентября — 11 ноября', '2026-08': 'август — нет данных GA4', '2026-09': '2–30 сентября', '2026-10': 'октябрь', '2026-11': '1–11 ноября'})[m] || '—';
+  el.textContent = ({all: '2 сентября — 18 ноября', '2026-08': 'август — нет данных GA4', '2026-09': '2–30 сентября', '2026-10': 'октябрь', '2026-11': '1–11 ноября', '2026-11b': '12–18 ноября'})[m] || '—';
 });
 
 dash.draw('selName', function (el) {
@@ -1176,9 +1345,9 @@ dash.draw('kdelta', function (el) {
   var d = dash.data('months');
   if (d.status !== 'ok' || !Array.isArray(d.data)) { el.textContent = '—'; return; }
   var m = vgMonth();
-  if (m === 'all') { el.textContent = (el.dataset.k === 'roas' || el.dataset.k === 'romi') ? 'сен — 11 ноя' : 'за 103 дня'; return; }
-  var order = ['2026-08', '2026-09', '2026-10', '2026-11'];
-  var prevName = {'2026-09': 'августу', '2026-10': 'сентябрю', '2026-11': 'октябрю'};
+  if (m === 'all') { el.textContent = (el.dataset.k === 'roas' || el.dataset.k === 'romi') ? 'сен — 18 ноя' : 'за 110 дней'; return; }
+  var order = ['2026-08', '2026-09', '2026-10', '2026-11', '2026-11b'];
+  var prevName = {'2026-09': 'августу', '2026-10': 'сентябрю', '2026-11': 'октябрю', '2026-11b': '1–11 ноября'};
   var i = order.indexOf(m);
   if (i <= 0) { el.textContent = 'первый месяц периода'; return; }
   var cur = d.data.find(function (r) { return r.month === m; });
@@ -1267,7 +1436,7 @@ dash.draw('mixTable', function (tbody) {
     };
     if (DESC[r.channel]) { var ds = document.createElement('span'); ds.className = 'vg-chan-desc'; ds.textContent = DESC[r.channel]; td.appendChild(ds); }
     tr.appendChild(td);
-    ['08', '09', '10', '11'].forEach(function (k) {
+    ['08', '09', '10', '11', '11b'].forEach(function (k) {
       var c = document.createElement('td');
       if (r.channel === 'Google Ads' && k === '08') { c.textContent = '—*'; tr.appendChild(c); return; }
       c.textContent = vgFmt.int(r['o' + k] || 0);
@@ -1294,7 +1463,7 @@ dash.draw('claimsChart', function (el) {
   var d = dash.data('xpaid');
   if (d.status !== 'ok' || !Array.isArray(d.data)) { el.replaceChildren(); el.textContent = d.status === 'error' ? 'Не загрузилось' : '—'; return; }
   var m = vgMonth(); if (m === '2026-08') m = 'all';
-  var rows = d.data.filter(function (r) { return r.month === m && r.pf_value != null && r.channel.charAt(0) !== '—'; });
+  var rows = d.data.filter(function (r) { return r.month === m && r.pf_value != null && !r.total && r.channel.charAt(0) !== '—'; });
   el.replaceChildren();
   el.setAttribute('aria-label', 'Выручка, которую засчитали себе Google Ads, Meta и Microsoft Ads, против заказов Shopify, атрибутированных этим каналам');
   var W = Math.max(280, el.clientWidth || 600), rowH = 58, mt = 6, H = rows.length * rowH + mt + 4;
@@ -1370,10 +1539,10 @@ dash.draw('catChart', function (el) {
 });
 
 dash.draw('convChart', function (el) {
-  var d = dash.data('funnel_v');
+  var d = dash.data('funnel_dev_v');
   el.replaceChildren();
   if (d.status !== 'ok' || !Array.isArray(d.data)) { el.textContent = d.status === 'error' ? 'Не загрузилось' : '—'; return; }
-  var months = [['2026-08', 'Август'], ['2026-09', 'Сентябрь'], ['2026-10', 'Октябрь'], ['2026-11', '1–11 ноября'], ['all', 'Весь период']];
+  var months = [['2026-08', 'Август'], ['2026-09', 'Сентябрь'], ['2026-10', 'Октябрь'], ['2026-11', '1–11 ноября'], ['2026-11b', '12–18 ноября'], ['all', 'Весь период']];
   var devs = [['Компьютер', 0], ['Телефон', 1]];
   var get = function (m, dv) { return d.data.find(function (r) { return r.month === m && r.device === dv; }) || {}; };
   var W = Math.max(280, el.clientWidth || 600), H = 230, mt = 22, mb = 26;
