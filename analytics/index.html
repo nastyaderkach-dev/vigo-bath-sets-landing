@@ -17,7 +17,8 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .vg-foot{margin-top:24px;font-size:12px;color:var(--color-fg-muted)}
 .vg-lang{margin:0 0 8px;text-align:right;font-size:13px;font-weight:600}.vg-lang a{color:#4C6FFF;text-decoration:none}.vg-lang a:hover{text-decoration:underline}
 
-#attribution{font-size:16px;line-height:1.6}#attribution .vg-note,#attribution td,#attribution th,#recs td,#recs th{font-size:14px}#attribution .vg-more-body{display:block}#attribution li{margin-bottom:.65rem}#attribution a{color:inherit;text-decoration:underline}#recs td{min-width:150px;vertical-align:top;white-space:normal}#recs td:nth-child(2),#recs td:nth-child(3){min-width:280px}
+#attribution{font-size:16px;line-height:1.6}#attribution .vg-note,#attribution td,#attribution th,#recs td,#recs th{font-size:14px}#attribution .vg-more-body{display:block}
+.vg-top-more{margin-top:10px;border-top:0;padding-top:0}.vg-top-more .vg-more-body p{font-size:13px;color:var(--color-text-secondary);margin:8px 0 0;max-width:820px}#attribution li{margin-bottom:.65rem}#attribution a{color:inherit;text-decoration:underline}#recs td{min-width:150px;vertical-align:top;white-space:normal}#recs td:nth-child(2),#recs td:nth-child(3){min-width:280px}
 </style>
 <style>
 .vg{--vg-accent:#4C6FFF;--vg-accent-soft:rgba(76,111,255,.12);--vg-good:#1F9D63;--vg-bad:#E5484D;--vg-warn:#D4900A;--vg-radius:12px;--vg-shadow:0 1px 2px rgba(16,24,40,.05),0 2px 8px rgba(16,24,40,.06);
@@ -192,9 +193,12 @@ body:not(.vg-show-method) p.vg-note,body:not(.vg-show-method) .vg-method{display
 <header class="vg-head" id="top">
 <h1 class="vg-title" data-read lang="ru">VIGO · маркетинг и продажи</h1>
 <p class="vg-period">Статус на 19 ноября 2026 · данные за 1 августа — 18 ноября · ноябрь по неделям: 1–11 и 12–18 ноября</p>
-<p class="vg-summary" id="lede" data-read lang="ru">Основной источник данных о D2C-продажах — Shopify: за 1 августа — 18 ноября D2C Net Sales составили <b data-draw="num" data-source="months" data-where="month=all" data-field="net" data-fmt="k">—</b> при <b data-draw="num" data-source="months" data-where="month=all" data-field="orders" data-fmt="int">—</b> заказах. Каналы определены по правилам нашей сверки Shopify + GA4, описанным ниже. Важно: канал показывает, откуда покупатель пришёл перед покупкой, но не доказывает, что без этого канала заказа не было бы — часть людей купила бы и так (например, кто уже искал VIGO по бренду). Поэтому «заказы с рекламы» — это не чистый прирост продаж от рекламы.</p>
-<p class="vg-note" id="scope">Scope: только D2C. Семь Shopify B2B-заказов исключены; B2B-воронка анализируется отдельно.</p>
-<p class="vg-note">Канальные цифры — наша сверка Shopify + GA4, не нативная Shopify LND. Возвраты ещё сверяются; ROAS и модельная прибыль предварительные. Данные за 12–18 ноября предварительные: конверсии рекламы и возвраты ещё дописываются, корзины и оформления Meta за неделю недоступны; перевыгрузка — 26 ноября. См. <a href="#attribution">правила и формулы</a> и <a href="#recs">обновлённый план</a>.</p></header>
+<p class="vg-summary" id="lede" data-read lang="ru">Основной источник данных о D2C-продажах — Shopify: за 1 августа — 18 ноября D2C Net Sales составили <b data-draw="num" data-source="months" data-where="month=all" data-field="net" data-fmt="k">—</b> при <b data-draw="num" data-source="months" data-where="month=all" data-field="orders" data-fmt="int">—</b> заказах.</p>
+<details class="vg-more vg-top-more"><summary>Как читать эти цифры: атрибуция, scope, статус данных</summary><div class="vg-more-body">
+<p>Каналы определены по правилам нашей сверки Shopify + GA4, описанным ниже. Важно: канал показывает, откуда покупатель пришёл перед покупкой, но не доказывает, что без этого канала заказа не было бы — часть людей купила бы и так (например, кто уже искал VIGO по бренду). Поэтому «заказы с рекламы» — это не чистый прирост продаж от рекламы.</p>
+<p id="scope">Scope: только D2C. Семь Shopify B2B-заказов исключены; B2B-воронка анализируется отдельно.</p>
+<p>Канальные цифры — наша сверка Shopify + GA4, не нативная Shopify LND. Возвраты ещё сверяются; ROAS и модельная прибыль предварительные. Данные за 12–18 ноября предварительные: конверсии рекламы и возвраты ещё дописываются, корзины и оформления Meta за неделю недоступны; перевыгрузка — 26 ноября. См. <a href="#attribution">правила и формулы</a> и <a href="#recs">обновлённый план</a>.</p>
+</div></details></header>
 
 <nav class="vg-bar" id="month-bar" aria-label="Выбор месяца">
 <p class="vg-bar-label">Период:</p>
