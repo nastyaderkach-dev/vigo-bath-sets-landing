@@ -192,8 +192,8 @@ body:not(.vg-show-method) p.vg-note,body:not(.vg-show-method) .vg-method{display
 
 <header class="vg-head" id="top">
 <h1 class="vg-title" data-read lang="en">VIGO · marketing and sales</h1>
-<p class="vg-period">Status as of November 19, 2026 · data for August 1 — November 18 · November by week: November 1–11 and 12–18</p>
-<p class="vg-summary" id="lede" data-read lang="en">Primary source of D2C sales data — Shopify: for August 1 — November 18, D2C Net Sales were <b data-draw="num" data-source="months" data-where="month=all" data-field="net" data-fmt="k">—</b> on <b data-draw="num" data-source="months" data-where="month=all" data-field="orders" data-fmt="int">—</b> orders.</p>
+<p class="vg-period">Status as of November 25, 2026 · data for August 1 — November 18 · November by week: November 1–11 and 12–18</p>
+<p class="vg-summary" id="lede" data-read lang="en">Primary source of D2C sales data — Shopify: for August 1 — November 18, D2C Net Sales were <b data-draw="num" data-source="months" data-where="month=all" data-field="net" data-fmt="k">—</b> on <b data-draw="num" data-source="months" data-where="month=all" data-field="orders" data-fmt="int">—</b> orders. <b>The money in brief:</b> before ads VIGO keeps 25% of sales (up to ~30% if shipping is charged per shipment), so ads pay back only at a 4.0× ROAS or higher (Google ≈5×), while actual ad ROAS is 2.27×. Shipping eats the most margin — 34% of sales. Details in <a href="#unit">“Margin and unit economics”</a>.</p>
 <details class="vg-more vg-top-more"><summary>How to read these numbers: attribution, scope, data status</summary><div class="vg-more-body">
 <p>Channels use our Shopify + GA4 reconciliation rules described below. Note: a channel shows where the buyer came from before purchasing, but it does not prove the order would not have happened without that channel — some people would have bought anyway (for example, those already searching for VIGO by brand). So “orders from ads” are not the pure sales lift from ads.</p>
 <p id="scope">Scope: D2C only. Seven Shopify B2B orders are excluded; the B2B funnel is analyzed separately.</p>
@@ -333,14 +333,23 @@ body:not(.vg-show-method) p.vg-note,body:not(.vg-show-method) .vg-method{display
 
 <section class="vg-card" id="unit">
 <div class="vg-card-head"><div class="vg-chan"><i class="ic-s">%</i><h2 class="vg-card-title">Margin and unit economics</h2></div><span class="vg-note">Aug 1 — Nov 18 · D2C excl. B2B · filter does not apply</span></div>
-<p class="vg-note">Sales — Shopify order lines. Product cost (LC), shipping and pick &amp; pack — per SKU from VIGO’s cost file (423 of 428 SKUs sold matched, 98% of sales). Payment fees are estimated at 2.5%. Agency fees, return shipping, warehouse and staff are not included: this is contribution before fixed costs, not net profit.</p>
+<p class="vg-note">Sales — Shopify order lines. Product cost (LC), shipping and pick &amp; pack — per SKU from VIGO’s cost file (423 of 428 SKUs sold matched, 98% of sales). Payment fees are estimated at 2.5%. Agency fees, partner-code commissions, return shipping, warehouse and staff are not included: this is contribution before fixed costs, not net profit. <b>Shipping in the file is per unit; if VIGO pays per shipment, the margin is closer to 30% and the break-even ROAS closer to 3.4×.</b></p>
+<div class="vg-insight"><b>Key points</b><ul class="vg-ins">
+<li><b>The business overall:</b> before ads VIGO keeps 25% of net sales — $82K of $328K (up to ~30% if the shipping rates in VIGO’s file are per shipment rather than per unit). After all marketing ($28K) — $54K, or 16%. A new customer costs $41.5 on average and the first order earns $132: overall, acquisition is profitable.</li>
+<li><b>Ads do not pay back on visible purchases.</b> Break-even is a 4.0× ROAS in this dashboard and ≈4.6× in the accounts; for Google closer to 5×, because its orders are mostly doors at a 20% margin. Actual ad ROAS is 2.27× (Sep 2 — Nov 18). Google Brand Search is closest to break-even (3.8×, −5% ROMI); PMax and Shopping −36%, Microsoft −37%, Meta −92%. PMax tROAS targets of 300–400% sit below break-even.</li>
+<li><b>A paid customer costs more than they bring.</b> Reconciled paid CAC is $242, while an ad customer’s first order earns ≈$130–145. Repeat orders are 8%, so the first order has to pay back acquisition. In September ad spend was a third of August’s, yet new customers fell only 14%: ads add few customers beyond those who would come anyway. Part of this is seasonality — confirm with a test.</li>
+<li><b>Shipping, not advertising, eats most of the margin:</b> with pick &amp; pack it is 34% of sales (ads — 9%), while customers paid only $3.8K for shipping. Freight for glass is $345 a unit, 40% of its price: doors earn 18–22%, screens 2–7%, and 53% of shower-enclosure sales were cancelled or returned.</li>
+<li><b>Orders under $100</b> earn $3.7 on average, and they are one in five first orders from new customers. The most profitable products are shower panels (40%) and faucets (31–35%), but ads barely push them; accessories and part of liquidation sell at break-even or a loss.</li>
+<li><b>Possible missing costs:</b> partner and ambassador codes drove $51.1K of gross sales. If they carry commissions, real marketing costs are higher.</li>
+<li><b>What to do:</b> 1) raise the ROAS threshold to 4.0× (Google ≈5×) and PMax tROAS to at least 460–500%; 2) shift budget to panels and faucets, and remove accessories, screens and liquidation from Shopping/PMax or give them low bids; 3) for glass — a freight surcharge or a price floor, no stacked discounts, investigate enclosure returns; 4) a free-shipping threshold (e.g. from $150–200) and bundles instead of cheap stand-alone accessories; 5) measure the real contribution of ads — Shopify LND and a holdout test in January; 6) get VIGO’s answers to the questions below — shipping decides whether the margin is 25% or 30%.</li>
+</ul></div>
 <div class="vg-grid2">
 <div class="vg-tablewrap"><table class="vg-table">
 <thead><tr><th>Contribution build-up</th><th>$</th><th>% of net sales</th></tr></thead>
 <tbody>
 <tr><td>Net sales (after discounts, cancellations and returns)</td><td>$328,301</td><td>100%</td></tr>
 <tr><td>Product cost</td><td>−$129,919</td><td>40%</td></tr>
-<tr><td>Shipping (VIGO rates)</td><td>−$96,206</td><td>29%</td></tr>
+<tr><td>Shipping (VIGO rates, per unit)</td><td>−$96,206</td><td>29%</td></tr>
 <tr><td>Pick &amp; pack</td><td>−$15,585</td><td>5%</td></tr>
 <tr><td>Payment fees (estimate)</td><td>−$8,462</td><td>3%</td></tr>
 <tr><td>Shipping paid by customers</td><td>+$3,792</td><td>1%</td></tr>
@@ -349,13 +358,15 @@ body:not(.vg-show-method) p.vg-note,body:not(.vg-show-method) .vg-method{display
 <tr><td><b>Contribution after ads</b></td><td><b>$53,900</b></td><td><b>16%</b></td></tr>
 </tbody></table></div>
 <div class="vg-tablewrap"><table class="vg-table">
-<thead><tr><th>Key thresholds</th><th>Value</th></tr></thead>
+<thead><tr><th>Thresholds and comparison</th><th>Value</th></tr></thead>
 <tbody>
 <tr><td>Break-even ROAS in this dashboard (order value after cancellations)</td><td><b>4.0×</b> (was 3.33× at the assumed 30%)</td></tr>
 <tr><td>Break-even ROAS in ad accounts (value before cancellations)</td><td><b>≈4.6×</b>; PMax tROAS is 300–400% today</td></tr>
-<tr><td>Average cost per new customer (all marketing ÷ 675 new paying customers)</td><td>$41.5</td></tr>
-<tr><td>Contribution from a new customer’s first order (actual)</td><td>$132 — the maximum affordable CAC</td></tr>
-<tr><td>Repeat orders</td><td>8% — the first order has to pay back acquisition</td></tr>
+<tr><td>Margin of ad orders (reconciliation, Sep 2 — Nov 18)</td><td>Google 20% → break-even ≈5×; Microsoft 33% → ≈3×; Meta — 3 orders</td></tr>
+<tr><td>Actual ad ROAS (Sep 2 — Nov 18)</td><td>2.27× — below break-even in every channel</td></tr>
+<tr><td>Average cost per new customer (all marketing ÷ 675 new paying customers)</td><td>$41.5 vs $132 first-order contribution</td></tr>
+<tr><td>Reconciled paid CAC (Sep 2 — Nov 18)</td><td>$242 vs ≈$130–145 first-order contribution</td></tr>
+<tr><td>Repeat orders</td><td>8%</td></tr>
 <tr><td>Orders with a 100% code (34)</td><td>cost VIGO $3.7K</td></tr>
 </tbody></table></div>
 </div>
@@ -383,9 +394,20 @@ body:not(.vg-show-method) p.vg-note,body:not(.vg-show-method) .vg-method{display
 <tr><td>Liquidation SKUs (all)</td><td>$30.4K</td><td>15% (active SKUs — 26%)</td></tr>
 </tbody></table></div>
 </div>
-<div class="vg-insight"><b>Takeaway</b><ul class="vg-ins"><li><b>Margin:</b> before ads VIGO earns 25% of net sales, not 30%. Ads pay back only at a 4.0× reconciled ROAS and ≈4.6× in the accounts; PMax tROAS targets of 300–400% sit below break-even.</li><li><b>Shipping</b> is the second-largest cost after product cost: with pick &amp; pack it is 34% of sales, while customers paid only $3.8K for shipping. Freight for doors costs $345 a unit and takes 40% of their price.</li><li><b>Small orders:</b> orders under $100 earn almost nothing ($3.7 each), and they are one in five first orders from new customers. Buying them with ads loses money at any acquisition cost.</li><li><b>What to do:</b> raise the ROAS threshold and tROAS; remove products with a margin below ~15% (accessories, screens, part of liquidation) from Shopping/PMax or move them to a separate low-bid campaign, and push shower panels and faucets; add a free-shipping threshold (e.g. from $150–200); for glass, a freight surcharge or a price floor and no stacked discounts; investigate shower-enclosure returns.</li></ul></div>
+<details class="vg-more"><summary>What to confirm with VIGO to make the model exact</summary><div class="vg-more-body">
+<ol class="vg-def" style="margin:0;padding-left:1.3em">
+<li><b>Shipping:</b> are the file’s rates ($300 LTL, $15–200 Ground) per unit or per shipment? Do they include residential and liftgate fees, and do they vary by zone? If per shipment, costs are overstated by about $15K and the margin is closer to 30%.</li>
+<li><b>Pick &amp; pack</b> — per unit or per order?</li>
+<li><b>Returns:</b> who pays return shipping and what does it cost? Do RMA items go back into sellable stock or get written off?</li>
+<li><b>Transit damage:</b> does the carrier reimburse us, and how are replacements handled (currently 100%-code orders)?</li>
+<li><b>LC:</b> what does it include — purchase cost, duties and tariffs, inbound freight, storage? For liquidation SKUs, is it the original cost, and is there a minimum selling price?</li>
+<li><b>Fees:</b> actual Shopify Payments, PayPal, Shop Pay Installments and Affirm rates (2.5% assumed). What does Shipping Protection cost VIGO, and who is it paid to?</li>
+<li><b>Marketing outside the ad accounts:</b> commissions on partner and ambassador codes (DGILL5, AMANDA10, RMARINO5, etc.), CJ’s November commissions and network fees, agency fees, Pinterest, TikTok, Klaviyo and other tools.</li>
+<li><b>Orders:</b> is #2566 (50 units of VG07001MB for $1,570) B2B or trade? What are the 34 orders with 100% codes — gifts, replacements, tests?</li>
+</ol>
+</div></details>
 <details class="vg-more vg-method"><summary>Methodology</summary><div class="vg-more-body">
-<p class="vg-note">Period — August 1 to November 18, 2026; 7 B2B orders excluded. Shipping and pick &amp; pack apply only to shipped units: orders cancelled before shipping (72) carry none. Items returned after delivery go back to stock, but the shipping is lost. The LTL rate in the file is $300 per unit; if several doors travel on one truck, the real cost is lower (19 such orders). Shipping Protection and Glass Protection have no cost in the file, so their contribution is overstated. A new customer is a buyer’s first Shopify order that was not cancelled. Marketing — Google, Meta, Microsoft Ads and CJ commissions (from Terry’s report), excluding agency fees.</p>
+<p class="vg-note">Period — August 1 to November 18, 2026; 7 B2B orders excluded. Shipping and pick &amp; pack apply only to shipped units: orders cancelled before shipping (72) carry none. Items returned after delivery go back to stock, but the shipping is lost. The LTL rate in the file is $300 per unit; if several doors travel on one truck, the real cost is lower (19 such orders). Shipping Protection and Glass Protection have no cost in the file, so their contribution is overstated. A new customer is a buyer’s first Shopify order that was not cancelled. Marketing — Google, Meta, Microsoft Ads and CJ commissions (from Terry’s report), excluding agency fees. Ad-order margins use the channel from the Shopify + GA4 reconciliation; the sample is small (71 orders). November cancellations are still coming in: 2–5% in November vs 6–10% in earlier months.</p>
 </div></details>
 </section>
 
