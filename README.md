@@ -26,6 +26,16 @@ Open `index.html` in a browser.
 - Delivery: VIGO is removing the $99 oversized surcharge (decision 09.11.2026). Update Shipping & Returns and the checkout before this page goes live, since the page promises free delivery for doors and panels.
 - Still to confirm with VIGO: whether the BFCM "Extra 7% Off" applies to sets.
 
+## Matte Black Collection (collections/matte-black/)
+
+New concept replacing the 3-piece set: a collection page per finish (room tabs: All, Bathroom, Kitchen) with a progressive discount.
+
+- Copy: "One finish. Start to finish." (remodel theme), planned for a January–February launch.
+- Discount: highest-priced piece at full price; 2nd piece 3% off, 3rd 7% off, 4th and every next piece 10% off. Pieces under $50 count but aren't discounted. Collection savings don't combine with promo codes.
+- Profitability (cost file + 814 site orders, Aug–Nov 2026, BFCM prices): about $3.2 per order (0.7% of revenue) given to customers who already buy several pieces; pays back if 1 in 13–21 orders adds one more piece. Every collection item keeps a positive margin at 10% off (tub doors lowest, ~6%).
+- 18 matte black products, prices as on vigoindustries.com 27.11.2026 (BFCM); photos from VIGO's site in `images/p/`.
+- Before production: recalculate on January prices; decide on the 10% site codes (TAKE10, VIGOTAKE10, EARLY10) during the launch; Shopify needs a discount function or app for "every next piece costs less"; matte black sinks from VIGO.
+
 ## VIGO Pro mockup (pro/)
 
 - Levels, discounts (Pro 10%, Pro Plus 12% from $10,000/yr, Partner by quote), 1-business-day approval and Pro desk contacts are a BASE proposal, to be confirmed by VIGO.

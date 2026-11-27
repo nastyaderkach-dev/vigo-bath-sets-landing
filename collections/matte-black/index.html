@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Matte Black Collection · VIGO</title>
+<meta name="description" content="Remodel in one finish: shower doors, panels, faucets and hardware in matte black. The more of your remodel comes from VIGO, the less every next piece costs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#FAFAFA;color:#000;font-family:'Helvetica Neue',Helvetica,Inter,Arial,sans-serif;letter-spacing:.3px}
+a{color:#000}a:hover{color:#616161}
+img{max-width:100%;display:block}
+button{font-family:inherit}
+[hidden]{display:none!important}
+.wrap{max-width:1360px;margin:0 auto;padding:0 32px}
+.cond{font-family:'Barlow Condensed','DIN Condensed',sans-serif;font-weight:700;text-transform:uppercase}
+.muted{color:#616161}
+.note{font-size:12px;color:#616161}
+/* announcement + header */
+.announce{border-bottom:1px solid #E5E5E5;padding:10px 24px;text-align:center;font-size:14px}
+header{background:#000}
+.nav{min-height:72px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+.nav-links{display:flex;flex-wrap:wrap;gap:28px;font-size:14px;font-weight:600;align-items:center}
+.nav-links>a,.nav-links>.dd>button{color:#fff;text-decoration:none;background:none;border:0;font-size:14px;font-weight:600;cursor:pointer;padding:0;letter-spacing:.3px}
+.dd{position:relative}
+.dd-menu{position:absolute;top:34px;left:-24px;background:#fff;border:1px solid #E5E5E5;padding:20px 24px;display:none;gap:40px;z-index:20;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.dd:hover .dd-menu,.dd:focus-within .dd-menu{display:flex}
+.dd-menu p{margin:0 0 10px;font-size:12px;color:#616161;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.dd-menu a{display:block;font-weight:500;padding:6px 0;text-decoration:none;white-space:nowrap}
+.dd-menu .soon{color:#9E9E9E}
+.icons{display:flex;gap:8px}
+.icons a{display:inline-flex;width:44px;height:44px;align-items:center;justify-content:center;position:relative}
+.cart-dot{position:absolute;top:6px;right:4px;background:#C9A86A;color:#000;font-size:11px;font-weight:700;border-radius:10px;min-width:18px;height:18px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+/* hero */
+.hero{position:relative;overflow:hidden;background:#1E1E1E;min-height:460px;display:flex;align-items:center}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 45%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.72) 0%,rgba(0,0,0,.45) 55%,rgba(0,0,0,.15) 100%)}
+.hero .wrap{position:relative;z-index:1;width:100%;padding-top:56px;padding-bottom:56px;color:#fff}
+.hero h1{margin:0 0 16px;font-size:64px;line-height:1.02;max-width:640px}
+.hero p{margin:0 0 24px;font-size:17px;line-height:1.5;max-width:520px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 32px;background:#000;color:#fff;font-size:15px;font-weight:500;text-decoration:none;border:1px solid #000;cursor:pointer}
+.btn:hover{color:#fff;background:#222}
+.btn-light{background:#fff;color:#000;border-color:#fff}.btn-light:hover{background:#EDEDED;color:#000}
+.btn-outline{background:#fff;color:#000;border-color:#000}.btn-outline:hover{background:#F2F2F2;color:#000}
+/* ladder */
+.ladder{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid #E5E5E5;background:#fff;border-radius:4px;overflow:hidden}
+.step{padding:20px 20px 18px;border-right:1px solid #E5E5E5;position:relative}
+.step:last-child{border-right:0}
+.step .n{font-size:13px;color:#616161;margin:0 0 6px}
+.step .v{margin:0;font-size:34px;line-height:1}
+.step .s{margin:8px 0 0;font-size:13px;color:#616161}
+.step.on{background:#000;color:#fff}.step.on .n,.step.on .s{color:#D9D9D9}
+.step.next{background:#F7F2E8}
+.step.next::before{content:"Next";position:absolute;top:10px;right:12px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#8A6D2F}
+/* layout */
+.shop{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:40px;align-items:start;padding-top:32px;padding-bottom:72px}
+.tabs{display:flex;gap:0;border-bottom:1px solid #E5E5E5;margin-bottom:16px}
+.tab{background:none;border:0;border-bottom:3px solid transparent;padding:12px 18px;font-size:15px;font-weight:600;cursor:pointer;color:#616161}
+.tab[aria-selected="true"]{color:#000;border-bottom-color:#000}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.chip{border:1px solid #D0D0D0;background:#fff;border-radius:20px;padding:7px 14px;font-size:13px;cursor:pointer}
+.chip[aria-pressed="true"]{background:#000;color:#fff;border-color:#000}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.card{background:#fff;border:1px solid #E5E5E5;border-radius:4px;display:flex;flex-direction:column;overflow:hidden}
+.card .ph{aspect-ratio:1/1;background:#F2F2F2;overflow:hidden}
+.card .ph img{width:100%;height:100%;object-fit:cover}
+.card .bd{padding:14px 14px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card .cat{margin:0;font-size:12px;color:#616161;text-transform:uppercase;letter-spacing:.8px}
+.card h3{margin:0;font-family:Inter,Arial,sans-serif;font-size:15px;font-weight:600;line-height:1.3}
+.card .d{margin:0;font-size:13px;color:#616161}
+.card .pr{margin:4px 0 0;font-family:Inter,Arial,sans-serif;font-size:17px;font-weight:700}
+.card .gain{margin:0;font-size:13px;min-height:18px;color:#8A6D2F;font-weight:600}
+.card .act{margin-top:auto;padding-top:8px;display:flex;gap:8px;align-items:center}
+.card .act .btn{min-height:42px;flex:1;padding:0 12px;font-size:14px}
+.qty{display:flex;align-items:center;border:1px solid #000;height:42px;flex:1}
+.qty button{width:42px;height:40px;border:0;background:#fff;font-size:18px;cursor:pointer}
+.qty span{flex:1;text-align:center;font-weight:600;font-size:14px}
+/* cart */
+.cart{position:sticky;top:16px;background:#fff;border:1px solid #E5E5E5;border-radius:4px}
+.cart-h{padding:18px 20px;border-bottom:1px solid #E5E5E5}
+.cart-h h2{margin:0;font-size:22px}
+.bar{height:6px;background:#EDEDED;border-radius:3px;margin:12px 0 8px;overflow:hidden}
+.bar i{display:block;height:100%;background:#C9A86A;width:0;transition:width .25s}
+.cart-h p{margin:0;font-size:14px}
+.lines{max-height:420px;overflow:auto}
+.line{display:flex;gap:12px;padding:12px 20px;border-bottom:1px solid #F0F0F0;align-items:center}
+.line img{width:48px;height:48px;object-fit:cover;border-radius:4px;flex:none;background:#F2F2F2}
+.line .t{flex:1;min-width:0;font-size:13px;line-height:1.3}
+.line .t b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.line .p{text-align:right;font-size:13px;white-space:nowrap}
+.line .p s{color:#9E9E9E;display:block}
+.tag{display:inline-block;font-size:11px;font-weight:700;border:1px solid #000;border-radius:3px;padding:1px 5px;margin-top:3px}
+.tag.full{border-color:#C9C9C9;color:#616161;font-weight:600}
+.empty{padding:28px 20px;font-size:14px;color:#616161;line-height:1.5}
+.tot{padding:16px 20px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.tot div{display:flex;justify-content:space-between}
+.tot .save{color:#8A6D2F;font-weight:700}
+.tot .big{font-size:18px;font-weight:700;border-top:1px solid #E5E5E5;padding-top:10px;margin-top:4px}
+.cart .btn{width:calc(100% - 40px);margin:0 20px 12px}
+.cart .note{padding:0 20px 18px;margin:0}
+/* info */
+.sec{padding:64px 0;border-top:1px solid #E5E5E5}
+.sec h2{margin:0 0 8px;font-size:40px}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;margin-top:28px}
+.three h3{margin:0 0 8px;font-family:Inter,Arial,sans-serif;font-size:17px}
+.three p{margin:0;font-size:15px;line-height:1.55;color:#333}
+.colls{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:28px}
+.coll{border:1px solid #E5E5E5;background:#fff;border-radius:4px;padding:20px;display:flex;flex-direction:column;gap:8px;text-decoration:none}
+.coll .sw{width:36px;height:36px;border-radius:50%;border:1px solid #C9C9C9}
+.coll b{font-size:16px}
+.coll span{font-size:13px;color:#616161}
+details{border-bottom:1px solid #E5E5E5;padding:16px 0}
+summary{cursor:pointer;font-weight:600;font-size:16px}
+details p{margin:10px 0 0;font-size:15px;line-height:1.55;color:#333;max-width:760px}
+footer{background:#000;color:#fff;padding:48px 0;font-size:14px}
+footer a{color:#fff;text-decoration:none}
+.mbar{display:none}
+@media (max-width:1000px){
+.shop{grid-template-columns:1fr}
+.cart{position:static}
+.mbar{display:flex;position:fixed;left:0;right:0;bottom:0;background:#000;color:#fff;padding:12px 16px;gap:12px;align-items:center;justify-content:space-between;z-index:30;font-size:14px}
+.mbar a{color:#fff;font-weight:600}
+}
+@media (max-width:760px){
+.wrap{padding:0 16px}
+.nav-links{display:none!important}
+.hero h1{font-size:44px}
+.ladder{grid-template-columns:repeat(2,minmax(0,1fr))}
+.step:nth-child(2){border-right:0}.step:nth-child(-n+2){border-bottom:1px solid #E5E5E5}
+.three{grid-template-columns:1fr}
+.sec h2{font-size:32px}
+}
+</style>
+</head>
+<body>
+
+<div class="announce">New: remodel in one finish, and every next piece costs less. <a href="#how">How it works</a></div>
+
+<header>
+<div class="wrap nav">
+<a href="#top" aria-label="VIGO home"><img src="../../images/vigo-logo-white.png" alt="VIGO" style="height:40px;width:auto"></a>
+<nav class="nav-links" aria-label="Main">
+<a href="#shop" data-room-link="all">Shower Doors</a>
+<a href="#shop" data-room-link="bathroom">Bathroom</a>
+<a href="#shop" data-room-link="kitchen">Kitchen</a>
+<div class="dd">
+<button type="button" style="text-decoration:underline;text-underline-offset:6px">Collections ▾</button>
+<div class="dd-menu">
+<div><p>By finish</p>
+<a href="#top">Matte Black</a>
+<a href="#more" class="soon">Matte Brushed Gold · soon</a>
+<a href="#more" class="soon">Stainless Steel · soon</a></div>
+<div><p>By room</p>
+<a href="#shop" data-room-link="bathroom">Matte Black Bathroom</a>
+<a href="#shop" data-room-link="kitchen">Matte Black Kitchen</a>
+<a href="#more" class="soon">All finishes · soon</a></div>
+</div>
+</div>
+<a href="../../pro/">VIGO Pro</a>
+</nav>
+<div class="icons">
+<a href="#search" aria-label="Search"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></a>
+<a href="#account" aria-label="Account"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></a>
+<a href="#cart" aria-label="Cart"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg><span class="cart-dot" id="dot" hidden>0</span></a>
+</div>
+</div>
+</header>
+
+<section class="hero" id="top">
+<img src="../../images/hero-bathroom.jpg" alt="Bathroom with a matte black frameless sliding door, shower panel and vessel sink">
+<div class="wrap">
+<p class="cond" style="font-size:16px;letter-spacing:1.5px;margin:0 0 12px;color:#C9A86A">The Matte Black Collection</p>
+<h1 class="cond">One finish.<br>Start to finish.</h1>
+<p>Shower doors, panels, faucets and hardware in one matte black. The more of your remodel comes from VIGO, the less every next piece costs.</p>
+<a class="btn btn-light" href="#shop">Shop the collection</a>
+</div>
+</section>
+
+<nav class="wrap" aria-label="Breadcrumb" style="padding-top:20px;font-size:13px;color:#616161">
+<a href="#home" class="muted">Home</a> / <a href="#collections" class="muted">Collections</a> / <span style="color:#000">Matte Black</span>
+</nav>
+
+<section class="wrap" id="how" style="padding-top:28px">
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:14px">
+<h2 class="cond" style="margin:0;font-size:32px">The more of your remodel, the more you save</h2>
+<p class="muted" style="margin:0;font-size:14px;max-width:520px">Your highest-priced piece is full price. Every piece after it costs less. Accessories under $50 aren’t discounted.</p>
+</div>
+<div class="ladder" id="ladder">
+<div class="step" data-i="0"><p class="n">1st piece</p><p class="v cond">Full price</p><p class="s">your highest-priced piece</p></div>
+<div class="step" data-i="1"><p class="n">2nd piece</p><p class="v cond">3% off</p><p class="s">the next highest price</p></div>
+<div class="step" data-i="2"><p class="n">3rd piece</p><p class="v cond">7% off</p><p class="s">the one after that</p></div>
+<div class="step" data-i="3"><p class="n">4th piece and more</p><p class="v cond">10% off</p><p class="s">every piece after that</p></div>
+</div>
+<p class="note" style="margin:8px 0 0">[Discount levels: proposal for Jan–Feb, VIGO to confirm against January prices and MAP. Collection savings don’t combine with promo codes.]</p>
+</section>
+
+<section class="wrap shop" id="shop">
+<div>
+<div class="tabs" role="tablist" aria-label="Room">
+<button class="tab" role="tab" data-room="all" aria-selected="true">All rooms</button>
+<button class="tab" role="tab" data-room="bathroom" aria-selected="false">Bathroom</button>
+<button class="tab" role="tab" data-room="kitchen" aria-selected="false">Kitchen</button>
+</div>
+<div class="chips" id="chips"></div>
+<div class="grid" id="grid"></div>
+<p class="note" style="margin-top:16px">[Prices as on vigoindustries.com, 27.11.2026 (BFCM). Matte black sinks and more pieces — from VIGO.]</p>
+</div>
+
+<aside class="cart" id="cart" aria-label="Your collection">
+<div class="cart-h">
+<h2 class="cond">Your matte black collection</h2>
+<div class="bar"><i id="barfill"></i></div>
+<p id="nextmsg">Add your first piece to start saving.</p>
+</div>
+<div class="lines" id="lines"><div class="empty">Pieces you add appear here, highest price first, with the savings on each one.</div></div>
+<div class="tot">
+<div><span>Regular price</span><span id="t-reg">$0.00</span></div>
+<div class="save"><span>Collection savings</span><span id="t-save">−$0.00</span></div>
+<div><span>Delivery</span><span>Free</span></div>
+<div class="big"><span>Total</span><span id="t-tot">$0.00</span></div>
+</div>
+<button class="btn" type="button" id="checkout" disabled style="opacity:.5;cursor:not-allowed">Checkout</button>
+<p class="note">Savings are applied automatically in the cart. Promo codes don’t combine with collection savings. [Prototype: checkout is not connected.]</p>
+</aside>
+</section>
+
+<section class="sec">
+<div class="wrap">
+<h2 class="cond">Why remodel in one finish</h2>
+<div class="three">
+<div><h3>No more mismatched blacks</h3><p>Door hardware, shower panel, faucets and towel bars in the same matte black. No comparing five brands’ blacks halfway through your remodel.</p></div>
+<div><h3>Plan it room by room</h3><p>Every matte black piece counts toward your savings, bathroom or kitchen. Add pieces as your remodel grows; each next one costs less.</p></div>
+<div><h3>Free delivery, lifetime warranty</h3><p>Free delivery in the continental U.S., doors and panels included. Limited lifetime warranty on VIGO products for residential use.</p></div>
+</div>
+</div>
+</section>
+
+<section class="sec" id="more">
+<div class="wrap">
+<h2 class="cond">Shop collections</h2>
+<p class="muted" style="margin:0;font-size:15px">By finish or by room. The savings work the same way in every collection.</p>
+<div class="colls">
+<a class="coll" href="#top"><span class="sw" style="background:#1C1C1C"></span><b>Matte Black</b><span>All rooms · shop now</span></a>
+<a class="coll" href="#shop" data-room-link="bathroom"><span class="sw" style="background:#1C1C1C"></span><b>Matte Black Bathroom</b><span>Doors, panels, faucets, hardware</span></a>
+<a class="coll" href="#shop" data-room-link="kitchen"><span class="sw" style="background:#1C1C1C"></span><b>Matte Black Kitchen</b><span>Faucets and accessories</span></a>
+<div class="coll"><span class="sw" style="background:#C8A96B"></span><b>Matte Brushed Gold</b><span>Coming soon</span><button class="btn btn-outline" type="button" style="min-height:40px;margin-top:6px">Notify me</button></div>
+<div class="coll"><span class="sw" style="background:#C9CCCF"></span><b>Stainless Steel</b><span>Coming soon</span><button class="btn btn-outline" type="button" style="min-height:40px;margin-top:6px">Notify me</button></div>
+</div>
+</div>
+</section>
+
+<section class="sec">
+<div class="wrap">
+<h2 class="cond">Questions</h2>
+<details open><summary>How do the savings work?</summary><p>Add any pieces from the Matte Black Collection. Your highest-priced piece is full price. The next highest-priced piece is 3% off, the next 7% off, and the fourth and every piece after that 10% off. Each unit counts as a piece, so two faucets are two pieces. Accessories under $50, like drains and soap dispensers, count as pieces but aren’t discounted.</p></details>
+<details><summary>Do bathroom and kitchen pieces count together?</summary><p>Yes. Any matte black piece in the collection counts, whichever room it’s for.</p></details>
+<details><summary>Can I use a promo code too?</summary><p>Collection savings don’t combine with promo codes. At checkout you get whichever is better for your order. [Rule to confirm with VIGO.]</p></details>
+<details><summary>What if I return a piece?</summary><p>The savings are recalculated for the pieces you keep, and the refund is adjusted. Unused items in original packaging can be returned within 14 days; a 15% restocking fee applies. [Return rule to confirm with VIGO.]</p></details>
+<details><summary>How is my order delivered?</summary><p>Free delivery in the continental U.S., shower doors and panels included. Most orders ship within 1–3 business days.</p></details>
+</div>
+</section>
+
+<footer>
+<div class="wrap" style="display:flex;flex-wrap:wrap;gap:48px;justify-content:space-between">
+<div style="display:flex;flex-direction:column;gap:8px"><b>Shop</b><a href="#shop">Shower Doors</a><a href="#shop">Bathroom</a><a href="#shop">Kitchen</a><a href="#more">Collections</a></div>
+<div style="display:flex;flex-direction:column;gap:8px"><b>Support</b><a href="#faq">FAQ</a><a href="#warranty">Warranty</a><a href="#shipping">Shipping &amp; Returns</a></div>
+<div style="display:flex;flex-direction:column;gap:8px"><b>Trade</b><a href="../../pro/">VIGO Pro</a></div>
+<p style="margin:0;color:#BDBDBD;align-self:flex-end">Copyright © 2026 VIGO Industries. All rights reserved</p>
+</div>
+</footer>
+
+<div class="mbar" id="mbar"><span id="mb-text">Add a piece to start saving</span><a href="#cart">View collection</a></div>
+
+<script>
+const IMG='../../images/p/';
+const TIERS=[0,0.03,0.07,0.10];const MINP=50;
+const P=[
+{sku:'VG6021MBCL6076',room:'bathroom',cat:'Shower doors',name:'Elan E-Class Frameless Sliding Shower Door',d:'56–60 in. W × 76 in. H',p:889.90,},
+{sku:'VG6041MBCL6074',room:'bathroom',cat:'Shower doors',name:'Elan Frameless Sliding Shower Door',d:'56–60 in. W × 74 in. H',p:999.90,},
+{sku:'VG6021MBCL6066',room:'bathroom',cat:'Tub doors',name:'Elan E-Class Frameless Sliding Tub Door',d:'Reversible, clear glass',p:759.90,},
+{sku:'VG08013MB',room:'bathroom',cat:'Shower panels',name:'Elan Ellington 4-Jet Shower Panel System',d:'Rain head, hand shower, 4 jets',p:399.90,},
+{sku:'VG08012MB',room:'bathroom',cat:'Shower panels',name:'Davidson Rector 2-Jet Shower Panel System',d:'Rain head, hand shower, 2 jets',p:399.90,},
+{sku:'VG07004MB',room:'bathroom',cat:'Shower panels',name:'Elan Square Shower Drain',d:'Square drain cover',p:49.90,},
+{sku:'VG01043MB',room:'bathroom',cat:'Bathroom faucets',name:'Davidson Single Hole Bathroom Faucet',d:'Single hole',p:124.90,},
+{sku:'VG01009MB',room:'bathroom',cat:'Bathroom faucets',name:'Noma Single Hole Bathroom Faucet',d:'Single hole',p:109.90,},
+{sku:'VG03027MB',room:'bathroom',cat:'Bathroom faucets',name:'Davidson Vessel Sink Faucet',d:'Tall, for vessel sinks',p:159.90,},
+{sku:'VG05001MB',room:'bathroom',cat:'Bathroom faucets',name:'Noma Olus Wall Mount Bathroom Faucet',d:'Wall mount',p:109.90,},
+{sku:'VG07000MB',room:'bathroom',cat:'Sink drains',name:'Elan Bathroom Sink Pop-Up Drain Stopper',d:'Pop-up drain',p:39.90,},
+{sku:'VG16002MB',room:'bathroom',cat:'Sink drains',name:'Davidson Bathroom Sink Pop-Up Drain Stopper',d:'Pop-up drain with overflow',p:34.90,},
+{sku:'VG07001MB',room:'bathroom',cat:'Sink drains',name:'Paloma Bathroom Sink Grid Drain',d:'Grid drain',p:34.90,},
+{sku:'VGAC4002MB',room:'bathroom',cat:'Bath hardware',name:'Satro 4-Piece Bath Hardware Set',d:'24 in. towel bar, paper holder, hook, ring',p:79.90,},
+{sku:'VGAC4001MB',room:'bathroom',cat:'Bath hardware',name:'Elan 4-Piece Bath Hardware Set',d:'24 in. towel bar, paper holder, hook, ring',p:79.90,},
+{sku:'VG02001MB',room:'kitchen',cat:'Kitchen faucets',name:'Edison Pull-Down Kitchen Spray Faucet',d:'Pull-down sprayer',p:179.90,},
+{sku:'VG02031MB',room:'kitchen',cat:'Kitchen faucets',name:'Parsons Pull-Down Sprayer Kitchen Faucet',d:'Single handle, pull-down sprayer',p:194.90,},
+{sku:'VGSD005MB',room:'kitchen',cat:'Kitchen accessories',name:'Edison Bolton Kitchen Soap Dispenser',d:'Deck mount',p:34.90,}
+];
+const cart={};let room='all',cat='All';
+const $=s=>document.querySelector(s);
+const money=v=>'$'+v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const r2=v=>Math.round(v*100)/100;
+function units(c){const u=[];for(const sku in c){const p=P.find(x=>x.sku===sku);for(let i=0;i<c[sku];i++)u.push(p);}u.sort((a,b)=>b.p-a.p);return u.map((p,i)=>{const t=p.p>=MINP?TIERS[Math.min(i,TIERS.length-1)]:0;return{p,t,disc:r2(p.p*t)};});}
+function savings(c){return units(c).reduce((s,u)=>s+u.disc,0);}
+function gainIfAdded(sku){const c2={...cart};c2[sku]=(c2[sku]||0)+1;return r2(savings(c2)-savings(cart));}
+function renderChips(){const cats=['All',...new Set(P.filter(p=>room==='all'||p.room===room).map(p=>p.cat))];if(!cats.includes(cat))cat='All';
+$('#chips').innerHTML=cats.map(c=>`<button class="chip" aria-pressed="${c===cat}" data-cat="${c}">${c}</button>`).join('');}
+function renderGrid(){const list=P.filter(p=>(room==='all'||p.room===room)&&(cat==='All'||p.cat===cat));
+$('#grid').innerHTML=list.map(p=>{const q=cart[p.sku]||0;const g=gainIfAdded(p.sku);
+const gain=g>0?`Add it: you save ${money(g)} more`:(Object.keys(cart).length?'':'');
+return `<article class="card"><div class="ph"><img loading="lazy" src="${IMG+p.sku}.jpg" alt="${p.name} in Matte Black"></div><div class="bd"><p class="cat">${p.cat}</p><h3>${p.name}</h3><p class="d">${p.d} · Matte Black</p><p class="pr">${money(p.p)}</p><p class="gain">${gain}</p><div class="act">${q?`<div class="qty"><button aria-label="Remove one" data-dec="${p.sku}">−</button><span>${q} in collection</span><button aria-label="Add one" data-inc="${p.sku}">+</button></div>`:`<button class="btn" data-inc="${p.sku}">Add to collection</button>`}</div></div></article>`;}).join('');}
+function renderCart(){const u=units(cart);const n=u.length;const reg=r2(u.reduce((s,x)=>s+x.p.p,0));const sv=r2(u.reduce((s,x)=>s+x.disc,0));
+$('#t-reg').textContent=money(reg);$('#t-save').textContent='−'+money(sv);$('#t-tot').textContent=money(r2(reg-sv));
+const dot=$('#dot');dot.hidden=!n;dot.textContent=n;
+document.querySelectorAll('#ladder .step').forEach((s,i)=>{const lvl=Math.min(n,4);s.classList.toggle('on',n>0&&i<lvl);s.classList.toggle('next',i===Math.min(n,3)&&n<4);});
+$('#barfill').style.width=Math.min(n/4,1)*100+'%';
+let msg;if(!n)msg='Add your first piece to start saving.';else if(n<4){msg=`${n} piece${n>1?'s':''}. Your next piece is <b>${Math.round(TIERS[n]*100)}% off</b>.`;}else msg=`${n} pieces. Every next piece is <b>${TIERS[3]*100}% off</b>.`;
+if(sv>0)msg+=` You’re saving <b>${money(sv)}</b>.`;$('#nextmsg').innerHTML=msg;
+$('#mb-text').innerHTML=n?`${n} piece${n>1?'s':''} · saving ${money(sv)}`:'Add a piece to start saving';
+const co=$('#checkout');co.disabled=!n;co.style.opacity=n?1:.5;co.style.cursor=n?'pointer':'not-allowed';
+$('#lines').innerHTML=n?u.map(x=>`<div class="line"><img src="${IMG+x.p.sku}.jpg" alt=""><div class="t"><b>${x.p.name}</b>${x.t?`<span class="tag">${Math.round(x.t*100)}% off</span>`:`<span class="tag full">${x.p.p<MINP?'not discounted':'full price'}</span>`}</div><div class="p">${x.t?`<s>${money(x.p.p)}</s>`:''}${money(r2(x.p.p-x.disc))}</div></div>`).join(''):'<div class="empty">Pieces you add appear here, highest price first, with the savings on each one.</div>';}
+function render(){renderChips();renderGrid();renderCart();}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-inc],[data-dec],[data-room],[data-cat],[data-room-link]');if(!t)return;
+if(t.dataset.inc){cart[t.dataset.inc]=(cart[t.dataset.inc]||0)+1;}
+else if(t.dataset.dec){const s=t.dataset.dec;cart[s]--;if(cart[s]<=0)delete cart[s];}
+else if(t.dataset.room){room=t.dataset.room;document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected',b===t));}
+else if(t.dataset.cat){cat=t.dataset.cat;}
+else if(t.dataset.roomLink){room=t.dataset.roomLink;cat='All';document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected',b.dataset.room===room));}
+render();});
+render();
+</script>
+</body>
+</html>
